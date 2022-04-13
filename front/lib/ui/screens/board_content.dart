@@ -6,9 +6,12 @@ import 'dart:html';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:front/domain/models/container.dart';
+import 'package:front/domain/providers/container_provider.dart';
 import 'package:front/domain/services/container.dart';
 import 'package:front/ui/font_style.dart';
 import 'package:front/ui/screens/header.dart';
+import 'package:provider/provider.dart';
 
 class BoardContent extends StatefulWidget {
   const BoardContent({Key? key}) : super(key: key);
@@ -18,23 +21,14 @@ class BoardContent extends StatefulWidget {
 }
 
 class _BoardContentState extends State<BoardContent> {
-  final ContainerService _containerService = ContainerService();
+  // ignore: unused_field
+  ContainerProvider? _containerProvider = null;
 
-  List containers = [];
+  //List<DockerContainer> containers = [];
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    fetch();
-  }
-
-  fetch() {
-    _containerService.fetchAllContainer().then((response) {
-      setState(() {
-        containers = json.decode(response.body);
-      });
-    });
   }
 
   List<DataRow> buildDataRow(List containers) {
@@ -73,6 +67,9 @@ class _BoardContentState extends State<BoardContent> {
 
   @override
   Widget build(BuildContext context) {
+    //Provider.of<ContainerProvider>(context, listen: false).getAllContainer();
+    //_containerProvider = Provider.of<ContainerProvider>(context);
+    Provider.of<ContainerProvider>(context, listen: false).getAllContainer();
     return SafeArea(
       child: SingleChildScrollView(
         padding: EdgeInsets.all(defaultPadding),
@@ -121,20 +118,28 @@ class _BoardContentState extends State<BoardContent> {
                                 "All containers",
                                 style: Theme.of(context).textTheme.subtitle1,
                               ),
-                              DataTable(
-                                // ignore: prefer_const_literals_to_create_immutables
-                                columns: [
-                                  DataColumn(
-                                    label: Text("name"),
-                                  ),
-                                  DataColumn(
-                                    label: Text("creation date"),
-                                  ),
-                                  DataColumn(
-                                    label: Text("state"),
-                                  )
-                                ],
-                                rows: buildDataRow(containers),
+                              Consumer<ContainerProvider>(
+                                builder: (context, model, _) {
+                                  if (model.containers.isEmpty) {
+                                    return Text("nothing to show");
+                                  }
+                                  return DataTable(
+                                    // ignore: prefer_const_literals_to_create_immutables
+                                    columns: [
+                                      DataColumn(
+                                        label: Text("name"),
+                                      ),
+                                      DataColumn(
+                                        label: Text("creation date"),
+                                      ),
+                                      DataColumn(
+                                        label: Text("state"),
+                                      )
+                                    ],
+                                    rows: buildDataRow(model.containers),
+                                    //rows: buildDataRow(containers),
+                                  );
+                                },
                               ),
                             ],
                           ),

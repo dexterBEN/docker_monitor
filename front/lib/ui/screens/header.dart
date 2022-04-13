@@ -12,12 +12,10 @@ class Header extends StatelessWidget {
     return Row(
       // ignore: prefer_const_literals_to_create_immutables
       children: [
-        // ignore: prefer_const_constructors
         Text(
           "Dashboard",
           style: Theme.of(context).textTheme.headline6,
         ),
-        // ignore: prefer_const_constructors
         Spacer(),
         Expanded(
           child: SearchField(),
@@ -51,7 +49,6 @@ class SearchField extends StatelessWidget {
           child: Container(
             width: 20,
             height: 20,
-            // ignore: prefer_const_constructors
             padding: EdgeInsets.all(defaultPadding * 0.75),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(
@@ -72,7 +69,6 @@ class ProfileIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Container(
       margin: EdgeInsets.only(left: defaultPadding),
       decoration: BoxDecoration(
