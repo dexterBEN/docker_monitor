@@ -1,58 +1,69 @@
+// To parse this JSON data, do
+//
+//     final container = containerFromJson(jsonString);
+
+import 'dart:convert';
+
+DockerContainer containerFromJson(String str) =>
+    DockerContainer.fromJson(json.decode(str));
+
+String containerToJson(DockerContainer data) => json.encode(data.toJson());
+
 class DockerContainer {
   DockerContainer({
-    this.appArmorProfile,
-    this.args,
-    this.config,
-    this.created,
-    this.driver,
-    this.execIDs,
-    this.graphDriver,
-    this.hostConfig,
-    this.hostnamePath,
-    this.hostsPath,
-    this.id,
-    this.image,
-    this.logPath,
-    this.mountLabel,
-    this.mounts,
-    this.name,
-    this.networkSettings,
-    this.path,
-    this.platform,
-    this.processLabel,
-    this.resolvConfPath,
-    this.restartCount,
-    this.state,
+    required this.appArmorProfile,
+    required this.args,
+    required this.config,
+    required this.created,
+    required this.driver,
+    required this.execIDs,
+    required this.graphDriver,
+    required this.hostConfig,
+    required this.hostnamePath,
+    required this.hostsPath,
+    required this.id,
+    required this.image,
+    required this.logPath,
+    required this.mountLabel,
+    required this.mounts,
+    required this.name,
+    required this.networkSettings,
+    required this.path,
+    required this.platform,
+    required this.processLabel,
+    required this.resolvConfPath,
+    required this.restartCount,
+    required this.state,
   });
 
-  String? appArmorProfile;
-  List<String>? args;
-  Config? config;
-  DateTime? created;
-  String? driver;
-  dynamic? execIDs;
-  GraphDriver? graphDriver;
-  HostConfig? hostConfig;
-  String? hostnamePath;
-  String? hostsPath;
-  String? id;
-  String? image;
-  String? logPath;
-  String? mountLabel;
-  List<dynamic>? mounts;
-  String? name;
-  NetworkSettings? networkSettings;
-  String? path;
-  String? platform;
-  String? processLabel;
-  String? resolvConfPath;
-  int? restartCount;
-  ContainerState? state;
+  String appArmorProfile;
+  List<dynamic> args;
+  Config config;
+  DateTime created;
+  String driver;
+  dynamic execIDs;
+  GraphDriver graphDriver;
+  HostConfig hostConfig;
+  String hostnamePath;
+  String hostsPath;
+  String id;
+  String image;
+  String logPath;
+  String mountLabel;
+  List<Mount> mounts;
+  String name;
+  NetworkSettings networkSettings;
+  String path;
+  String platform;
+  String processLabel;
+  String resolvConfPath;
+  int restartCount;
+  ContainerState state;
 
   factory DockerContainer.fromJson(Map<String, dynamic> json) =>
       DockerContainer(
         appArmorProfile: json["AppArmorProfile"],
-        args: List<String>.from(json["Args"]!.map((x) => x)),
+        args: List<dynamic>.from(json["Args"].map((x) => x)),
         config: Config.fromJson(json["Config"]),
         created: DateTime.parse(json["Created"]),
         driver: json["Driver"],
@@ -65,7 +76,7 @@ class DockerContainer {
         image: json["Image"],
         logPath: json["LogPath"],
         mountLabel: json["MountLabel"],
-        mounts: List<dynamic>.from(json["Mounts"]!.map((x) => x)),
+        mounts: List<Mount>.from(json["Mounts"].map((x) => Mount.fromJson(x))),
         name: json["Name"],
         networkSettings: NetworkSettings.fromJson(json["NetworkSettings"]),
         path: json["Path"],
@@ -78,87 +89,90 @@ class DockerContainer {
 
   Map<String, dynamic> toJson() => {
         "AppArmorProfile": appArmorProfile,
-        "Args": List<dynamic>.from(args!.map((x) => x)),
-        "Config": config?.toJson(),
-        "Created": created?.toIso8601String(),
+        "Args": List<dynamic>.from(args.map((x) => x)),
+        "Config": config.toJson(),
+        "Created": created.toIso8601String(),
         "Driver": driver,
         "ExecIDs": execIDs,
-        "GraphDriver": graphDriver?.toJson(),
-        "HostConfig": hostConfig?.toJson(),
+        "GraphDriver": graphDriver.toJson(),
+        "HostConfig": hostConfig.toJson(),
         "HostnamePath": hostnamePath,
         "HostsPath": hostsPath,
         "Id": id,
         "Image": image,
         "LogPath": logPath,
         "MountLabel": mountLabel,
-        "Mounts": List<dynamic>.from(mounts!.map((x) => x)),
+        "Mounts": List<dynamic>.from(mounts.map((x) => x.toJson())),
         "Name": name,
-        "NetworkSettings": networkSettings?.toJson(),
+        "NetworkSettings": networkSettings.toJson(),
         "Path": path,
         "Platform": platform,
         "ProcessLabel": processLabel,
         "ResolvConfPath": resolvConfPath,
         "RestartCount": restartCount,
-        "State": state?.toJson(),
+        "State": state.toJson(),
       };
 }
 
 class Config {
   Config({
-    this.attachStderr,
-    this.attachStdin,
-    this.attachStdout,
+    required this.attachStderr,
+    required this.attachStdin,
+    required this.attachStdout,
     this.cmd,
-    this.domainname,
-    this.entrypoint,
-    this.env,
-    this.hostname,
-    this.image,
-    this.labels,
-    this.onBuild,
-    this.openStdin,
-    this.stdinOnce,
-    this.tty,
-    this.user,
-    this.volumes,
-    this.workingDir,
+    required this.domainname,
+    required this.entrypoint,
+    required this.env,
+    required this.exposedPorts,
+    required this.hostname,
+    required this.image,
+    required this.labels,
+    required this.onBuild,
+    required this.openStdin,
+    required this.stdinOnce,
+    required this.tty,
+    required this.user,
+    required this.volumes,
+    required this.workingDir,
   });
 
-  bool? attachStderr;
-  bool? attachStdin;
-  bool? attachStdout;
-  List<String>? cmd;
-  String? domainname;
-  dynamic? entrypoint;
-  List<String>? env;
-  String? hostname;
-  String? image;
-  dynamic? labels;
-  dynamic? onBuild;
-  bool? openStdin;
-  bool? stdinOnce;
-  bool? tty;
-  String? user;
-  dynamic? volumes;
-  String? workingDir;
+  bool attachStderr;
+  bool attachStdin;
+  bool attachStdout;
+  dynamic cmd;
+  String domainname;
+  List<String> entrypoint;
+  List<String> env;
+  ExposedPorts exposedPorts;
+  String hostname;
+  String image;
+  Labels labels;
+  dynamic onBuild;
+  bool openStdin;
+  bool stdinOnce;
+  bool tty;
+  String user;
+  Volumes volumes;
+  String workingDir;
 
   factory Config.fromJson(Map<String, dynamic> json) => Config(
         attachStderr: json["AttachStderr"],
         attachStdin: json["AttachStdin"],
         attachStdout: json["AttachStdout"],
-        cmd: List<String>.from(json["Cmd"]!.map((x) => x)),
+        cmd: json["Cmd"],
         domainname: json["Domainname"],
-        entrypoint: json["Entrypoint"],
-        env: List<String>.from(json["Env"]!.map((x) => x)),
+        entrypoint: List<String>.from(json["Entrypoint"].map((x) => x)),
+        env: List<String>.from(json["Env"].map((x) => x)),
+        exposedPorts: ExposedPorts.fromJson(json["ExposedPorts"]),
         hostname: json["Hostname"],
         image: json["Image"],
-        labels: json["Labels"],
+        labels: Labels.fromJson(json["Labels"]),
         onBuild: json["OnBuild"],
         openStdin: json["OpenStdin"],
         stdinOnce: json["StdinOnce"],
         tty: json["Tty"],
         user: json["User"],
-        volumes: json["Volumes"],
+        volumes: Volumes.fromJson(json["Volumes"]),
         workingDir: json["WorkingDir"],
       );
 
@@ -166,31 +180,72 @@ class Config {
         "AttachStderr": attachStderr,
         "AttachStdin": attachStdin,
         "AttachStdout": attachStdout,
-        "Cmd": List<dynamic>.from(cmd!.map((x) => x)),
+        "Cmd": cmd,
         "Domainname": domainname,
-        "Entrypoint": entrypoint,
-        "Env": List<dynamic>.from(env!.map((x) => x)),
+        "Entrypoint": List<dynamic>.from(entrypoint.map((x) => x)),
+        "Env": List<dynamic>.from(env.map((x) => x)),
+        "ExposedPorts": exposedPorts.toJson(),
         "Hostname": hostname,
         "Image": image,
-        "Labels": labels,
+        "Labels": labels.toJson(),
         "OnBuild": onBuild,
         "OpenStdin": openStdin,
         "StdinOnce": stdinOnce,
         "Tty": tty,
         "User": user,
-        "Volumes": volumes,
+        "Volumes": volumes.toJson(),
         "WorkingDir": workingDir,
+      };
+}
+
+class ExposedPorts {
+  ExposedPorts({
+    required this.the1337Tcp,
+  });
+
+  Labels the1337Tcp;
+
+  factory ExposedPorts.fromJson(Map<String, dynamic> json) => ExposedPorts(
+        the1337Tcp: Labels.fromJson(json["1337/tcp"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "1337/tcp": the1337Tcp.toJson(),
+      };
+}
+
+class Labels {
+  Labels();
+
+  factory Labels.fromJson(Map<String, dynamic> json) => Labels();
+
+  Map<String, dynamic> toJson() => {};
+}
+
+class Volumes {
+  Volumes({
+    required this.appKongadata,
+  });
+
+  Labels appKongadata;
+
+  factory Volumes.fromJson(Map<String, dynamic> json) => Volumes(
+        appKongadata: Labels.fromJson(json["/app/kongadata"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "/app/kongadata": appKongadata.toJson(),
       };
 }
 
 class GraphDriver {
   GraphDriver({
-    this.data,
-    this.name,
+    required this.data,
+    required this.name,
   });
 
-  Data? data;
-  String? name;
+  Data data;
+  String name;
 
   factory GraphDriver.fromJson(Map<String, dynamic> json) => GraphDriver(
         data: Data.fromJson(json["Data"]),
@@ -198,23 +253,23 @@ class GraphDriver {
       );
 
   Map<String, dynamic> toJson() => {
-        "Data": data?.toJson(),
+        "Data": data.toJson(),
         "Name": name,
       };
 }
 
 class Data {
   Data({
-    this.lowerDir,
-    this.mergedDir,
-    this.upperDir,
-    this.workDir,
+    required this.lowerDir,
+    required this.mergedDir,
+    required this.upperDir,
+    required this.workDir,
   });
 
-  String? lowerDir;
-  String? mergedDir;
-  String? upperDir;
-  String? workDir;
+  String lowerDir;
+  String mergedDir;
+  String upperDir;
+  String workDir;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         lowerDir: json["LowerDir"],
@@ -233,138 +288,138 @@ class Data {
 
 class HostConfig {
   HostConfig({
-    this.autoRemove,
+    required this.autoRemove,
     this.binds,
     this.blkioDeviceReadBps,
     this.blkioDeviceReadIOps,
     this.blkioDeviceWriteBps,
     this.blkioDeviceWriteIOps,
-    this.blkioWeight,
-    this.blkioWeightDevice,
+    required this.blkioWeight,
+    required this.blkioWeightDevice,
     this.capAdd,
     this.capDrop,
-    this.cgroup,
-    this.cgroupParent,
-    this.cgroupnsMode,
-    this.consoleSize,
-    this.containerIdFile,
-    this.cpuCount,
-    this.cpuPercent,
-    this.cpuPeriod,
-    this.cpuQuota,
-    this.cpuRealtimePeriod,
-    this.cpuRealtimeRuntime,
-    this.cpuShares,
-    this.cpusetCpus,
-    this.cpusetMems,
+    required this.cgroup,
+    required this.cgroupParent,
+    required this.cgroupnsMode,
+    required this.consoleSize,
+    required this.containerIdFile,
+    required this.cpuCount,
+    required this.cpuPercent,
+    required this.cpuPeriod,
+    required this.cpuQuota,
+    required this.cpuRealtimePeriod,
+    required this.cpuRealtimeRuntime,
+    required this.cpuShares,
+    required this.cpusetCpus,
+    required this.cpusetMems,
     this.deviceCgroupRules,
     this.deviceRequests,
-    this.devices,
-    this.dns,
-    this.dnsOptions,
-    this.dnsSearch,
+    required this.devices,
+    required this.dns,
+    required this.dnsOptions,
+    required this.dnsSearch,
     this.extraHosts,
     this.groupAdd,
-    this.ioMaximumBandwidth,
-    this.ioMaximumIOps,
-    this.ipcMode,
-    this.isolation,
-    this.kernelMemory,
-    this.kernelMemoryTcp,
+    required this.ioMaximumBandwidth,
+    required this.ioMaximumIOps,
+    required this.ipcMode,
+    required this.isolation,
+    required this.kernelMemory,
+    required this.kernelMemoryTcp,
     this.links,
-    this.logConfig,
-    this.maskedPaths,
-    this.memory,
-    this.memoryReservation,
-    this.memorySwap,
-    this.memorySwappiness,
-    this.nanoCpus,
-    this.networkMode,
-    this.oomKillDisable,
-    this.oomScoreAdj,
-    this.pidMode,
-    this.pidsLimit,
-    this.portBindings,
-    this.privileged,
-    this.publishAllPorts,
-    this.readonlyPaths,
-    this.readonlyRootfs,
-    this.restartPolicy,
-    this.runtime,
-    this.securityOpt,
-    this.shmSize,
-    this.utsMode,
-    this.ulimits,
-    this.usernsMode,
-    this.volumeDriver,
-    this.volumesFrom,
+    required this.logConfig,
+    required this.maskedPaths,
+    required this.memory,
+    required this.memoryReservation,
+    required this.memorySwap,
+    required this.memorySwappiness,
+    required this.nanoCpus,
+    required this.networkMode,
+    required this.oomKillDisable,
+    required this.oomScoreAdj,
+    required this.pidMode,
+    required this.pidsLimit,
+    required this.portBindings,
+    required this.privileged,
+    required this.publishAllPorts,
+    required this.readonlyPaths,
+    required this.readonlyRootfs,
+    required this.restartPolicy,
+    required this.runtime,
+    required this.securityOpt,
+    required this.shmSize,
+    required this.utsMode,
+    required this.ulimits,
+    required this.usernsMode,
+    required this.volumeDriver,
+    required this.volumesFrom,
   });
 
-  bool? autoRemove;
-  dynamic? binds;
-  dynamic? blkioDeviceReadBps;
-  dynamic? blkioDeviceReadIOps;
-  dynamic? blkioDeviceWriteBps;
-  dynamic? blkioDeviceWriteIOps;
-  int? blkioWeight;
-  List<dynamic>? blkioWeightDevice;
-  dynamic? capAdd;
-  dynamic? capDrop;
-  String? cgroup;
-  String? cgroupParent;
-  String? cgroupnsMode;
-  List<int>? consoleSize;
-  String? containerIdFile;
-  int? cpuCount;
-  int? cpuPercent;
-  int? cpuPeriod;
-  int? cpuQuota;
-  int? cpuRealtimePeriod;
-  int? cpuRealtimeRuntime;
-  int? cpuShares;
-  String? cpusetCpus;
-  String? cpusetMems;
-  dynamic? deviceCgroupRules;
-  dynamic? deviceRequests;
-  List<dynamic>? devices;
-  List<dynamic>? dns;
-  List<dynamic>? dnsOptions;
-  List<dynamic>? dnsSearch;
-  dynamic? extraHosts;
-  dynamic? groupAdd;
-  int? ioMaximumBandwidth;
-  int? ioMaximumIOps;
-  String? ipcMode;
-  String? isolation;
-  int? kernelMemory;
-  int? kernelMemoryTcp;
-  dynamic? links;
-  LogConfig? logConfig;
-  List<String>? maskedPaths;
-  int? memory;
-  int? memoryReservation;
-  int? memorySwap;
-  dynamic? memorySwappiness;
-  int? nanoCpus;
-  String? networkMode;
-  bool? oomKillDisable;
-  int? oomScoreAdj;
-  String? pidMode;
-  dynamic? pidsLimit;
-  dynamic? portBindings;
-  bool? privileged;
-  bool? publishAllPorts;
-  List<String>? readonlyPaths;
-  bool? readonlyRootfs;
-  RestartPolicy? restartPolicy;
-  String? runtime;
-  List<String>? securityOpt;
-  int? shmSize;
-  String? utsMode;
-  dynamic? ulimits;
-  String? usernsMode;
-  String? volumeDriver;
-  dynamic? volumesFrom;
+  bool autoRemove;
+  dynamic binds;
+  dynamic blkioDeviceReadBps;
+  dynamic blkioDeviceReadIOps;
+  dynamic blkioDeviceWriteBps;
+  dynamic blkioDeviceWriteIOps;
+  int blkioWeight;
+  List<dynamic> blkioWeightDevice;
+  dynamic capAdd;
+  dynamic capDrop;
+  String cgroup;
+  String cgroupParent;
+  String cgroupnsMode;
+  List<int> consoleSize;
+  String containerIdFile;
+  int cpuCount;
+  int cpuPercent;
+  int cpuPeriod;
+  int cpuQuota;
+  int cpuRealtimePeriod;
+  int cpuRealtimeRuntime;
+  int cpuShares;
+  String cpusetCpus;
+  String cpusetMems;
+  dynamic deviceCgroupRules;
+  dynamic deviceRequests;
+  List<dynamic> devices;
+  List<dynamic> dns;
+  List<dynamic> dnsOptions;
+  List<dynamic> dnsSearch;
+  dynamic extraHosts;
+  dynamic groupAdd;
+  int ioMaximumBandwidth;
+  int ioMaximumIOps;
+  String ipcMode;
+  String isolation;
+  int kernelMemory;
+  int kernelMemoryTcp;
+  dynamic links;
+  LogConfig logConfig;
+  List<String> maskedPaths;
+  int memory;
+  int memoryReservation;
+  int memorySwap;
+  dynamic memorySwappiness;
+  int nanoCpus;
+  String networkMode;
+  bool oomKillDisable;
+  int oomScoreAdj;
+  String pidMode;
+  dynamic pidsLimit;
+  Port portBindings;
+  bool privileged;
+  bool publishAllPorts;
+  List<String> readonlyPaths;
+  bool readonlyRootfs;
+  RestartPolicy restartPolicy;
+  String runtime;
+  dynamic securityOpt;
+  int shmSize;
+  String utsMode;
+  dynamic ulimits;
+  String usernsMode;
+  String volumeDriver;
+  dynamic volumesFrom;
 
   factory HostConfig.fromJson(Map<String, dynamic> json) => HostConfig(
         autoRemove: json["AutoRemove"],
@@ -419,7 +474,7 @@ class HostConfig {
         oomScoreAdj: json["OomScoreAdj"],
         pidMode: json["PidMode"],
         pidsLimit: json["PidsLimit"],
-        portBindings: json["PortBindings"],
+        portBindings: Port.fromJson(json["PortBindings"]),
         privileged: json["Privileged"],
         publishAllPorts: json["PublishAllPorts"],
         readonlyPaths: List<String>.from(json["ReadonlyPaths"].map((x) => x)),
@@ -444,13 +499,13 @@ class HostConfig {
         "BlkioDeviceWriteIOps": blkioDeviceWriteIOps,
         "BlkioWeight": blkioWeight,
         "BlkioWeightDevice":
-            List<dynamic>.from(blkioWeightDevice!.map((x) => x)),
+            List<dynamic>.from(blkioWeightDevice.map((x) => x)),
         "CapAdd": capAdd,
         "CapDrop": capDrop,
         "Cgroup": cgroup,
         "CgroupParent": cgroupParent,
         "CgroupnsMode": cgroupnsMode,
-        "ConsoleSize": List<dynamic>.from(consoleSize!.map((x) => x)),
+        "ConsoleSize": List<dynamic>.from(consoleSize.map((x) => x)),
         "ContainerIDFile": containerIdFile,
         "CpuCount": cpuCount,
         "CpuPercent": cpuPercent,
@@ -463,10 +518,10 @@ class HostConfig {
         "CpusetMems": cpusetMems,
         "DeviceCgroupRules": deviceCgroupRules,
         "DeviceRequests": deviceRequests,
-        "Devices": List<dynamic>.from(devices!.map((x) => x)),
-        "Dns": List<dynamic>.from(dns!.map((x) => x)),
-        "DnsOptions": List<dynamic>.from(dnsOptions!.map((x) => x)),
-        "DnsSearch": List<dynamic>.from(dnsSearch!.map((x) => x)),
+        "Devices": List<dynamic>.from(devices.map((x) => x)),
+        "Dns": List<dynamic>.from(dns.map((x) => x)),
+        "DnsOptions": List<dynamic>.from(dnsOptions.map((x) => x)),
+        "DnsSearch": List<dynamic>.from(dnsSearch.map((x) => x)),
         "ExtraHosts": extraHosts,
         "GroupAdd": groupAdd,
         "IOMaximumBandwidth": ioMaximumBandwidth,
@@ -476,8 +531,8 @@ class HostConfig {
         "KernelMemory": kernelMemory,
         "KernelMemoryTCP": kernelMemoryTcp,
         "Links": links,
-        "LogConfig": logConfig?.toJson(),
-        "MaskedPaths": List<dynamic>.from(maskedPaths!.map((x) => x)),
+        "LogConfig": logConfig.toJson(),
+        "MaskedPaths": List<dynamic>.from(maskedPaths.map((x) => x)),
         "Memory": memory,
         "MemoryReservation": memoryReservation,
         "MemorySwap": memorySwap,
@@ -488,12 +543,12 @@ class HostConfig {
         "OomScoreAdj": oomScoreAdj,
         "PidMode": pidMode,
         "PidsLimit": pidsLimit,
-        "PortBindings": portBindings?.toJson(),
+        "PortBindings": portBindings.toJson(),
         "Privileged": privileged,
         "PublishAllPorts": publishAllPorts,
-        "ReadonlyPaths": List<dynamic>.from(readonlyPaths!.map((x) => x)),
+        "ReadonlyPaths": List<dynamic>.from(readonlyPaths.map((x) => x)),
         "ReadonlyRootfs": readonlyRootfs,
-        "RestartPolicy": restartPolicy?.toJson(),
+        "RestartPolicy": restartPolicy.toJson(),
         "Runtime": runtime,
         "SecurityOpt": securityOpt,
         "ShmSize": shmSize,
@@ -507,32 +562,69 @@ class HostConfig {
 
 class LogConfig {
   LogConfig({
-    this.config,
-    this.type,
+    required this.config,
+    required this.type,
   });
 
-  dynamic? config;
-  String? type;
+  Labels config;
+  String type;
 
   factory LogConfig.fromJson(Map<String, dynamic> json) => LogConfig(
-        config: json["Config"],
+        config: Labels.fromJson(json["Config"]),
         type: json["Type"],
       );
 
   Map<String, dynamic> toJson() => {
-        "Config": config!.toJson(),
+        "Config": config.toJson(),
         "Type": type,
+      };
+}
+
+class Port {
+  Port({
+    required this.the1337Tcp,
+  });
+
+  List<The1337Tcp> the1337Tcp;
+
+  factory Port.fromJson(Map<String, dynamic> json) => Port(
+        the1337Tcp: List<The1337Tcp>.from(
+            json["1337/tcp"].map((x) => The1337Tcp.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "1337/tcp": List<dynamic>.from(the1337Tcp.map((x) => x.toJson())),
+      };
+}
+
+class The1337Tcp {
+  The1337Tcp({
+    required this.hostIp,
+    required this.hostPort,
+  });
+
+  String hostIp;
+  String hostPort;
+
+  factory The1337Tcp.fromJson(Map<String, dynamic> json) => The1337Tcp(
+        hostIp: json["HostIp"],
+        hostPort: json["HostPort"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "HostIp": hostIp,
+        "HostPort": hostPort,
       };
 }
 
 class RestartPolicy {
   RestartPolicy({
-    this.maximumRetryCount,
-    this.name,
+    required this.maximumRetryCount,
+    required this.name,
   });
 
-  int? maximumRetryCount;
-  String? name;
+  int maximumRetryCount;
+  String name;
 
   factory RestartPolicy.fromJson(Map<String, dynamic> json) => RestartPolicy(
         maximumRetryCount: json["MaximumRetryCount"],
@@ -545,46 +637,90 @@ class RestartPolicy {
       };
 }
 
-class NetworkSettings {
-  NetworkSettings({
-    this.bridge,
-    this.endpointId,
-    this.gateway,
-    this.globalIPv6Address,
-    this.globalIPv6PrefixLen,
-    this.hairpinMode,
-    this.ipAddress,
-    this.ipPrefixLen,
-    this.iPv6Gateway,
-    this.linkLocalIPv6Address,
-    this.linkLocalIPv6PrefixLen,
-    this.macAddress,
-    this.networks,
-    this.ports,
-    this.sandboxId,
-    this.sandboxKey,
-    this.secondaryIpAddresses,
-    this.secondaryIPv6Addresses,
+class Mount {
+  Mount({
+    required this.destination,
+    required this.driver,
+    required this.mode,
+    required this.name,
+    required this.propagation,
+    required this.rw,
+    required this.source,
+    required this.type,
   });
 
-  String? bridge;
-  String? endpointId;
-  String? gateway;
-  String? globalIPv6Address;
-  int? globalIPv6PrefixLen;
-  bool? hairpinMode;
-  String? ipAddress;
-  int? ipPrefixLen;
-  String? iPv6Gateway;
-  String? linkLocalIPv6Address;
-  int? linkLocalIPv6PrefixLen;
-  String? macAddress;
-  Networks? networks;
-  dynamic? ports;
-  String? sandboxId;
-  String? sandboxKey;
-  dynamic? secondaryIpAddresses;
-  dynamic? secondaryIPv6Addresses;
+  String destination;
+  String driver;
+  String mode;
+  String name;
+  String propagation;
+  bool rw;
+  String source;
+  String type;
+
+  factory Mount.fromJson(Map<String, dynamic> json) => Mount(
+        destination: json["Destination"],
+        driver: json["Driver"],
+        mode: json["Mode"],
+        name: json["Name"],
+        propagation: json["Propagation"],
+        rw: json["RW"],
+        source: json["Source"],
+        type: json["Type"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "Destination": destination,
+        "Driver": driver,
+        "Mode": mode,
+        "Name": name,
+        "Propagation": propagation,
+        "RW": rw,
+        "Source": source,
+        "Type": type,
+      };
+}
+
+class NetworkSettings {
+  NetworkSettings({
+    required this.bridge,
+    required this.endpointId,
+    required this.gateway,
+    required this.globalIPv6Address,
+    required this.globalIPv6PrefixLen,
+    required this.hairpinMode,
+    required this.ipAddress,
+    required this.ipPrefixLen,
+    required this.iPv6Gateway,
+    required this.linkLocalIPv6Address,
+    required this.linkLocalIPv6PrefixLen,
+    required this.macAddress,
+    required this.networks,
+    required this.ports,
+    required this.sandboxId,
+    required this.sandboxKey,
+    required this.secondaryIpAddresses,
+    required this.secondaryIPv6Addresses,
+  });
+
+  String bridge;
+  String endpointId;
+  String gateway;
+  String globalIPv6Address;
+  int globalIPv6PrefixLen;
+  bool hairpinMode;
+  String ipAddress;
+  int ipPrefixLen;
+  String iPv6Gateway;
+  String linkLocalIPv6Address;
+  int linkLocalIPv6PrefixLen;
+  String macAddress;
+  Networks networks;
+  Port ports;
+  String sandboxId;
+  String sandboxKey;
+  dynamic secondaryIpAddresses;
+  dynamic secondaryIPv6Addresses;
 
   factory NetworkSettings.fromJson(Map<String, dynamic> json) =>
       NetworkSettings(
@@ -601,7 +737,7 @@ class NetworkSettings {
         linkLocalIPv6PrefixLen: json["LinkLocalIPv6PrefixLen"],
         macAddress: json["MacAddress"],
         networks: Networks.fromJson(json["Networks"]),
-        ports: json["Ports"],
+        ports: Port.fromJson(json["Ports"]),
         sandboxId: json["SandboxID"],
         sandboxKey: json["SandboxKey"],
         secondaryIpAddresses: json["SecondaryIPAddresses"],
@@ -621,8 +757,8 @@ class NetworkSettings {
         "LinkLocalIPv6Address": linkLocalIPv6Address,
         "LinkLocalIPv6PrefixLen": linkLocalIPv6PrefixLen,
         "MacAddress": macAddress,
-        "Networks": networks?.toJson(),
-        "Ports": ports?.toJson(),
+        "Networks": networks.toJson(),
+        "Ports": ports.toJson(),
         "SandboxID": sandboxId,
         "SandboxKey": sandboxKey,
         "SecondaryIPAddresses": secondaryIpAddresses,
@@ -632,52 +768,52 @@ class NetworkSettings {
 
 class Networks {
   Networks({
-    this.host,
+    required this.bridge,
   });
 
-  Host? host;
+  Bridge bridge;
 
   factory Networks.fromJson(Map<String, dynamic> json) => Networks(
-        host: Host.fromJson(json["host"]),
+        bridge: Bridge.fromJson(json["bridge"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "host": host?.toJson(),
+        "bridge": bridge.toJson(),
       };
 }
 
-class Host {
-  Host({
-    this.aliases,
-    this.driverOpts,
-    this.endpointId,
-    this.gateway,
-    this.globalIPv6Address,
-    this.globalIPv6PrefixLen,
-    this.ipamConfig,
-    this.ipAddress,
-    this.ipPrefixLen,
-    this.iPv6Gateway,
-    this.links,
-    this.macAddress,
-    this.networkId,
+class Bridge {
+  Bridge({
+    required this.aliases,
+    required this.driverOpts,
+    required this.endpointId,
+    required this.gateway,
+    required this.globalIPv6Address,
+    required this.globalIPv6PrefixLen,
+    required this.ipamConfig,
+    required this.ipAddress,
+    required this.ipPrefixLen,
+    required this.iPv6Gateway,
+    required this.links,
+    required this.macAddress,
+    required this.networkId,
   });
 
-  dynamic? aliases;
-  dynamic? driverOpts;
-  String? endpointId;
-  String? gateway;
-  String? globalIPv6Address;
-  int? globalIPv6PrefixLen;
-  dynamic? ipamConfig;
-  String? ipAddress;
-  int? ipPrefixLen;
-  String? iPv6Gateway;
-  dynamic? links;
-  String? macAddress;
-  String? networkId;
+  dynamic aliases;
+  dynamic driverOpts;
+  String endpointId;
+  String gateway;
+  String globalIPv6Address;
+  int globalIPv6PrefixLen;
+  dynamic ipamConfig;
+  String ipAddress;
+  int ipPrefixLen;
+  String iPv6Gateway;
+  dynamic links;
+  String macAddress;
+  String networkId;
 
-  factory Host.fromJson(Map<String, dynamic> json) => Host(
+  factory Bridge.fromJson(Map<String, dynamic> json) => Bridge(
         aliases: json["Aliases"],
         driverOpts: json["DriverOpts"],
         endpointId: json["EndpointID"],
@@ -712,30 +848,30 @@ class Host {
 
 class ContainerState {
   ContainerState({
-    this.dead,
-    this.error,
-    this.exitCode,
-    this.finishedAt,
-    this.oomKilled,
-    this.paused,
-    this.pid,
-    this.restarting,
-    this.running,
-    this.startedAt,
-    this.status,
+    required this.dead,
+    required this.error,
+    required this.exitCode,
+    required this.finishedAt,
+    required this.oomKilled,
+    required this.paused,
+    required this.pid,
+    required this.restarting,
+    required this.running,
+    required this.startedAt,
+    required this.status,
   });
 
-  bool? dead;
-  String? error;
-  int? exitCode;
-  DateTime? finishedAt;
-  bool? oomKilled;
-  bool? paused;
-  int? pid;
-  bool? restarting;
-  bool? running;
-  DateTime? startedAt;
-  String? status;
+  bool dead;
+  String error;
+  int exitCode;
+  DateTime finishedAt;
+  bool oomKilled;
+  bool paused;
+  int pid;
+  bool restarting;
+  bool running;
+  DateTime startedAt;
+  String status;
 
   factory ContainerState.fromJson(Map<String, dynamic> json) => ContainerState(
         dead: json["Dead"],
@@ -755,13 +891,13 @@ class ContainerState {
         "Dead": dead,
         "Error": error,
         "ExitCode": exitCode,
-        "FinishedAt": finishedAt?.toIso8601String(),
+        "FinishedAt": finishedAt.toIso8601String(),
         "OOMKilled": oomKilled,
         "Paused": paused,
         "Pid": pid,
         "Restarting": restarting,
         "Running": running,
-        "StartedAt": startedAt?.toIso8601String(),
+        "StartedAt": startedAt.toIso8601String(),
         "Status": status,
       };
 }
