@@ -7,8 +7,10 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:front/domain/models/container.dart';
+import 'package:front/domain/models/data_categories.dart';
 import 'package:front/domain/providers/container_provider.dart';
 import 'package:front/domain/services/container.dart';
+import 'package:front/ui/components/board_panel.dart';
 import 'package:front/ui/font_style.dart';
 import 'package:front/ui/screens/header.dart';
 import 'package:provider/provider.dart';
@@ -25,44 +27,15 @@ class _BoardContentState extends State<BoardContent> {
   ContainerProvider? _containerProvider = null;
 
   //List<DockerContainer> containers = [];
+  List<DataCategorie> categories = [
+    DataCategorie(name: "created", value: 0, color: Colors.blue),
+    DataCategorie(name: "running", value: 0, color: Colors.green),
+    DataCategorie(name: "exited", value: 0, color: Colors.red)
+  ];
 
   @override
   void initState() {
     super.initState();
-  }
-
-  List<DataRow> buildDataRow(List containers) {
-    List<DataRow> rows = [];
-    containers.forEach((container) {
-      rows.add(
-        DataRow(
-          cells: [
-            DataCell(
-              Row(
-                children: [
-                  Text(container['Name']),
-                ],
-              ),
-            ),
-            DataCell(
-              Row(
-                children: [
-                  Text(container['Created']),
-                ],
-              ),
-            ),
-            DataCell(
-              Row(
-                children: [
-                  Text(container['State']['Status']),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    });
-    return rows;
   }
 
   @override
@@ -71,7 +44,7 @@ class _BoardContentState extends State<BoardContent> {
     //_containerProvider = Provider.of<ContainerProvider>(context);
     Provider.of<ContainerProvider>(context, listen: false).getAllContainer();
     return SafeArea(
-      child: SingleChildScrollView(
+      child: Container(
         padding: EdgeInsets.all(defaultPadding),
         child: Column(
           // ignore: prefer_const_literals_to_create_immutables
@@ -101,17 +74,12 @@ class _BoardContentState extends State<BoardContent> {
                       SizedBox(
                         height: defaultPadding,
                       ),
-                      Container(
+                      BoardPanel(
                         width: 1600,
                         height: 500,
-                        padding: EdgeInsets.all(defaultPadding),
-                        decoration: BoxDecoration(
-                          color: secondaryColor,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                        ),
-                        child: SingleChildScrollView(
+                        panelColor: secondaryColor,
+                        padding: defaultPadding,
+                        panelContent: SingleChildScrollView(
                           child: Column(
                             children: [
                               Text(
@@ -153,17 +121,12 @@ class _BoardContentState extends State<BoardContent> {
                 ),
                 Expanded(
                   flex: 2,
-                  child: Container(
-                    padding: EdgeInsets.all(defaultPadding),
+                  child: BoardPanel(
                     width: 125,
                     height: 1150,
-                    decoration: BoxDecoration(
-                      color: secondaryColor,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                    ),
-                    child: Column(
+                    panelColor: secondaryColor,
+                    padding: defaultPadding,
+                    panelContent: Column(
                       children: [
                         Text(
                           "Detail",
@@ -175,15 +138,17 @@ class _BoardContentState extends State<BoardContent> {
                         SizedBox(height: defaultPadding),
                         SizedBox(
                           height: 200,
-                          child: PieChart(
-                            PieChartData(
-                              sections: [
-                                PieChartSectionData(
-                                    value: 15, color: Colors.yellow),
-                                PieChartSectionData(
-                                    value: 30, color: Colors.red)
-                              ],
-                            ),
+                          child: Consumer<ContainerProvider>(
+                            builder: (context, model, _) {
+                              return PieChart(
+                                PieChartData(
+                                  sectionsSpace: 10,
+                                  centerSpaceRadius: 80,
+                                  startDegreeOffset: -90,
+                                  sections: buildSection(model.containers),
+                                ),
+                              );
+                            },
                           ),
                         )
                       ],
@@ -196,5 +161,65 @@ class _BoardContentState extends State<BoardContent> {
         ),
       ),
     );
+  }
+
+  List<PieChartSectionData> buildSection(List containers) {
+    List<PieChartSectionData> sections = [];
+    var temps;
+    containers.forEach((container) {
+      temps = categories
+          .where((category) => category.name == container['State']['Status'])
+          .first;
+      temps.value += 1;
+    });
+
+    categories.forEach((categorie) {
+      sections.add(
+        PieChartSectionData(
+          value: categorie.value,
+          color: categorie.color,
+          title: categorie.name,
+          radius: 25,
+        ),
+      );
+    });
+    return sections;
+  }
+
+  List<DataRow> buildDataRow(List containers) {
+    List<DataRow> rows = [];
+    containers.forEach((container) {
+      rows.add(
+        DataRow(
+          onLongPress: () {
+            print("clicked on row");
+          },
+          cells: [
+            DataCell(
+              Row(
+                children: [
+                  Text(container['Name']),
+                ],
+              ),
+            ),
+            DataCell(
+              Row(
+                children: [
+                  Text(container['Created']),
+                ],
+              ),
+            ),
+            DataCell(
+              Row(
+                children: [
+                  Text(container['State']['Status']),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    });
+    return rows;
   }
 }
