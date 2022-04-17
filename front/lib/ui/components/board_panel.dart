@@ -27,7 +27,6 @@ class BoardPanel extends StatefulWidget {
 class _BoardPanelState extends State<BoardPanel> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Container(
       width: widget.width,
       height: widget.height,

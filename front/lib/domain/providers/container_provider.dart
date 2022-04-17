@@ -20,6 +20,14 @@ class ContainerProvider extends ChangeNotifier {
 
   updateContainerList(List dockerContainers) {
     containers = dockerContainers;
+    // dockerContainers.map((container) {
+    //   containers.add(DockerContainer.fromJson(container));
+    // });
+
+    // DockerContainer container = DockerContainer.fromJson(dockerContainers[4]);
+    // print("==================");
+    // print(container);
+    // print("==================");
     notifyListeners();
   }
 }

@@ -8,9 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:front/domain/models/container.dart';
 import 'package:front/domain/models/data_categories.dart';
+import 'package:front/domain/models/file.dart';
 import 'package:front/domain/providers/container_provider.dart';
 import 'package:front/domain/services/container.dart';
 import 'package:front/ui/components/board_panel.dart';
+import 'package:front/ui/components/dropzone_upload.dart';
 import 'package:front/ui/font_style.dart';
 import 'package:front/ui/screens/header.dart';
 import 'package:provider/provider.dart';
@@ -23,10 +25,8 @@ class BoardContent extends StatefulWidget {
 }
 
 class _BoardContentState extends State<BoardContent> {
-  // ignore: unused_field
-  ContainerProvider? _containerProvider = null;
+  DroppedFile? file;
 
-  //List<DockerContainer> containers = [];
   List<DataCategorie> categories = [
     DataCategorie(name: "created", value: 0, color: Colors.blue),
     DataCategorie(name: "running", value: 0, color: Colors.green),
@@ -49,9 +49,7 @@ class _BoardContentState extends State<BoardContent> {
         child: Column(
           // ignore: prefer_const_literals_to_create_immutables
           children: [
-            // ignore: prefer_const_constructors
             Header(),
-            // ignore: prefer_const_constructors
             SizedBox(
               height: defaultPadding,
             ),
@@ -61,14 +59,17 @@ class _BoardContentState extends State<BoardContent> {
                   flex: 5,
                   child: Column(
                     children: [
-                      Container(
+                      BoardPanel(
                         width: 1600,
                         height: 500,
-                        decoration: BoxDecoration(
-                          color: secondaryColor,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10),
-                          ),
+                        panelColor: secondaryColor,
+                        padding: defaultPadding,
+                        panelContent: DropZoneUpload(
+                          onDroppedFile: (file) {
+                            setState(() {
+                              this.file = file;
+                            });
+                          },
                         ),
                       ),
                       SizedBox(
