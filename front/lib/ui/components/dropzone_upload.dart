@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
 import 'package:flutter_dropzone_web/flutter_dropzone_web.dart';
 import 'package:front/domain/models/file.dart';
+import 'package:front/domain/providers/container_provider.dart';
 import 'package:front/ui/components/upload_preview.dart';
+import 'package:provider/provider.dart';
 
 class DropZoneUpload extends StatefulWidget {
   final ValueChanged<DroppedFile> onDroppedFile;
@@ -29,6 +31,15 @@ class _DropZoneUploadState extends State<DropZoneUpload> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        SizedBox(
+          width: 170,
+          height: 50,
+          child: ElevatedButton.icon(
+            icon: Icon(Icons.add, size: 32),
+            label: Text("create image"),
+            onPressed: _droppedFile == null ? null : createImage,
+          ),
+        ),
         Stack(
           children: [
             SizedBox(
@@ -83,23 +94,32 @@ class _DropZoneUploadState extends State<DropZoneUpload> {
     );
   }
 
+  void createImage() {
+    //_droppedFile
+    Provider.of<ContainerProvider>(context, listen: false)
+        .createImage(_droppedFile!);
+  }
+
   Future acceptFile(dynamic event) async {
     final name = event.name;
 
     final mime = await controller.getFileMIME(event);
     final bytes = await controller.getFileSize(event);
     final url = await controller.createFileUrl(event);
+    final fileStream = await controller.getFileStream(event).first;
 
     print('Name: $name');
     print('mime: $mime');
     print('bytes: $bytes');
     print('url: $url');
+    print('stream: $fileStream');
 
     _droppedFile = DroppedFile(
       url: url,
       name: name,
       mime: mime,
       bytes: bytes,
+      stream: fileStream,
     );
 
     widget.onDroppedFile(_droppedFile!);

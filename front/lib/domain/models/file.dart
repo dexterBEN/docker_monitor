@@ -4,12 +4,14 @@ class DroppedFile {
     required this.name,
     required this.mime,
     required this.bytes,
+    required this.stream,
   });
 
   String url;
   String name;
   String mime;
   int bytes;
+  List<int> stream;
 
   String get size {
     final kb = bytes / 1024;
