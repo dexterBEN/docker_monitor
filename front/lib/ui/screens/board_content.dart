@@ -14,6 +14,7 @@ import 'package:front/domain/services/container.dart';
 import 'package:front/ui/components/board_panel.dart';
 import 'package:front/ui/components/dropzone_upload.dart';
 import 'package:front/ui/font_style.dart';
+import 'package:front/ui/screens/container_kpi.dart';
 import 'package:front/ui/screens/header.dart';
 import 'package:provider/provider.dart';
 
@@ -127,33 +128,7 @@ class _BoardContentState extends State<BoardContent> {
                     height: 1150,
                     panelColor: secondaryColor,
                     padding: defaultPadding,
-                    panelContent: Column(
-                      children: [
-                        Text(
-                          "Detail",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        SizedBox(height: defaultPadding),
-                        SizedBox(
-                          height: 200,
-                          child: Consumer<ContainerProvider>(
-                            builder: (context, model, _) {
-                              return PieChart(
-                                PieChartData(
-                                  sectionsSpace: 10,
-                                  centerSpaceRadius: 80,
-                                  startDegreeOffset: -90,
-                                  sections: buildSection(model.containers),
-                                ),
-                              );
-                            },
-                          ),
-                        )
-                      ],
-                    ),
+                    panelContent: ContainerKPI(categories: categories),
                   ),
                 )
               ],
@@ -162,29 +137,6 @@ class _BoardContentState extends State<BoardContent> {
         ),
       ),
     );
-  }
-
-  List<PieChartSectionData> buildSection(List containers) {
-    List<PieChartSectionData> sections = [];
-    var temps;
-    containers.forEach((container) {
-      temps = categories
-          .where((category) => category.name == container['State']['Status'])
-          .first;
-      temps.value += 1;
-    });
-
-    categories.forEach((categorie) {
-      sections.add(
-        PieChartSectionData(
-          value: categorie.value,
-          color: categorie.color,
-          title: categorie.name,
-          radius: 25,
-        ),
-      );
-    });
-    return sections;
   }
 
   List<DataRow> buildDataRow(List containers) {
