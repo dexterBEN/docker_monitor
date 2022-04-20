@@ -8,3 +8,6 @@ const defaultPadding = 16.0;
 
 // ignore: prefer_const_constructors
 final txtFontSize24 = TextStyle(fontSize: 24);
+
+final dockerFile_logo =
+    "https://res.cloudinary.com/practicaldev/image/fetch/s--rjBiWeZ2--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/i/6gyu4pn7d0luxk7frb0c.jpg";

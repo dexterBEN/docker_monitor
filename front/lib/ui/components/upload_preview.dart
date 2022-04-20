@@ -13,7 +13,11 @@ class UploadPreview extends StatelessWidget {
   }
 
   Widget buildPreview() {
-    if (file == null) return emptyFileView('No file');
+    if (file == null) {
+      return emptyFileView('No file');
+    } else if ((file?.name != "dockerfile")) {
+      return emptyFileView('We not allow this kind of file');
+    }
 
     return Image.network(
       "https://res.cloudinary.com/practicaldev/image/fetch/s--rjBiWeZ2--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/i/6gyu4pn7d0luxk7frb0c.jpg",

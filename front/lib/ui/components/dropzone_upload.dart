@@ -37,8 +37,16 @@ class _DropZoneUploadState extends State<DropZoneUpload> {
           child: ElevatedButton.icon(
             icon: Icon(Icons.add, size: 32),
             label: Text("create image"),
-            onPressed: _droppedFile == null ? null : createImage,
+            onPressed:
+                _droppedFile == null || _droppedFile?.name != "dockerfile"
+                    ? null
+                    : createImage,
           ),
+        ),
+        SizedBox(
+          width: 40,
+          height: 250,
+          child: Container(),
         ),
         Stack(
           children: [
@@ -86,6 +94,11 @@ class _DropZoneUploadState extends State<DropZoneUpload> {
           ],
         ),
         SizedBox(
+          width: 40,
+          height: 250,
+          child: Container(),
+        ),
+        SizedBox(
           width: 250,
           height: 250,
           child: UploadPreview(file: _droppedFile),
@@ -112,7 +125,6 @@ class _DropZoneUploadState extends State<DropZoneUpload> {
     print('mime: $mime');
     print('bytes: $bytes');
     print('url: $url');
-    print('stream: $fileStream');
 
     _droppedFile = DroppedFile(
       url: url,
