@@ -12,6 +12,7 @@ import 'package:front/domain/models/file.dart';
 import 'package:front/domain/providers/container_provider.dart';
 import 'package:front/domain/services/container.dart';
 import 'package:front/ui/components/board_panel.dart';
+import 'package:front/ui/components/board_table.dart';
 import 'package:front/ui/components/dropzone_upload.dart';
 import 'package:front/ui/font_style.dart';
 import 'package:front/ui/screens/container_kpi.dart';
@@ -81,38 +82,9 @@ class _BoardContentState extends State<BoardContent> {
                         height: 500,
                         panelColor: secondaryColor,
                         padding: defaultPadding,
-                        panelContent: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              Text(
-                                "All containers",
-                                style: Theme.of(context).textTheme.subtitle1,
-                              ),
-                              Consumer<ContainerProvider>(
-                                builder: (context, model, _) {
-                                  if (model.containers.isEmpty) {
-                                    return Text("nothing to show");
-                                  }
-                                  return DataTable(
-                                    // ignore: prefer_const_literals_to_create_immutables
-                                    columns: [
-                                      DataColumn(
-                                        label: Text("name"),
-                                      ),
-                                      DataColumn(
-                                        label: Text("creation date"),
-                                      ),
-                                      DataColumn(
-                                        label: Text("state"),
-                                      )
-                                    ],
-                                    rows: buildDataRow(model.containers),
-                                    //rows: buildDataRow(containers),
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
+                        panelContent: BoardTable(
+                          // ignore: prefer_const_literals_to_create_immutables
+                          headTitles: ["name", "creation date", "state"],
                         ),
                       ),
                     ],
@@ -137,42 +109,5 @@ class _BoardContentState extends State<BoardContent> {
         ),
       ),
     );
-  }
-
-  List<DataRow> buildDataRow(List containers) {
-    List<DataRow> rows = [];
-    containers.forEach((container) {
-      rows.add(
-        DataRow(
-          onLongPress: () {
-            print("clicked on row");
-          },
-          cells: [
-            DataCell(
-              Row(
-                children: [
-                  Text(container['Name']),
-                ],
-              ),
-            ),
-            DataCell(
-              Row(
-                children: [
-                  Text(container['Created']),
-                ],
-              ),
-            ),
-            DataCell(
-              Row(
-                children: [
-                  Text(container['State']['Status']),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    });
-    return rows;
   }
 }
