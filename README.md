@@ -13,4 +13,7 @@ In order to handle action on docker container i used the `python docker sdk`: ht
 ## View sample
 Screenshot of the board (can change/evolve later):
 
-![image](https://user-images.githubusercontent.com/33292824/163731368-14d4d39e-1d18-43af-a9fb-c67ab510cac0.png)
+
+
+https://user-images.githubusercontent.com/33292824/164563291-4e6d2895-8fc2-4d1e-85df-041c691f9e03.mp4
+
