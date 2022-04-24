@@ -1,11 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
 import 'package:flutter_dropzone_web/flutter_dropzone_web.dart';
 import 'package:front/domain/models/file.dart';
 import 'package:front/domain/providers/container_provider.dart';
 import 'package:front/ui/components/upload_preview.dart';
+import 'package:front/ui/font_style.dart';
 import 'package:provider/provider.dart';
 
 class DropZoneUpload extends StatefulWidget {
@@ -23,10 +25,17 @@ class DropZoneUpload extends StatefulWidget {
 class _DropZoneUploadState extends State<DropZoneUpload> {
   late DropzoneViewController controller;
   DroppedFile? _droppedFile;
+  bool isHighlighted = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     // ignore: avoid_unnecessary_containers
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,50 +57,62 @@ class _DropZoneUploadState extends State<DropZoneUpload> {
           height: 250,
           child: Container(),
         ),
-        Stack(
-          children: [
-            SizedBox(
-              width: 200,
-              height: 200,
-              child: DropzoneView(
-                onDrop: acceptFile,
-                onCreated: (controller) {
-                  this.controller = controller;
-                },
-              ),
-            ),
-            SizedBox(
-              width: 250,
-              height: 250,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    Icon(Icons.cloud_upload_outlined, size: 45),
-                    Text(
-                      "drop dockerfile here",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                      ),
-                    ),
-                    ElevatedButton.icon(
-                      icon: Icon(Icons.search, size: 32),
-                      label: Text("Choose file"),
-                      onPressed: () async {
-                        final events = await controller.pickFiles();
-
-                        if (events.isEmpty) return;
-
-                        acceptFile(events.first);
-                      },
-                    ),
-                  ],
+        buildDropzoneDecoration(
+          Stack(
+            children: [
+              SizedBox(
+                width: 200,
+                height: 200,
+                child: DropzoneView(
+                  onDrop: acceptFile,
+                  onCreated: (controller) {
+                    this.controller = controller;
+                  },
+                  onHover: () {
+                    setState(() {
+                      isHighlighted = true;
+                    });
+                  },
+                  onLeave: () {
+                    setState(() {
+                      isHighlighted = false;
+                    });
+                  },
                 ),
               ),
-            ),
-          ],
+              SizedBox(
+                width: 250,
+                height: 250,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      Icon(Icons.cloud_upload_outlined, size: 45),
+                      Text(
+                        "drop dockerfile here",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                        ),
+                      ),
+                      ElevatedButton.icon(
+                        icon: Icon(Icons.search, size: 32),
+                        label: Text("Choose file"),
+                        onPressed: () async {
+                          final events = await controller.pickFiles();
+
+                          if (events.isEmpty) return;
+
+                          acceptFile(events.first);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
         SizedBox(
           width: 40,
@@ -135,6 +156,30 @@ class _DropZoneUploadState extends State<DropZoneUpload> {
     );
 
     widget.onDroppedFile(_droppedFile!);
+    setState(() {
+      isHighlighted = false;
+    });
+  }
+
+  Widget buildDropzoneDecoration(Widget child) {
+    final bgColorDropzone = isHighlighted ? Colors.green[300] : secondaryColor;
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        color: bgColorDropzone,
+        padding: EdgeInsets.all(defaultPadding),
+        child: DottedBorder(
+          borderType: BorderType.RRect,
+          color: Colors.white,
+          padding: EdgeInsets.zero,
+          strokeWidth: 3,
+          dashPattern: [8, 4],
+          radius: Radius.circular(10),
+          child: child,
+        ),
+      ),
+    );
   }
 }
 
