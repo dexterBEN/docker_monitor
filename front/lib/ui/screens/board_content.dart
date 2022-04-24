@@ -84,7 +84,12 @@ class _BoardContentState extends State<BoardContent> {
                         padding: defaultPadding,
                         panelContent: BoardTable(
                           // ignore: prefer_const_literals_to_create_immutables
-                          headTitles: ["name", "creation date", "state"],
+                          headTitles: [
+                            "name",
+                            "creation date",
+                            "state",
+                            "actions"
+                          ],
                         ),
                       ),
                     ],
