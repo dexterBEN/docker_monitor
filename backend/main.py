@@ -49,11 +49,33 @@ def create_image():
     # print(file_obj)
     container_image = client.images.build(
         fileobj = file_obj,
-        tag = "custom",
+        tag = "hello",
         rm = True
     )
     print(container_image[0])
     return jsonify(container_image[0].attrs)
+
+
+@app.route('/docker-monitor/images', methods=['GET'])
+def get_all_image():
+
+    images = []
+
+    for image in client.images.list(all = True):
+        images.append(image.attrs)
+
+    return jsonify(images)
+
+
+@app.route('/docker-monitor/container/restart/<containerId>', methods=['POST'])
+def restart_container(containerId):
+
+    container = client.containers.get(container_id=containerId)
+
+    actionResult = container.restart()
+
+    return jsonify(actionResult)
+
 
 
 if __name__ == "__main__":
