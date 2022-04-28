@@ -36,4 +36,13 @@ class ContainerService {
     var response = await http.Response.fromStream(responseAsStream);
     return response;
   }
+
+  void restartContainer(String containerID) async {
+    // http://127.0.0.1:5000/docker-monitor/container/restart/5a11ac781bfb
+    final response = await http.post(
+      Uri.parse(
+        "http://127.0.0.1:5000/docker-monitor/container/restart/${containerID}",
+      ),
+    );
+  }
 }

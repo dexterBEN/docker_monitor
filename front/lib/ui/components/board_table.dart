@@ -85,6 +85,33 @@ class _BoardTableState extends State<BoardTable> {
                 ],
               ),
             ),
+            DataCell(
+              DropdownButton(
+                // ignore: prefer_const_literals_to_create_immutables
+                onChanged: (value) {
+                  //print(value);
+                },
+                // ignore: prefer_const_literals_to_create_immutables
+                items: [
+                  DropdownMenuItem(
+                    value: "stop1",
+                    child: Text("stop"),
+                  ),
+                  DropdownMenuItem(
+                    value: "start",
+                    child: Text("start"),
+                    onTap: () {
+                      //print(container["Id"] is String);
+                      Provider.of<ContainerProvider>(context, listen: false)
+                          .restartContainer(container["Id"]);
+
+                      Provider.of<ContainerProvider>(context, listen: false)
+                          .getAllContainer();
+                    },
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       );

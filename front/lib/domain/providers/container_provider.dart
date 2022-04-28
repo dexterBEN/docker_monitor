@@ -37,4 +37,8 @@ class ContainerProvider extends ChangeNotifier {
       print(json.decode(response.body));
     });
   }
+
+  restartContainer(String containerID) {
+    _containerService.restartContainer(containerID);
+  }
 }
