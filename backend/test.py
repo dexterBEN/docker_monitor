@@ -16,10 +16,6 @@ def test_get_all_container():
     response =  app.test_client().get('/containers')
 
     containers = json.loads(response.data.decode('utf-8'))
-
-    print("<====>")
-    print(type(containers))
-    print("<====>")
     
     assert response.status_code == 200
     assert isinstance(containers, list)
