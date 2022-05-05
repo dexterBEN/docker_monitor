@@ -1,14 +1,7 @@
 import json
-from operator import contains
-from typing import List
-import unittest
 from flask import jsonify
 import pytest
 from main import app
-
-# @pytest.fixture
-# def app():
-#     yield app
 
 
 def test_get_all_container():
