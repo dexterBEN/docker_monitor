@@ -44,74 +44,74 @@ class _BoardContentState extends State<BoardContent> {
   Widget build(BuildContext context) {
     //Provider.of<ContainerProvider>(context, listen: false).getAllContainer();
     //_containerProvider = Provider.of<ContainerProvider>(context);
+    var widgetSize = MediaQuery.of(context).size;
+
     Provider.of<ContainerProvider>(context, listen: false).getAllContainer();
-    return SafeArea(
-      child: Container(
-        padding: EdgeInsets.all(defaultPadding),
-        child: Column(
-          // ignore: prefer_const_literals_to_create_immutables
-          children: [
-            Header(),
-            SizedBox(
-              height: defaultPadding,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  flex: 5,
-                  child: Column(
-                    children: [
-                      BoardPanel(
-                        width: 1600,
-                        height: 500,
-                        panelColor: secondaryColor,
-                        padding: defaultPadding,
-                        panelContent: DropZoneUpload(
-                          onDroppedFile: (file) {
-                            setState(() {
-                              this.file = file;
-                            });
-                          },
-                        ),
+    return Container(
+      padding: EdgeInsets.all(defaultPadding),
+      child: Column(
+        // ignore: prefer_const_literals_to_create_immutables
+        children: [
+          Header(),
+          SizedBox(
+            height: defaultPadding,
+          ),
+          Row(
+            children: [
+              Expanded(
+                flex: 5,
+                child: Column(
+                  children: [
+                    BoardPanel(
+                      width: (widgetSize.width * 70) / 100,
+                      height: (widgetSize.height * 41) / 100,
+                      panelColor: secondaryColor,
+                      padding: 1,
+                      panelContent: DropZoneUpload(
+                        onDroppedFile: (file) {
+                          setState(() {
+                            this.file = file;
+                          });
+                        },
                       ),
-                      SizedBox(
-                        height: defaultPadding,
+                    ),
+                    SizedBox(
+                      height: defaultPadding,
+                    ),
+                    BoardPanel(
+                      width: (widgetSize.width * 70) / 100,
+                      height: (widgetSize.height * 41) / 100,
+                      panelColor: secondaryColor,
+                      padding: defaultPadding,
+                      panelContent: BoardTable(
+                        // ignore: prefer_const_literals_to_create_immutables
+                        headTitles: [
+                          "name",
+                          "creation date",
+                          "state",
+                          "actions"
+                        ],
                       ),
-                      BoardPanel(
-                        width: 1600,
-                        height: 500,
-                        panelColor: secondaryColor,
-                        padding: defaultPadding,
-                        panelContent: BoardTable(
-                          // ignore: prefer_const_literals_to_create_immutables
-                          headTitles: [
-                            "name",
-                            "creation date",
-                            "state",
-                            "actions"
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  width: defaultPadding,
+              ),
+              SizedBox(
+                width: 12,
+              ),
+              Expanded(
+                flex: 2,
+                child: BoardPanel(
+                  width: (widgetSize.width * 40) / 100,
+                  height: (widgetSize.height * 84) / 100,
+                  panelColor: secondaryColor,
+                  padding: defaultPadding,
+                  panelContent: ContainerKPI(categories: categories),
                 ),
-                Expanded(
-                  flex: 2,
-                  child: BoardPanel(
-                    width: 125,
-                    height: 1150,
-                    panelColor: secondaryColor,
-                    padding: defaultPadding,
-                    panelContent: ContainerKPI(categories: categories),
-                  ),
-                )
-              ],
-            )
-          ],
-        ),
+              )
+            ],
+          ),
+        ],
       ),
     );
   }
