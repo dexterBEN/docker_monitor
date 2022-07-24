@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:front/domain/models/data_categories.dart';
 import 'package:front/domain/providers/container_provider.dart';
+import 'package:front/ui/components/kpi_list_detail.dart';
 import 'package:front/ui/font_style.dart';
 import 'package:provider/provider.dart';
 
@@ -46,7 +47,12 @@ class _ContainerKPIState extends State<ContainerKPI> {
               );
             },
           ),
-        )
+        ),
+        SizedBox(height: defaultPadding * 5),
+        SizedBox(
+          height: 200,
+          child: KPIListDetail(),
+        ),
       ],
     );
   }
