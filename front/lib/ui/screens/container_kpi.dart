@@ -50,8 +50,12 @@ class _ContainerKPIState extends State<ContainerKPI> {
         ),
         SizedBox(height: defaultPadding * 5),
         SizedBox(
-          height: 200,
-          child: KPIListDetail(),
+          height: 400,
+          child: Consumer<ContainerProvider>(
+            builder: (context, model, _) {
+              return KPIListDetail(containers: model.containers);
+            },
+          ),
         ),
       ],
     );

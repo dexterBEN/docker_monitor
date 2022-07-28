@@ -5,10 +5,8 @@ import 'package:front/ui/font_style.dart';
 
 class KPIListDetail extends StatefulWidget {
   //List<DataCategorie> categories;
-
-  KPIListDetail({
-    Key? key,
-  }) : super(key: key);
+  List<dynamic> containers;
+  KPIListDetail({Key? key, required this.containers}) : super(key: key);
 
   @override
   State<KPIListDetail> createState() => _KPIListDetailState();
@@ -17,12 +15,13 @@ class KPIListDetail extends StatefulWidget {
 class _KPIListDetailState extends State<KPIListDetail> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return ListView(
+    return Column(
       children: [
         KpiCard(
           logoPath: "assets/container_created.png",
-          amount: 5,
+          amount: widget.containers
+              .where((element) => element['State']['Status'] == "created")
+              .length,
           title: "Created container",
         ),
         SizedBox(
@@ -30,9 +29,21 @@ class _KPIListDetailState extends State<KPIListDetail> {
         ),
         KpiCard(
           logoPath: "assets/container_stopped.png",
-          amount: 18,
+          amount: widget.containers
+              .where((element) => element['State']['Status'] == "exited")
+              .length,
           title: "Exited container",
         ),
+        SizedBox(
+          height: defaultPadding - 8,
+        ),
+        KpiCard(
+          logoPath: "assets/container_paused.png",
+          amount: widget.containers
+              .where((element) => element['State']['Status'] == "paused")
+              .length,
+          title: "Exited container",
+        )
       ],
     );
   }
