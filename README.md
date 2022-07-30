@@ -18,7 +18,4 @@ Screenshot of the board (can change/evolve later):
 https://user-images.githubusercontent.com/33292824/164563291-4e6d2895-8fc2-4d1e-85df-041c691f9e03.mp4
 
 
-![image](https://user-images.githubusercontent.com/33292824/181136976-0a4306a4-12c9-4ba0-9fd1-199a9c5d3e2e.png)
-
-
-
+![image](https://user-images.githubusercontent.com/33292824/181935982-8df27423-7cc3-4cec-8de6-7cf2f8e0bb51.png)
