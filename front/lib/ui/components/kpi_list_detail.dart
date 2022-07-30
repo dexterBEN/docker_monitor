@@ -42,8 +42,18 @@ class _KPIListDetailState extends State<KPIListDetail> {
           amount: widget.containers
               .where((element) => element['State']['Status'] == "paused")
               .length,
-          title: "Exited container",
-        )
+          title: "Paused container",
+        ),
+        SizedBox(
+          height: defaultPadding - 8,
+        ),
+        KpiCard(
+          logoPath: "assets/container_run.png",
+          amount: widget.containers
+              .where((element) => element['State']['Status'] == "run")
+              .length,
+          title: "Running container",
+        ),
       ],
     );
   }
