@@ -17,6 +17,7 @@ class _BoardTableState extends State<BoardTable> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      controller: ScrollController(),
       child: Column(
         children: [
           Text(
