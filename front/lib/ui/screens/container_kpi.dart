@@ -63,15 +63,15 @@ class _ContainerKPIState extends State<ContainerKPI> {
 
   List<PieChartSectionData> buildSection(List containers) {
     List<PieChartSectionData> sections = [];
-    var temps;
-    containers.forEach((container) {
+    DataCategorie temps;
+    for (var container in containers) {
       temps = widget.categories
           .where((category) => category.name == container['State']['Status'])
           .first;
       temps.value += 1;
-    });
+    }
 
-    widget.categories.forEach((categorie) {
+    for (var categorie in widget.categories) {
       sections.add(
         PieChartSectionData(
           value: categorie.value,
@@ -80,7 +80,7 @@ class _ContainerKPIState extends State<ContainerKPI> {
           radius: 25,
         ),
       );
-    });
+    }
     return sections;
   }
 }
