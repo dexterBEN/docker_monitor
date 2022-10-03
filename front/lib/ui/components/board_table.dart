@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:front/domain/providers/container_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_table/responsive_table.dart';
 
 class BoardTable extends StatefulWidget {
   final List<String> headTitles;
@@ -16,54 +17,53 @@ class BoardTable extends StatefulWidget {
 class _BoardTableState extends State<BoardTable> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      controller: ScrollController(),
-      child: Column(
-        children: [
-          Text(
-            "All containers",
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
-          Consumer<ContainerProvider>(
+    return Column(
+      children: [
+        Text(
+          "All containers",
+          style: Theme.of(context).textTheme.subtitle1,
+        ),
+        Expanded(
+          child: Consumer<ContainerProvider>(
             builder: (context, model, _) {
               if (model.containers.isEmpty) {
                 // ignore: prefer_const_constructors
                 return Text("nothing to show");
               }
-              return DataTable(
-                // ignore: prefer_const_literals_to_create_immutables
-                columns: buildTableHead(widget.headTitles),
-                rows: buildDataRow(model.containers),
-                //rows: buildDataRow(containers),
+              return SingleChildScrollView(
+                controller: ScrollController(),
+                child: DataTable(
+                  // ignore: prefer_const_literals_to_create_immutables
+                  columns: buildTableHead(widget.headTitles),
+                  rows: buildDataRow(model.containers),
+                  //rows: buildDataRow(containers),
+                ),
               );
             },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   List<DataColumn> buildTableHead(List<String> headsTitle) {
     List<DataColumn> columnsTitle = [];
 
-    headsTitle.forEach((title) {
+    for (var title in headsTitle) {
       columnsTitle.add(
         DataColumn(
           label: Text(title),
         ),
       );
-    });
+    }
     return columnsTitle;
   }
 
   List<DataRow> buildDataRow(List containers) {
     List<DataRow> rows = [];
-    containers.forEach((container) {
+    for (var container in containers) {
       rows.add(
         DataRow(
-          onLongPress: () {
-            print("clicked on row");
-          },
           cells: [
             DataCell(
               Row(
@@ -95,14 +95,22 @@ class _BoardTableState extends State<BoardTable> {
                 // ignore: prefer_const_literals_to_create_immutables
                 items: [
                   DropdownMenuItem(
-                    value: "stop1",
+                    value: "stop",
                     child: Text("stop"),
+                    onTap: () {
+                      print("stop process");
+                      Provider.of<ContainerProvider>(context, listen: false)
+                          .stopContainer(container["Id"]);
+
+                      Provider.of<ContainerProvider>(context, listen: false)
+                          .getAllContainer();
+                    },
                   ),
                   DropdownMenuItem(
                     value: "start",
                     child: Text("start"),
                     onTap: () {
-                      //print(container["Id"] is String);
+                      print("start process");
                       Provider.of<ContainerProvider>(context, listen: false)
                           .restartContainer(container["Id"]);
 
@@ -116,7 +124,7 @@ class _BoardTableState extends State<BoardTable> {
           ],
         ),
       );
-    });
+    }
     return rows;
   }
 }
