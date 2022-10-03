@@ -50,7 +50,7 @@ class _KPIListDetailState extends State<KPIListDetail> {
         KpiCard(
           logoPath: "assets/container_run.png",
           amount: widget.containers
-              .where((element) => element['State']['Status'] == "run")
+              .where((element) => element['State']['Status'] == "running")
               .length,
           title: "Running container",
         ),
