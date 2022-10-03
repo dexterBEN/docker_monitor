@@ -3,7 +3,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
-import 'package:flutter_dropzone_web/flutter_dropzone_web.dart';
 import 'package:front/domain/models/file.dart';
 import 'package:front/domain/providers/container_provider.dart';
 import 'package:front/ui/components/upload_preview.dart';
@@ -13,7 +12,7 @@ import 'package:provider/provider.dart';
 class DropZoneUpload extends StatefulWidget {
   final ValueChanged<DroppedFile> onDroppedFile;
 
-  DropZoneUpload({
+  const DropZoneUpload({
     Key? key,
     required this.onDroppedFile,
   }) : super(key: key);
@@ -174,7 +173,7 @@ class _DropZoneUploadState extends State<DropZoneUpload> {
           color: Colors.white,
           padding: EdgeInsets.zero,
           strokeWidth: 3,
-          dashPattern: [8, 4],
+          dashPattern: const [8, 4],
           radius: Radius.circular(10),
           child: child,
         ),
