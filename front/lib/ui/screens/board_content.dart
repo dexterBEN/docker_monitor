@@ -1,16 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:convert';
-import 'dart:html';
 
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:front/domain/models/container.dart';
 import 'package:front/domain/models/data_categories.dart';
 import 'package:front/domain/models/file.dart';
 import 'package:front/domain/providers/container_provider.dart';
-import 'package:front/domain/services/container.dart';
 import 'package:front/ui/components/board_panel.dart';
 import 'package:front/ui/components/board_table.dart';
 import 'package:front/ui/components/dropzone_upload.dart';
