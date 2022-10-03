@@ -5,7 +5,8 @@ import 'package:front/ui/font_style.dart';
 class UploadPreview extends StatelessWidget {
   final DroppedFile? file;
 
-  UploadPreview({Key? key, required this.file});
+  // ignore: use_key_in_widget_constructors
+  const UploadPreview({Key? key, required this.file});
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +42,7 @@ class UploadPreview extends StatelessWidget {
 
   Widget fileDetailView(DroppedFile file) {
     return Container(
+      // ignore: prefer_const_constructors
       margin: EdgeInsets.only(left: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
