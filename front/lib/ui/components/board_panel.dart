@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 
-import '../font_style.dart';
 
 class BoardPanel extends StatefulWidget {
   BoardPanel(
