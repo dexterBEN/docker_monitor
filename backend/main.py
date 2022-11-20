@@ -76,6 +76,13 @@ def restart_container(containerId):
 
     return jsonify(actionResult)
 
+@app.route('/docker-monitor/container/stop/<containerId>', methods=['POST'])
+def stop_container(containerId):
+
+    container = client.containers.get(container_id=containerId)
+
+    actionResult = container.stop()
+    return jsonify(actionResult)
 
 
 if __name__ == "__main__":
