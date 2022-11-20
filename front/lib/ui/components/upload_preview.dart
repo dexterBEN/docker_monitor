@@ -5,8 +5,8 @@ import 'package:front/ui/font_style.dart';
 class UploadPreview extends StatelessWidget {
   final DroppedFile? file;
 
-  // ignore: use_key_in_widget_constructors
-  const UploadPreview({Key? key, required this.file});
+  // ignore: use_key_in_widget_constructors, prefer_const_constructors_in_immutables
+  UploadPreview({Key? key, required this.file});
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +16,14 @@ class UploadPreview extends StatelessWidget {
   Widget buildPreview() {
     if (file == null) {
       return emptyFileView('No file');
-    } else if ((file?.name != "dockerfile")) {
+    }
+
+    if (file?.name != "dockerfile") {
       return emptyFileView('We not allow this kind of file');
+    }
+
+    if (file?.name == "dockerfile" && file?.stream.length == 0) {
+      return emptyFileView('cannot proceed dockerfile is empty');
     }
 
     return Image.network(

@@ -25,7 +25,7 @@ class ContainerService {
     );
 
     request.files.add(
-      await http.MultipartFile.fromBytes(
+      http.MultipartFile.fromBytes(
         'dockerfile',
         droppedFile.stream,
         filename: droppedFile.name,

@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 class DropZoneUpload extends StatefulWidget {
   final ValueChanged<DroppedFile> onDroppedFile;
 
-  const DropZoneUpload({
+  DropZoneUpload({
     Key? key,
     required this.onDroppedFile,
   }) : super(key: key);
@@ -45,10 +45,11 @@ class _DropZoneUploadState extends State<DropZoneUpload> {
           child: ElevatedButton.icon(
             icon: Icon(Icons.add, size: 32),
             label: Text("create image"),
-            onPressed:
-                _droppedFile == null || _droppedFile?.name != "dockerfile"
-                    ? null
-                    : createImage,
+            onPressed: _droppedFile == null ||
+                    _droppedFile?.name != "dockerfile" ||
+                    _droppedFile!.stream.isEmpty
+                ? null
+                : createImage,
           ),
         ),
         SizedBox(
@@ -76,6 +77,9 @@ class _DropZoneUploadState extends State<DropZoneUpload> {
                     setState(() {
                       isHighlighted = false;
                     });
+                  },
+                  onError: (String? error) {
+                    print('ERROR ===> ${error}');
                   },
                 ),
               ),
@@ -139,12 +143,15 @@ class _DropZoneUploadState extends State<DropZoneUpload> {
     final mime = await controller.getFileMIME(event);
     final bytes = await controller.getFileSize(event);
     final url = await controller.createFileUrl(event);
-    final fileStream = await controller.getFileStream(event).first;
+    final fileStream = await controller
+        .getFileStream(event)
+        .firstWhere((element) => element.isNotEmpty, orElse: () => []);
 
     print('Name: $name');
     print('mime: $mime');
     print('bytes: $bytes');
     print('url: $url');
+    print('filestream: $fileStream');
 
     _droppedFile = DroppedFile(
       url: url,
@@ -173,7 +180,7 @@ class _DropZoneUploadState extends State<DropZoneUpload> {
           color: Colors.white,
           padding: EdgeInsets.zero,
           strokeWidth: 3,
-          dashPattern: const [8, 4],
+          dashPattern: [8, 4],
           radius: Radius.circular(10),
           child: child,
         ),
