@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:front/domain/models/file.dart';
 import 'package:http/http.dart' as http;
@@ -41,7 +40,15 @@ class ContainerService {
     // http://127.0.0.1:5000/docker-monitor/container/restart/5a11ac781bfb
     final response = await http.post(
       Uri.parse(
-        "http://127.0.0.1:5000/docker-monitor/container/restart/${containerID}",
+        "http://127.0.0.1:5000/docker-monitor/container/restart/$containerID",
+      ),
+    );
+  }
+
+  void stopContainer(String containerID) async {
+    final response = await http.post(
+      Uri.parse(
+        "http://127.0.0.1:5000/docker-monitor/container/stop/$containerID",
       ),
     );
   }

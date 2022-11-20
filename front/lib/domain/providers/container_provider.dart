@@ -41,4 +41,8 @@ class ContainerProvider extends ChangeNotifier {
   restartContainer(String containerID) {
     _containerService.restartContainer(containerID);
   }
+
+  stopContainer(String containerID) {
+    _containerService.stopContainer(containerID);
+  }
 }
