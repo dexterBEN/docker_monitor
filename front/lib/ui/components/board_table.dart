@@ -30,13 +30,16 @@ class _BoardTableState extends State<BoardTable> {
                 // ignore: prefer_const_constructors
                 return Text("nothing to show");
               }
-              return SingleChildScrollView(
-                controller: ScrollController(),
-                child: DataTable(
-                  // ignore: prefer_const_literals_to_create_immutables
-                  columns: buildTableHead(widget.headTitles),
-                  rows: buildDataRow(model.containers),
-                  //rows: buildDataRow(containers),
+              return SizedBox(
+                width: 1200,
+                child: SingleChildScrollView(
+                  controller: ScrollController(),
+                  child: DataTable(
+                    // ignore: prefer_const_literals_to_create_immutables
+                    columns: buildTableHead(widget.headTitles),
+                    rows: buildDataRow(model.containers),
+                    //rows: buildDataRow(containers),
+                  ),
                 ),
               );
             },
