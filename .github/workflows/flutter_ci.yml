@@ -30,8 +30,9 @@ jobs:
     
     - run: flutter config --enable-web
       working-directory: ${{env.working-directory}}
-
-    - run: flutter format --set-exit-if-changed . # Check for any formatting issues in the code
+      
+    # Check for any formatting issues in the code
+    - run: flutter format --set-exit-if-changed .
       working-directory: ${{env.working-directory}}
 
     - run: flutter build web  # Build application for web
