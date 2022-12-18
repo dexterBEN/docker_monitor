@@ -1,4 +1,3 @@
-
 import 'package:front/domain/models/file.dart';
 import 'package:http/http.dart' as http;
 
@@ -11,8 +10,8 @@ class ContainerService {
   ContainerService._internal();
 
   Future fetchAllContainer() async {
-    final response =
-        await http.get(Uri.parse("http://127.0.0.1:5000/containers"));
+    final response = await http
+        .get(Uri.parse("https://7ee8-88-170-147-136.ngrok.io/containers"));
 
     return response;
   }
@@ -20,7 +19,7 @@ class ContainerService {
   Future createImage(DroppedFile droppedFile) async {
     var request = http.MultipartRequest(
       "POST",
-      Uri.parse("http://127.0.0.1:5000/container/images"),
+      Uri.parse("https://7ee8-88-170-147-136.ngrok.io/container/images"),
     );
 
     request.files.add(
@@ -40,7 +39,7 @@ class ContainerService {
     // http://127.0.0.1:5000/docker-monitor/container/restart/5a11ac781bfb
     final response = await http.post(
       Uri.parse(
-        "http://127.0.0.1:5000/docker-monitor/container/restart/$containerID",
+        "https://7ee8-88-170-147-136.ngrok.io/docker-monitor/container/restart/$containerID",
       ),
     );
   }
@@ -48,7 +47,7 @@ class ContainerService {
   void stopContainer(String containerID) async {
     final response = await http.post(
       Uri.parse(
-        "http://127.0.0.1:5000/docker-monitor/container/stop/$containerID",
+        "https://7ee8-88-170-147-136.ngrok.io/docker-monitor/container/stop/$containerID",
       ),
     );
   }
