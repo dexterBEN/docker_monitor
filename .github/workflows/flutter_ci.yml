@@ -1,0 +1,41 @@
+name: flutter_ci
+
+on:
+  push:
+    branches: [ front-release ]
+  pull_request:
+    branches: [ front-release ]
+  
+jobs:
+  build_web:
+
+    name: Build Flutter (Web) # name of the job
+    
+    runs-on: ubuntu-latest # This job will run on ubuntu virtual machine
+
+    #setup the working env where to run the commands
+    env:
+      working-directory: ./front
+
+    steps:
+
+    - uses: actions/checkout@v1
+    
+    - uses: subosito/flutter-action@v1 # flutter environment to use in GitHub Actions
+      with:
+        channel: 'dev'
+    
+    - run: flutter pub get # get dependencies of the project
+      working-directory: ${{env.working-directory}}
+    
+    - run: flutter config --enable-web
+      working-directory: ${{env.working-directory}}
+
+    - run: flutter format --set-exit-if-changed . # Check for any formatting issues in the code
+      working-directory: ${{env.working-directory}}
+
+    - run: flutter build web  # Build application for web
+      working-directory: ${{env.working-directory}}
+
+    - run: firebase deploy  # deploy to firebase
+      working-directory: ${{env.working-directory}}
