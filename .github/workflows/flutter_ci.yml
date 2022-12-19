@@ -38,14 +38,11 @@ jobs:
 
     - run: flutter build web  # Build application for web
       working-directory: ${{env.working-directory}}
-      
-    - run: curl -sL https://firebase.tools
-      working-directory: ${{env.working-directory}}
     
-    - run: curl -sL https://firebase.tools
+    - run: curl -sL firebase.tools | bash
       working-directory: ${{env.working-directory}}
       
-    - run: bash firebase deploy --token "$FIREBASE_TOKEN" 
+    - run: firebase deploy --token "$FIREBASE_TOKEN" 
       working-directory: ${{env.working-directory}}
       
     # - run: bash firebase deploy --token $FIREBASE_TOKEN # deploy to firebase
