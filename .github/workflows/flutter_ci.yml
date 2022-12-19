@@ -48,7 +48,7 @@ jobs:
     - run: firebase login:ci --interactive --no-localhost
       working-directory: ${{env.working-directory}}
       
-    - run: firebase deploy --token "$FIREBASE_TOKEN" 
+    - run: firebase deploy --only hosting:docker-monitor-4ff5b 
       working-directory: ${{env.working-directory}}
       
     # - run: bash firebase deploy --token $FIREBASE_TOKEN # deploy to firebase
