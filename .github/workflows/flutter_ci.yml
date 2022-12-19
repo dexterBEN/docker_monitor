@@ -51,6 +51,7 @@ jobs:
         args: deploy --only hosting --public web-build
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        PROJECT_ID: default
       
     # - run: bash firebase deploy --token $FIREBASE_TOKEN # deploy to firebase
     #  working-directory: ${{env.working-directory}}
