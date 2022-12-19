@@ -16,6 +16,7 @@ jobs:
     #setup the working env where to run the commands
     env:
       working-directory: ./front
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
     steps:
 
@@ -38,20 +39,14 @@ jobs:
     - run: flutter build web  # Build application for web
       working-directory: ${{env.working-directory}}
       
-    # - run: curl -sL https://firebase.tools
-    #  working-directory: ${{env.working-directory}}
+    - run: curl -sL https://firebase.tools
+      working-directory: ${{env.working-directory}}
     
-    # - run: |
-    #    curl -sL https://firebase.tools | bash
-    #    firebase deploy --token "$FIREBASE_TOKEN"
-    #  working-directory: ${{env.working-directory}}
-    
-    - uses: w9jds/firebase-action@master
-      with:
-        args: deploy --only hosting --public web-build
-      env:
-        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        PROJECT_ID: default
+    - run: |
+        curl -sL https://firebase.tools | bash
+        firebase deploy --token "$FIREBASE_TOKEN"
+        
+      working-directory: ${{env.working-directory}}
       
     # - run: bash firebase deploy --token $FIREBASE_TOKEN # deploy to firebase
     #  working-directory: ${{env.working-directory}}
