@@ -42,7 +42,7 @@ jobs:
     - run: curl -sL firebase.tools | bash
       working-directory: ${{env.working-directory}}
       
-    - run: firebase login 
+    - run: firebase login:ci
       working-directory: ${{env.working-directory}}
       
     - run: firebase deploy --token "$FIREBASE_TOKEN" 
