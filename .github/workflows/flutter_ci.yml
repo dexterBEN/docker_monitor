@@ -48,8 +48,8 @@ jobs:
     - run: firebase login:ci --interactive --no-localhost
       working-directory: ${{env.working-directory}}
       
-    # - run: firebase deploy --token "$FIREBASE_TOKEN" 
-    #  working-directory: ${{env.working-directory}}
+    - run: firebase deploy --token "$FIREBASE_TOKEN" 
+      working-directory: ${{env.working-directory}}
       
     # - run: bash firebase deploy --token $FIREBASE_TOKEN # deploy to firebase
     #  working-directory: ${{env.working-directory}}
