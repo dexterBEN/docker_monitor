@@ -42,8 +42,8 @@ jobs:
     - run: curl -sL firebase.tools | bash
       working-directory: ${{env.working-directory}}
       
-    - run: firebase login --no-localhost
-      working-directory: ${{env.working-directory}}
+    # - run: firebase login --no-localhost
+    #  working-directory: ${{env.working-directory}}
       
     - run: firebase login:ci --no-localhost --interactive
       working-directory: ${{env.working-directory}}
