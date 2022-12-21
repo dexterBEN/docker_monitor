@@ -45,8 +45,5 @@ jobs:
     # - run: firebase login --no-localhost
     #  working-directory: ${{env.working-directory}}
       
-    - run: firebase login:ci --interactive
-      working-directory: ${{env.working-directory}}
-      
     - run: firebase deploy --token "$FIREBASE_TOKEN" 
       working-directory: ${{env.working-directory}}
