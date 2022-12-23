@@ -10,8 +10,7 @@ class ContainerService {
   ContainerService._internal();
 
   Future fetchAllContainer() async {
-    final response = await http
-        .get(Uri.parse("https://c522-88-170-147-136.ngrok.io/containers"));
+    final response = await http.get(Uri.parse("https://c522-88-170-147-136.ngrok.io/containers"));
 
     return response;
   }
@@ -40,10 +39,12 @@ class ContainerService {
     final response = await http.post(
       Uri.parse(
         "https://c522-88-170-147-136.ngrok.io/docker-monitor/container/restart/$containerID",
+
       ),
     );
   }
 
+  //test
   void stopContainer(String containerID) async {
     final response = await http.post(
       Uri.parse(
