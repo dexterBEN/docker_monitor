@@ -7,13 +7,13 @@ The goal is to implement a dashboard to manage docker container.
 ## Technical stack
 The project consist of a web application built with Flutter and web-server built with `Flask`.
 
-![a9d6ce81aee44ae017ee](https://user-images.githubusercontent.com/33292824/209481807-5d99a426-6617-4f2a-a13a-f5dcecf0981f.png) {
- display:inline-block;
- float:left;
- width:25%;
- height:25%
-}
-Flutter is framework, written with the programming language Dart.<br/>Basically used to create mobile apps, it's possible now to target multiple platform.
+
+
+<div align="left" width="100%">
+    <img width="33%" src="[https://i.stack.imgur.com/RJj4x.png](https://user-images.githubusercontent.com/33292824/209481807-5d99a426-6617-4f2a-a13a-f5dcecf0981f.png)">
+    <p>Flutter is framework, written with the programming language Dart.<br/>Basically used to create mobile apps, it's possible now to target multiple platform.</p>
+</div>
+
 
 
 In order to handle action on docker container i used the `python docker sdk`: https://docker-py.readthedocs.io/en/stable/index.html#
