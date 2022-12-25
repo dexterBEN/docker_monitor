@@ -8,7 +8,7 @@ The goal is to implement a dashboard to manage docker container.
 
 The project consist of a web application built with Flutter and web-server built with `Flask`.
 
-![a9d6ce81aee44ae017ee](https://user-images.githubusercontent.com/33292824/209481807-5d99a426-6617-4f2a-a13a-f5dcecf0981f.png){: style="float: left;"}
+![a9d6ce81aee44ae017ee](https://user-images.githubusercontent.com/33292824/209481807-5d99a426-6617-4f2a-a13a-f5dcecf0981f.png){: style="float: left; margin-right: 1em;"}
 Flutter is framework, written with the programming language Dart.<br/>Basically used to create mobile apps, it's possible now to target multiple platform.
 
 
