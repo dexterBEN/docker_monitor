@@ -10,10 +10,7 @@ The project consist of a web application built with Flutter and web-server built
 
 ![Dart-Flutter_logo](https://user-images.githubusercontent.com/33292824/209476256-1b1ebd72-08b8-42d8-bc80-2ad1810cef25.jpg)
 
-*
-  Flutter is a framework built with the programming language Dart.
-  Basically used to create mobile apps, now it's possible to target multiple platform.
-*
+*Flutter is a framework built with the programming language Dart. Basically used to create mobile apps, now it's possible to target multiple platform.*
 
 
 In order to handle action on docker container i used the `python docker sdk`: https://docker-py.readthedocs.io/en/stable/index.html#
