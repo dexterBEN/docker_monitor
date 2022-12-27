@@ -12,7 +12,7 @@ The project consist of a web application built with Flutter and web-server built
 [Flutter](https://flutter.dev/) is framework, written with the programming language [Dart](https://dart.dev/).<br/>
 Basically used to create mobile apps, it's possible now to target multiple platform.<br/><br/><br/><br/><br/><br/>
 
-<img align="left" width="15%" height="15%" src="https://user-images.githubusercontent.com/33292824/209724788-b6e6f103-af0c-40a4-a51e-6d9986130dde.png">
+<img align="left" width="25%" height="25%" src="https://user-images.githubusercontent.com/33292824/209724788-b6e6f103-af0c-40a4-a51e-6d9986130dde.png">
 [Flask](https://flask.palletsprojects.com/en/2.2.x/) is a lightweight framework built with [python](https://www.python.org/) .<br/>This framework allow to create a web server side application.<br/>In order to handle action on docker container i used the `python docker sdk`: https://docker-py.readthedocs.io/en/stable/index.html# <br/><br/><br/><br/>
 
 ## View sample
