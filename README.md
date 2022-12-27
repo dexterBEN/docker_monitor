@@ -18,8 +18,7 @@ Basically used to create mobile apps, it's possible now to target multiple platf
 
 <img align="left" width="15%" height="15%" src="https://user-images.githubusercontent.com/33292824/209725245-aad00d42-6aa8-4e0d-bcaa-bd5df204614e.png">
 
-[Firebase](https://firebase.google.com/) is an online platform powered by `google`, which provide different services such as (database, hosting, authentication).
-<br/>
+[Firebase](https://firebase.google.com/) is an online platform powered by `google`, which provide different services such as (database, hosting, authentication). <br/>
 Firebase hosting offer a way to host web page.<br/><br/><br/><br/>
 
 
