@@ -13,10 +13,8 @@ Flutter is framework, written with the programming language Dart.<br/>Basically 
 <br/>
 <br/>
 <br/>
-In order to handle action on docker container i used the `python docker sdk`: https://docker-py.readthedocs.io/en/stable/index.html#
-<br/>
-<br/>
-<br/>
+In order to handle action on docker container i used the `python docker sdk`: https://docker-py.readthedocs.io/en/stable/index.html# <br/><br/><br/><br/>
+
 ## View sample
 Screenshot of the board (can change/evolve later):
 
