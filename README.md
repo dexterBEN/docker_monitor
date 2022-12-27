@@ -10,7 +10,7 @@ The project consist of a web application built with Flutter and web-server built
 <img align="left" width="10%" src="https://user-images.githubusercontent.com/33292824/209481807-5d99a426-6617-4f2a-a13a-f5dcecf0981f.png">
 [Flutter](https://flutter.dev/) is framework, written with the programming language [Dart](https://dart.dev/).<br/>Basically used to create mobile apps, it's possible now to target multiple platform.<br/><br/><br/><br/>
 
-In order to handle action on docker container i used the `python docker sdk`: https://docker-py.readthedocs.io/en/stable/index.html# <br/><br/><br/><br/>
+In order to handle action on docker container i used the `python docker sdk`: https://docker-py.readthedocs.io/en/stable/index.html# <br/><br/><br/><br/><br/><br/>
 
 ## View sample
 Screenshot of the board (can change/evolve later):
