@@ -1,3 +1,4 @@
+<style>
 .container {
   display: flex;
   align-items: center;
@@ -14,6 +15,7 @@ img {
   font-size: 20px;
   padding-left: 20px;
 }
+</style>
 
 # docker_monitor
 
