@@ -1,3 +1,20 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+
+img {
+  max-width: 100%
+}
+.image {
+  flex-basis: 40%
+}
+.text {
+  font-size: 20px;
+  padding-left: 20px;
+}
+
 # docker_monitor
 
 ## Purpose
@@ -7,7 +24,14 @@ The goal is to implement a dashboard to manage docker container.
 ## Technical stack
 The project consist of a web application built with Flutter and web-server built with `Flask`.
 
-![Dart-Flutter_logo](https://user-images.githubusercontent.com/33292824/209481807-5d99a426-6617-4f2a-a13a-f5dcecf0981f.png){: style="float: left"; margin-right: 10em; height="25%" width="25%"} ### Flutter <br/> Flutter is framework, written with the programming language Dart. Basically used to create mobile apps, it's possible now to target multiple platform.
+<div class="container">
+  <div class="image">
+    <img src="https://user-images.githubusercontent.com/33292824/209481807-5d99a426-6617-4f2a-a13a-f5dcecf0981f.png">
+  </div>
+  <div class="text">
+    Flutter is framework, written with the programming language Dart. Basically used to create mobile apps, it's possible now to target multiple platform.
+  </div>
+</div>
 
 <br/>
 In order to handle action on docker container i used the `python docker sdk`: https://docker-py.readthedocs.io/en/stable/index.html# <br/>
