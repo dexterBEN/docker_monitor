@@ -14,7 +14,12 @@ Basically used to create mobile apps, it's possible now to target multiple platf
 
 <img align="left" width="25%" height="25%" src="https://user-images.githubusercontent.com/33292824/209724788-b6e6f103-af0c-40a4-a51e-6d9986130dde.png">
 
-[Flask](https://flask.palletsprojects.com/en/2.2.x/) is a lightweight framework built with [python](https://www.python.org/) .<br/> This framework allow to create a web server side application.<br/> In order to handle action on docker container i used the `python docker sdk` : https://docker-py.readthedocs.io/en/stable/index.html# <br/><br/><br/><br/>
+[Flask](https://flask.palletsprojects.com/en/2.2.x/) is a lightweight framework built with [python](https://www.python.org/) .<br/> This framework allow to create a web server side application.<br/> In order to handle action on docker container i used the `python docker sdk` : https://docker-py.readthedocs.io/en/stable/index.html# <br/><br/><br/>
+
+<img align="left" width="15%" height="15%" src="https://user-images.githubusercontent.com/33292824/209725245-aad00d42-6aa8-4e0d-bcaa-bd5df204614e.png">
+
+[Firebase](https://firebase.google.com/) is an online platform powered by `google`, which provide different services such as (database, hosting, authentication).<br/>
+Firebase hosting offer a way to host web page.<br/><br/>
 
 ## View sample
 Screenshot of the board (can change/evolve later):
