@@ -25,7 +25,7 @@ Firebase hosting offer a way to host web page.<br/><br/><br/><br/>
 <img align="left" width="15%" height="15%" src="https://user-images.githubusercontent.com/33292824/209727342-0eef5bca-91cf-45c5-bdf7-c884cc6dce25.png">
 
 [Github actions](https://github.com/features/actions) is a set of tools provide by Github in order to help to automate workflow (build, deploy, test).<br\>
-I used `Github actions` in order to automate the deployment of the web app on firebase.<br/><br/><br/><br/><br/><br/>
+ I used `Github actions` in order to automate the deployment of the web app on firebase.<br/><br/><br/><br/><br/><br/>
 
 
 ## View sample
