@@ -104,9 +104,6 @@ class _BoardTableState extends State<BoardTable> {
                       print("stop process");
                       Provider.of<ContainerProvider>(context, listen: false)
                           .stopContainer(container["Id"]);
-
-                      Provider.of<ContainerProvider>(context, listen: false)
-                          .getAllContainer();
                     },
                   ),
                   DropdownMenuItem(
@@ -116,9 +113,6 @@ class _BoardTableState extends State<BoardTable> {
                       print("start process");
                       Provider.of<ContainerProvider>(context, listen: false)
                           .restartContainer(container["Id"]);
-
-                      Provider.of<ContainerProvider>(context, listen: false)
-                          .getAllContainer();
                     },
                   )
                 ],
