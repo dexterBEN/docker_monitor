@@ -10,12 +10,12 @@ import 'package:front/ui/font_style.dart';
 import 'package:provider/provider.dart';
 
 class DropZoneUpload extends StatefulWidget {
-  final ValueChanged<DroppedFile> onDroppedFile;
-
-  DropZoneUpload({
-    Key? key,
+  const DropZoneUpload({
+    super.key,
     required this.onDroppedFile,
-  }) : super(key: key);
+  });
+
+  final ValueChanged<DroppedFile> onDroppedFile;
 
   @override
   State<DropZoneUpload> createState() => _DropZoneUploadState();
@@ -27,17 +27,9 @@ class _DropZoneUploadState extends State<DropZoneUpload> {
   bool isHighlighted = false;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    // ignore: avoid_unnecessary_containers
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(
           width: 170,
@@ -138,6 +130,8 @@ class _DropZoneUploadState extends State<DropZoneUpload> {
   }
 
   Future acceptFile(dynamic event) async {
+    print('event type ${event.runtimeType}');
+
     final name = event.name;
 
     final mime = await controller.getFileMIME(event);
@@ -153,13 +147,13 @@ class _DropZoneUploadState extends State<DropZoneUpload> {
     print('url: $url');
     print('filestream: $fileStream');
 
-    _droppedFile = DroppedFile(
-      url: url,
-      name: name,
-      mime: mime,
-      bytes: bytes,
-      stream: fileStream,
-    );
+    // _droppedFile = DroppedFile(
+    //   url: url,
+    //   name: name,
+    //   mime: mime,
+    //   bytes: bytes,
+    //   stream: fileStream,
+    // );
 
     widget.onDroppedFile(_droppedFile!);
     setState(() {
@@ -180,7 +174,7 @@ class _DropZoneUploadState extends State<DropZoneUpload> {
           color: Colors.white,
           padding: EdgeInsets.zero,
           strokeWidth: 3,
-          dashPattern: [8, 4],
+          dashPattern: const [8, 4],
           radius: Radius.circular(10),
           child: child,
         ),

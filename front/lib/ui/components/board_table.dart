@@ -1,14 +1,19 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:front/client/backend/model.dart';
 import 'package:front/domain/providers/container_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_table/responsive_table.dart';
 
 class BoardTable extends StatefulWidget {
-  final List<String> headTitles;
+  const BoardTable({
+    super.key,
+    required this.headTitles,
+  });
 
-  const BoardTable({Key? key, required this.headTitles}) : super(key: key);
+  final List<String> headTitles;
 
   @override
   State<BoardTable> createState() => _BoardTableState();
@@ -27,16 +32,18 @@ class _BoardTableState extends State<BoardTable> {
           child: Consumer<ContainerProvider>(
             builder: (context, model, _) {
               if (model.containers.isEmpty) {
-                // ignore: prefer_const_constructors
-                return Text("nothing to show");
+                return const Text("nothing to show");
               }
               return SizedBox(
                 width: 1200,
                 child: SingleChildScrollView(
                   controller: ScrollController(),
                   child: DataTable(
-                    // ignore: prefer_const_literals_to_create_immutables
-                    columns: buildTableHead(widget.headTitles),
+                    // columns: buildTableHead(widget.headTitles),
+                    columns: [
+                      for (final title in widget.headTitles)
+                        DataColumn(label: Text(title)),
+                    ],
                     rows: buildDataRow(model.containers),
                     //rows: buildDataRow(containers),
                   ),
@@ -62,48 +69,47 @@ class _BoardTableState extends State<BoardTable> {
     return columnsTitle;
   }
 
-  List<DataRow> buildDataRow(List containers) {
+  List<DataRow> buildDataRow(List<ContainerData> containers) {
     List<DataRow> rows = [];
-    for (var container in containers) {
+
+    for (ContainerData container in containers) {
       rows.add(
         DataRow(
           cells: [
             DataCell(
               Row(
                 children: [
-                  Text(container['Name']),
+                  Text(container.name),
                 ],
               ),
             ),
             DataCell(
               Row(
                 children: [
-                  Text(container['Created']),
+                  Text(container.createdAt.toString()),
                 ],
               ),
             ),
             DataCell(
               Row(
                 children: [
-                  Text(container['State']['Status']),
+                  Text(container.state.status.name),
                 ],
               ),
             ),
             DataCell(
               DropdownButton(
-                // ignore: prefer_const_literals_to_create_immutables
                 onChanged: (value) {
                   //print(value);
                 },
-                // ignore: prefer_const_literals_to_create_immutables
                 items: [
                   DropdownMenuItem(
                     value: "stop",
-                    child: Text("stop"),
+                    child: const Text("stop"),
                     onTap: () {
                       print("stop process");
-                      Provider.of<ContainerProvider>(context, listen: false)
-                          .stopContainer(container["Id"]);
+                      // Provider.of<ContainerProvider>(context, listen: false)
+                      //     .stopContainer(container["Id"]);
                     },
                   ),
                   DropdownMenuItem(
@@ -111,8 +117,8 @@ class _BoardTableState extends State<BoardTable> {
                     child: Text("start"),
                     onTap: () {
                       print("start process");
-                      Provider.of<ContainerProvider>(context, listen: false)
-                          .restartContainer(container["Id"]);
+                      // Provider.of<ContainerProvider>(context, listen: false)
+                      //     .restartContainer(container["Id"]);
                     },
                   )
                 ],

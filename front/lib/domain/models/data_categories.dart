@@ -1,12 +1,13 @@
 import 'package:flutter/painting.dart';
 
 class DataCategorie {
-  DataCategorie({
+  const DataCategorie({
     required this.name,
     required this.value,
     required this.color,
   });
-  String name;
-  Color color;
-  double value;
+
+  final String name;
+  final Color color;
+  final double value;
 }

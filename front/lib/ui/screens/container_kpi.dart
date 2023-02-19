@@ -9,12 +9,12 @@ import 'package:front/ui/font_style.dart';
 import 'package:provider/provider.dart';
 
 class ContainerKPI extends StatefulWidget {
-  List<DataCategorie> categories;
-
-  ContainerKPI({
-    Key? key,
+  const ContainerKPI({
+    super.key,
     required this.categories,
-  }) : super(key: key);
+  });
+
+  final List<DataCategorie> categories;
 
   @override
   State<ContainerKPI> createState() => _ContainerKPIState();
@@ -62,25 +62,22 @@ class _ContainerKPIState extends State<ContainerKPI> {
   }
 
   List<PieChartSectionData> buildSection(List containers) {
-    List<PieChartSectionData> sections = [];
-    DataCategorie temps;
-    for (var container in containers) {
-      temps = widget.categories
-          .where((category) => category.name == container['State']['Status'])
-          .first;
-      temps.value += 1;
-    }
+    // DataCategorie temps;
+    // for (var container in containers) {
+    //   temps = widget.categories
+    //       .where((category) => category.name == container['State']['Status'])
+    //       .first;
+    //   temps.value += 1;
+    // }
 
-    for (var categorie in widget.categories) {
-      sections.add(
+    return [
+      for (var categorie in widget.categories)
         PieChartSectionData(
           value: categorie.value,
           color: categorie.color,
           title: categorie.name,
           radius: 25,
         ),
-      );
-    }
-    return sections;
+    ];
   }
 }

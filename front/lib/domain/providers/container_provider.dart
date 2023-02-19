@@ -1,25 +1,32 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:front/domain/models/container.dart';
 import 'package:front/domain/models/file.dart';
-import 'package:front/domain/services/container.dart';
+import 'package:front/domain/services/container_service.dart';
+import 'package:front/client/backend/model.dart';
 
 class ContainerProvider extends ChangeNotifier {
   final ContainerService _containerService = ContainerService();
 
-  List containers = [];
+  List<ContainerData> containers = [];
 
-  getAllContainer() {
-    dynamic decodedBody;
-    _containerService.fetchAllContainer().then((response) {
-      decodedBody = json.decode(response.body);
-      updateContainerList(decodedBody);
-    });
+  Future<void> getAllContainer() async {
+    final body = await _containerService.fetchAllContainer();
+    final decodedBody = json.decode(body) as Iterable;
+
+    final List<Map<String, dynamic>> iterableToList = List.from(decodedBody);
+
+    print(decodedBody);
+
+    containers = iterableToList
+        .map((containerModel) => ContainerData.fromJson(containerModel))
+        .toList();
+    updateContainerList(containers);
+
     //print(decodedBody);
   }
 
-  updateContainerList(List dockerContainers) {
+  void updateContainerList(List<ContainerData> dockerContainers) {
     containers = dockerContainers;
     // dockerContainers.map((container) {
     //   containers.add(DockerContainer.fromJson(container));
@@ -32,19 +39,17 @@ class ContainerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  createImage(DroppedFile droppedFile) {
-    _containerService.createImage(droppedFile).then((response) {
-      print(json.decode(response.body));
-    });
+  Future<void> createImage(DroppedFile droppedFile) {
+    return _containerService.createImage(droppedFile);
   }
 
-  restartContainer(String containerID) {
-    _containerService.restartContainer(containerID);
-    getAllContainer();
+  Future<void> restartContainer(String containerID) async {
+    await _containerService.restartContainer(containerID);
+    await getAllContainer();
   }
 
-  stopContainer(String containerID) {
-    _containerService.stopContainer(containerID);
-    getAllContainer();
+  Future<void> stopContainer(String containerID) async {
+    await _containerService.stopContainer(containerID);
+    await getAllContainer();
   }
 }
