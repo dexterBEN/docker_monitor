@@ -132,7 +132,7 @@ class _DropZoneUploadState extends State<DropZoneUpload> {
   Future acceptFile(dynamic event) async {
     print('event type ${event.runtimeType}');
 
-    final name = event.name;
+    final name = event.name.toString();
 
     final mime = await controller.getFileMIME(event);
     final bytes = await controller.getFileSize(event);
