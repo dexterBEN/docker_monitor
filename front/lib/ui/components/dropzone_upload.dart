@@ -147,13 +147,13 @@ class _DropZoneUploadState extends State<DropZoneUpload> {
     print('url: $url');
     print('filestream: $fileStream');
 
-    // _droppedFile = DroppedFile(
-    //   url: url,
-    //   name: name,
-    //   mime: mime,
-    //   bytes: bytes,
-    //   stream: fileStream,
-    // );
+    _droppedFile = DroppedFile(
+      url: url,
+      name: name,
+      mime: mime,
+      bytes: bytes,
+      stream: fileStream,
+    );
 
     widget.onDroppedFile(_droppedFile!);
     setState(() {
