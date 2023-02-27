@@ -22,7 +22,7 @@ class BoardContent extends StatefulWidget {
 class _BoardContentState extends State<BoardContent> {
   DroppedFile? file;
 
-  List<DataCategorie> categories = const [
+  List<DataCategorie> categories = [
     DataCategorie(name: "created", value: 0, color: Colors.blue),
     DataCategorie(name: "running", value: 0, color: Colors.green),
     DataCategorie(name: "exited", value: 0, color: Colors.red)

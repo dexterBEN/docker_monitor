@@ -2,6 +2,7 @@
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:front/client/backend/model.dart';
 import 'package:front/domain/models/data_categories.dart';
 import 'package:front/domain/providers/container_provider.dart';
 import 'package:front/ui/components/kpi_list_detail.dart';
@@ -21,6 +22,12 @@ class ContainerKPI extends StatefulWidget {
 }
 
 class _ContainerKPIState extends State<ContainerKPI> {
+  @override
+  void initState() {
+    super.initState();
+    //fetch();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -61,14 +68,16 @@ class _ContainerKPIState extends State<ContainerKPI> {
     );
   }
 
-  List<PieChartSectionData> buildSection(List containers) {
-    // DataCategorie temps;
-    // for (var container in containers) {
-    //   temps = widget.categories
-    //       .where((category) => category.name == container['State']['Status'])
-    //       .first;
-    //   temps.value += 1;
-    // }
+  List<PieChartSectionData> buildSection(List<ContainerData> containers) {
+    //print(containers[0]);
+    DataCategorie temps;
+
+    for (final container in containers) {
+      widget.categories
+          .where((category) => category.name == container.state.status.name)
+          .first
+          .value += 1;
+    }
 
     return [
       for (var categorie in widget.categories)
