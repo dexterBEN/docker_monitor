@@ -108,8 +108,8 @@ class _BoardTableState extends State<BoardTable> {
                     child: const Text("stop"),
                     onTap: () {
                       print("stop process");
-                      // Provider.of<ContainerProvider>(context, listen: false)
-                      //     .stopContainer(container["Id"]);
+                      Provider.of<ContainerProvider>(context, listen: false)
+                          .stopContainer(container.id);
                     },
                   ),
                   DropdownMenuItem(
@@ -117,8 +117,8 @@ class _BoardTableState extends State<BoardTable> {
                     child: Text("start"),
                     onTap: () {
                       print("start process");
-                      // Provider.of<ContainerProvider>(context, listen: false)
-                      //     .restartContainer(container["Id"]);
+                      Provider.of<ContainerProvider>(context, listen: false)
+                          .restartContainer(container.id);
                     },
                   )
                 ],
