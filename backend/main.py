@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import docker
+import docker.errors
 
 app = Flask(__name__)
 CORS(app)
@@ -47,11 +48,17 @@ def create_image():
     file_storage = request.files.get('dockerfile', '')
     file_obj = request.files['dockerfile']
     # print(file_obj)
-    container_image = client.images.build(
-        fileobj = file_obj,
-        tag = "hello",
-        rm = True
-    )
+
+    try:
+        container_image = client.images.build(
+            fileobj = file_obj,
+            tag = "hello",
+            rm = True
+        )
+    except docker.errors.BuildError as e:
+        print(e)
+
+
     print(container_image[0])
     return jsonify(container_image[0].attrs)
 

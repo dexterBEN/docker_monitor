@@ -5,12 +5,12 @@ bcrypt==3.1.7
 blinker==1.4
 Brlapi==0.7.0
 cachetools==4.2.2
-certifi==2019.11.28
+certifi==2022.12.7
 chardet==3.0.4
 click==8.1.0
 colorama==0.4.3
 command-not-found==0.3
-cryptography==37.0.2
+cryptography==39.0.1
 cupshelpers==1.0
 dbus-python==1.2.16
 defer==1.0.6
@@ -22,7 +22,7 @@ entrypoints==0.3
 fasteners==0.14.1
 Flask==2.1.0
 Flask-Cors==3.0.10
-future==0.18.2
+future==0.18.3
 google-api-core==2.0.1
 google-api-python-client==2.19.1
 google-auth==2.0.2
@@ -61,7 +61,7 @@ paramiko==2.10.4
 pexpect==4.6.0
 Pillow==7.0.0
 pluggy==1.0.0
-protobuf==3.17.3
+protobuf==4.22.0
 py==1.11.0
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
