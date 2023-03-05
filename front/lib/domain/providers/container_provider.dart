@@ -16,8 +16,6 @@ class ContainerProvider extends ChangeNotifier {
 
     final List<Map<String, dynamic>> iterableToList = List.from(decodedBody);
 
-    print(decodedBody);
-
     containers = iterableToList
         .map((containerModel) => ContainerData.fromJson(containerModel))
         .toList();

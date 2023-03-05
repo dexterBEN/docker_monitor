@@ -44,6 +44,10 @@ class _ContainerKPIState extends State<ContainerKPI> {
           height: 200,
           child: Consumer<ContainerProvider>(
             builder: (context, model, _) {
+              if (model.containers.isEmpty || model.containers == null) {
+                return Text("Error can't provide KPI try again");
+              }
+
               return PieChart(
                 PieChartData(
                   sectionsSpace: 10,
