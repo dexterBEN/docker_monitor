@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:front/domain/models/file.dart';
 import 'package:front/domain/services/container_service.dart';
 import 'package:front/client/backend/model.dart';
+import 'package:http/http.dart';
 
 class ContainerProvider extends ChangeNotifier {
   final ContainerService _containerService = ContainerService();
@@ -37,7 +38,7 @@ class ContainerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> createImage(DroppedFile droppedFile) {
+  Future<Response> createImage(DroppedFile droppedFile) {
     return _containerService.createImage(droppedFile);
   }
 
