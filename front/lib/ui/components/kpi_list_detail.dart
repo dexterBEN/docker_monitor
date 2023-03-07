@@ -1,11 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:front/client/backend/model.dart';
 import 'package:front/ui/font_style.dart';
 
 class KPIListDetail extends StatefulWidget {
   //List<DataCategorie> categories;
-  List<dynamic> containers;
+  List<ContainerData> containers;
   KPIListDetail({Key? key, required this.containers}) : super(key: key);
 
   @override
@@ -20,7 +21,8 @@ class _KPIListDetailState extends State<KPIListDetail> {
         KpiCard(
           logoPath: "assets/container_created.png",
           amount: widget.containers
-              .where((element) => element['State']['Status'] == "created")
+              .where((element) =>
+                  element.state.status.toString().contains("created"))
               .length,
           title: "Created container",
         ),
@@ -30,7 +32,8 @@ class _KPIListDetailState extends State<KPIListDetail> {
         KpiCard(
           logoPath: "assets/container_stopped.png",
           amount: widget.containers
-              .where((element) => element['State']['Status'] == "exited")
+              .where((element) =>
+                  element.state.status.toString().contains("exited"))
               .length,
           title: "Exited container",
         ),
@@ -40,7 +43,8 @@ class _KPIListDetailState extends State<KPIListDetail> {
         KpiCard(
           logoPath: "assets/container_paused.png",
           amount: widget.containers
-              .where((element) => element['State']['Status'] == "paused")
+              .where((element) =>
+                  element.state.status.toString().contains("paused"))
               .length,
           title: "Paused container",
         ),
@@ -50,7 +54,8 @@ class _KPIListDetailState extends State<KPIListDetail> {
         KpiCard(
           logoPath: "assets/container_run.png",
           amount: widget.containers
-              .where((element) => element['State']['Status'] == "running")
+              .where((element) =>
+                  element.state.status.toString().contains("running"))
               .length,
           title: "Running container",
         ),
@@ -107,7 +112,7 @@ class KpiCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    amount.toString() + " Containers",
+                    "$amount Containers",
                     style: Theme.of(context)
                         .textTheme
                         .caption!

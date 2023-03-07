@@ -13,7 +13,7 @@ import 'package:front/ui/screens/header.dart';
 import 'package:provider/provider.dart';
 
 class BoardContent extends StatefulWidget {
-  const BoardContent({Key? key}) : super(key: key);
+  const BoardContent({super.key});
 
   @override
   State<BoardContent> createState() => _BoardContentState();
@@ -29,26 +29,19 @@ class _BoardContentState extends State<BoardContent> {
   ];
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     //Provider.of<ContainerProvider>(context, listen: false).getAllContainer();
     //_containerProvider = Provider.of<ContainerProvider>(context);
     var widgetSize = MediaQuery.of(context).size;
 
     Provider.of<ContainerProvider>(context, listen: false).getAllContainer();
-    return Container(
+
+    return Padding(
       padding: EdgeInsets.all(defaultPadding),
       child: Column(
-        // ignore: prefer_const_literals_to_create_immutables
         children: [
           Header(),
-          SizedBox(
-            height: defaultPadding,
-          ),
+          SizedBox(height: defaultPadding),
           Row(
             children: [
               Expanded(
@@ -77,8 +70,7 @@ class _BoardContentState extends State<BoardContent> {
                       panelColor: secondaryColor,
                       padding: defaultPadding,
                       panelContent: BoardTable(
-                        // ignore: prefer_const_literals_to_create_immutables
-                        headTitles: [
+                        headTitles: const [
                           "name",
                           "creation date",
                           "state",
@@ -89,9 +81,7 @@ class _BoardContentState extends State<BoardContent> {
                   ],
                 ),
               ),
-              SizedBox(
-                width: 12,
-              ),
+              SizedBox(width: 12),
               Expanded(
                 flex: 2,
                 child: BoardPanel(

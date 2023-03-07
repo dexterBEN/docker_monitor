@@ -6,7 +6,8 @@ class DataCategorie {
     required this.value,
     required this.color,
   });
-  String name;
-  Color color;
+
+  final String name;
+  final Color color;
   double value;
 }
