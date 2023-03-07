@@ -32,7 +32,9 @@ I used `Github actions` in order to automate the deployment of the web app on fi
 Screenshot of the board (can change/evolve later):
 
 
-https://user-images.githubusercontent.com/33292824/164563291-4e6d2895-8fc2-4d1e-85df-041c691f9e03.mp4
+https://user-images.githubusercontent.com/33292824/223563882-6565b734-3409-42a0-8fa6-36d778c91a83.mp4
+
+
 
 
 ![image](https://user-images.githubusercontent.com/33292824/181935982-8df27423-7cc3-4cec-8de6-7cf2f8e0bb51.png)
