@@ -1,7 +1,8 @@
 import json
 from flask import jsonify
-import pytest
+from unittest.mock import MagicMock, patch
 from main import app
+import docker
 
 
 def test_get_all_container():
@@ -21,10 +22,28 @@ def test_get_container_by_name():
     #to optimize:
     urlParams = ['product_service']
 
-    response =  app.test_client().get('/containers/product_service')
+    response =  app.test_client().get('/containers/node_red_bench_test')
 
     container = json.loads(response.data.decode('utf-8'))
 
     assert response.status_code == 200
     assert container != None
-    assert container['Name'] == "/product_service"
+    assert container['Name'] == "/node_red_bench_test"
+
+
+@pytest.fixture
+def mock_get_container():
+    with patch('docker.models.containers.ContainerCollection.get') as mock_get:
+        yield mock_get
+
+def test_container_not_exist():
+
+    # Arrange: mock the docker client's get method to raise a NotFound exception
+    mock_get_container.side_effect = docker.errors.NotFound("Container not found")
+        
+    # Act: make a GET request to the endpoint with a non-existent container name
+    response = app.test_client().get('/containers/nameWhichNotExist')
+        
+    # Assert: verify that the response has the expected status code and message
+    assert response.status_code == 404
+    assert "Container not found" in str(response.data)
