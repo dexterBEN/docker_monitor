@@ -2,7 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:front/client/backend/model.dart';
+import 'package:front/domain/providers/app_blocs.dart';
+import 'package:front/domain/providers/app_events.dart';
 import 'package:front/domain/providers/container_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_table/responsive_table.dart';
@@ -20,8 +23,12 @@ class BoardTable extends StatefulWidget {
 }
 
 class _BoardTableState extends State<BoardTable> {
+
   @override
   Widget build(BuildContext context) {
+
+    final AppBlocs appBlocs = BlocProvider.of<AppBlocs>(context);
+    
     return Column(
       children: [
         Text(
@@ -29,9 +36,10 @@ class _BoardTableState extends State<BoardTable> {
           style: Theme.of(context).textTheme.subtitle1,
         ),
         Expanded(
-          child: Consumer<ContainerProvider>(
-            builder: (context, model, _) {
-              if (model.containers.isEmpty) {
+          child: BlocBuilder(
+            bloc: appBlocs,
+            builder: (context, state) {
+              if (appBlocs.state.containers.isEmpty) {
                 return const Text("nothing to show");
               }
               return SizedBox(
@@ -44,7 +52,7 @@ class _BoardTableState extends State<BoardTable> {
                       for (final title in widget.headTitles)
                         DataColumn(label: Text(title)),
                     ],
-                    rows: buildDataRow(model.containers),
+                    rows: buildDataRow(appBlocs.state.containers),
                     //rows: buildDataRow(containers),
                   ),
                 ),
@@ -117,8 +125,9 @@ class _BoardTableState extends State<BoardTable> {
                     child: Text("start"),
                     onTap: () {
                       print("start process");
-                      Provider.of<ContainerProvider>(context, listen: false)
-                          .restartContainer(container.id);
+                      // Provider.of<ContainerProvider>(context, listen: false)
+                      //     .restartContainer(container.id);
+                      BlocProvider.of<AppBlocs>(context).add(ContainerStart(containerId: container.id));
                     },
                   )
                 ],
