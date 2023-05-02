@@ -38,7 +38,6 @@ class _BoardTableState extends State<BoardTable> {
         ),
         Expanded(
           child: BlocBuilder<AppBlocs, ContainerListStates>(
-            bloc: appBlocs,
             builder: (context, state) {
               if (state.containers.isEmpty) {
                 return const Text("nothing to show");

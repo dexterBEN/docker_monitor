@@ -51,7 +51,6 @@ class _ContainerKPIState extends State<ContainerKPI> {
         SizedBox(
           height: 200,
           child: BlocBuilder<AppBlocs, ContainerListStates>(
-            bloc: appBloc,
             builder: (context, state) {
               if (state.containers.isEmpty || state.containers == null) {
                 return Text("Error can't provide KPI try again");
@@ -72,7 +71,6 @@ class _ContainerKPIState extends State<ContainerKPI> {
         SizedBox(
           height: 400,
           child: BlocBuilder<AppBlocs, ContainerListStates>(
-            bloc: appBloc,
             builder: (context, state) {
               return KPIListDetail(containers: state.containers);
             },
