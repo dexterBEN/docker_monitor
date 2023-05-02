@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:front/client/backend/model.dart';
 import 'package:front/domain/models/data_categories.dart';
 import 'package:front/domain/providers/app_events.dart';
+import 'package:front/domain/providers/app_states.dart';
 import 'package:front/domain/providers/container_provider.dart';
 import 'package:front/ui/components/kpi_list_detail.dart';
 import 'package:front/ui/font_style.dart';
@@ -49,10 +50,10 @@ class _ContainerKPIState extends State<ContainerKPI> {
         SizedBox(height: defaultPadding),
         SizedBox(
           height: 200,
-          child: BlocBuilder(
+          child: BlocBuilder<AppBlocs, ContainerListStates>(
             bloc: appBloc,
             builder: (context, state) {
-              if (appBloc.state.containers.isEmpty || appBloc.state.containers == null) {
+              if (state.containers.isEmpty || state.containers == null) {
                 return Text("Error can't provide KPI try again");
               }
 
@@ -61,7 +62,7 @@ class _ContainerKPIState extends State<ContainerKPI> {
                   sectionsSpace: 10,
                   centerSpaceRadius: 80,
                   startDegreeOffset: -90,
-                  sections: buildSection(appBloc.state.containers),
+                  sections: buildSection(state.containers),
                 ),
               );
             }
@@ -70,10 +71,10 @@ class _ContainerKPIState extends State<ContainerKPI> {
         SizedBox(height: defaultPadding * 5),
         SizedBox(
           height: 400,
-          child: BlocBuilder(
+          child: BlocBuilder<AppBlocs, ContainerListStates>(
             bloc: appBloc,
             builder: (context, state) {
-              return KPIListDetail(containers: appBloc.state.containers);
+              return KPIListDetail(containers: state.containers);
             },
           ),
         ),

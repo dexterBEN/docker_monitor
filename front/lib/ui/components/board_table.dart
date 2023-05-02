@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:front/client/backend/model.dart';
 import 'package:front/domain/providers/app_blocs.dart';
 import 'package:front/domain/providers/app_events.dart';
+import 'package:front/domain/providers/app_states.dart';
 import 'package:front/domain/providers/container_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_table/responsive_table.dart';
@@ -36,10 +37,10 @@ class _BoardTableState extends State<BoardTable> {
           style: Theme.of(context).textTheme.subtitle1,
         ),
         Expanded(
-          child: BlocBuilder(
+          child: BlocBuilder<AppBlocs, ContainerListStates>(
             bloc: appBlocs,
             builder: (context, state) {
-              if (appBlocs.state.containers.isEmpty) {
+              if (state.containers.isEmpty) {
                 return const Text("nothing to show");
               }
               return SizedBox(
@@ -52,7 +53,7 @@ class _BoardTableState extends State<BoardTable> {
                       for (final title in widget.headTitles)
                         DataColumn(label: Text(title)),
                     ],
-                    rows: buildDataRow(appBlocs.state.containers),
+                    rows: buildDataRow(state.containers),
                     //rows: buildDataRow(containers),
                   ),
                 ),
