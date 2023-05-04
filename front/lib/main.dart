@@ -9,7 +9,15 @@ import 'package:provider/provider.dart';
 import 'ui/screens/dashboard.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_)=> ContainerBloc()),
+        BlocProvider(create: (_)=> ImageBloc())
+      ], 
+      child: const MyApp()
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -18,18 +26,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => AppBlocs(),
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData.dark().copyWith(
-          scaffoldBackgroundColor: bgColor,
-          textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(bodyColor: Colors.white),
-          canvasColor: secondaryColor,
-        ),
-        // ignore: prefer_const_constructors
-        home: Dashboard(),
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: bgColor,
+        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(bodyColor: Colors.white),
+        canvasColor: secondaryColor,
       ),
+      // ignore: prefer_const_constructors
+      home: Dashboard(),
     );
   }
 }

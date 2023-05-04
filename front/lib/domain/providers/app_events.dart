@@ -1,10 +1,23 @@
-abstract class ContainerListEvents {}
+import 'package:flutter/material.dart';
+import 'package:front/domain/models/file.dart';
 
-class FetchList extends ContainerListEvents{}
+abstract class ContainerEvent {}
+abstract class ImageEvent{}
 
-class ContainerStart extends ContainerListEvents{
+class FetchList extends ContainerEvent{}
+
+class ContainerStart extends ContainerEvent{
   final String containerId;
   ContainerStart({required this.containerId});
 }
 
-class ContainerStop extends ContainerListEvents{}
+class ContainerStop extends ContainerEvent{
+  final String containerId;
+  ContainerStop({required this.containerId});
+}
+
+class CreateImage extends ImageEvent {
+  final DroppedFile droppedFile;
+  final VoidCallback onImageCreated;
+  CreateImage({required this.droppedFile, required this.onImageCreated});
+}

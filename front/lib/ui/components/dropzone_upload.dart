@@ -2,9 +2,12 @@
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:front/domain/models/file.dart';
+import 'package:front/domain/providers/app_blocs.dart';
+import 'package:front/domain/providers/app_events.dart';
 import 'package:front/domain/providers/container_provider.dart';
 import 'package:front/ui/components/upload_preview.dart';
 import 'package:front/ui/font_style.dart';
@@ -139,20 +142,34 @@ class _DropZoneUploadState extends State<DropZoneUpload> {
   }
 
   void createImage() {
+    var toaster =  Fluttertoast.showToast(
+            msg: "Your image is created!",
+            timeInSecForIosWeb: 10,
+            toastLength: Toast.LENGTH_LONG,
+            webShowClose: true,
+            fontSize: 15,
+          );
+
+
+    BlocProvider.of<ImageBloc>(context).add(
+      CreateImage(
+        droppedFile: _droppedFile!, 
+        onImageCreated: () => toaster
+      )
+    );
+
+    //final state = BlocProvider.of<ImageBloc>(context).state;
+
     //_droppedFile
-    Provider.of<ContainerProvider>(context, listen: false)
-        .createImage(_droppedFile!)
-        .then((value) {
-      if (value.statusCode == 200) {
-        Fluttertoast.showToast(
-          msg: "Your image is created!",
-          timeInSecForIosWeb: 10,
-          toastLength: Toast.LENGTH_LONG,
-          webShowClose: true,
-          fontSize: 15,
-        );
-      }
-    });
+    // if (state is CreateImage) {
+    //     Fluttertoast.showToast(
+    //       msg: "Your image is created!",
+    //       timeInSecForIosWeb: 10,
+    //       toastLength: Toast.LENGTH_LONG,
+    //       webShowClose: true,
+    //       fontSize: 15,
+    //     );
+    //   }
   }
 
   Future acceptFile(dynamic event) async {

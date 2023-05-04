@@ -39,7 +39,7 @@ class _BoardContentState extends State<BoardContent> {
     var widgetSize = MediaQuery.of(context).size;
 
     //Provider.of<ContainerProvider>(context, listen: false).getAllContainer();
-    BlocProvider.of<AppBlocs>(context).add(FetchList());
+    BlocProvider.of<ContainerBloc>(context).add(FetchList());
 
     return Padding(
       padding: EdgeInsets.all(defaultPadding),

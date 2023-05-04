@@ -36,8 +36,6 @@ class _ContainerKPIState extends State<ContainerKPI> {
   @override
   Widget build(BuildContext context) {
 
-    final AppBlocs appBloc = BlocProvider.of<AppBlocs>(context);
-
     return Column(
       children: [
         Text(
@@ -50,7 +48,7 @@ class _ContainerKPIState extends State<ContainerKPI> {
         SizedBox(height: defaultPadding),
         SizedBox(
           height: 200,
-          child: BlocBuilder<AppBlocs, ContainerListStates>(
+          child: BlocBuilder<ContainerBloc, ContainerListState>(
             builder: (context, state) {
               if (state.containers.isEmpty || state.containers == null) {
                 return Text("Error can't provide KPI try again");
@@ -70,7 +68,7 @@ class _ContainerKPIState extends State<ContainerKPI> {
         SizedBox(height: defaultPadding * 5),
         SizedBox(
           height: 400,
-          child: BlocBuilder<AppBlocs, ContainerListStates>(
+          child: BlocBuilder<ContainerBloc, ContainerListState>(
             builder: (context, state) {
               return KPIListDetail(containers: state.containers);
             },

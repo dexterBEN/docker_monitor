@@ -1,11 +1,45 @@
 import 'package:front/client/backend/model.dart';
+import 'package:flutter/material.dart';
 
-class ContainerListStates {
+class ContainerListState {
   List<ContainerData> containers;
 
-  ContainerListStates({required this.containers});
+  ContainerListState({required this.containers});
 }
 
-class InitialeState extends ContainerListStates {
+class InitialeState extends ContainerListState {
   InitialeState() : super(containers:[]);
+}
+
+class ListLoading extends ContainerListState {
+  ListLoading() : super(containers:[]);
+}
+
+class ListLoaded extends ContainerListState {
+  ListLoaded({required super.containers});
+}
+
+/*
+  Image creation 
+*/
+class ImageState {
+}
+
+class ImageCreationInitial extends ImageState {
+  ImageCreationInitial();
+  
+}
+
+class ImageCreationLoading extends ImageState {
+  ImageCreationLoading();
+
+}
+
+class ImageCreationSuccess extends ImageState{
+  ImageCreationSuccess();
+
+}
+
+class ImageCreationFailed extends ImageState{
+  ImageCreationFailed();
 }

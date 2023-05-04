@@ -8,6 +8,7 @@ import 'package:front/domain/providers/app_blocs.dart';
 import 'package:front/domain/providers/app_events.dart';
 import 'package:front/domain/providers/app_states.dart';
 import 'package:front/domain/providers/container_provider.dart';
+import 'package:loadingkit_flutter/loadingkit_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_table/responsive_table.dart';
 
@@ -28,8 +29,6 @@ class _BoardTableState extends State<BoardTable> {
   @override
   Widget build(BuildContext context) {
 
-    final AppBlocs appBlocs = BlocProvider.of<AppBlocs>(context);
-    
     return Column(
       children: [
         Text(
@@ -37,12 +36,20 @@ class _BoardTableState extends State<BoardTable> {
           style: Theme.of(context).textTheme.subtitle1,
         ),
         Expanded(
-          child: BlocBuilder<AppBlocs, ContainerListStates>(
+          child: BlocBuilder<ContainerBloc, ContainerListState>(
             builder: (context, state) {
-              if (state.containers.isEmpty) {
-                return const Text("nothing to show");
-              }
-              return SizedBox(
+              
+              if(state is InitialeState || state is ListLoading) {
+
+                return FlutterLoading(
+                  isLoading: true,
+                  child: Text('Fetching container list'),
+                  color: Colors.green,
+                );
+
+              }else if(state is ListLoaded) {
+
+                return SizedBox(
                 width: 1200,
                 child: SingleChildScrollView(
                   controller: ScrollController(),
@@ -57,6 +64,10 @@ class _BoardTableState extends State<BoardTable> {
                   ),
                 ),
               );
+
+              }
+
+              return Text("Something went wrong dubmass try again");
             },
           ),
         ),
@@ -116,8 +127,9 @@ class _BoardTableState extends State<BoardTable> {
                     child: const Text("stop"),
                     onTap: () {
                       print("stop process");
-                      Provider.of<ContainerProvider>(context, listen: false)
-                          .stopContainer(container.id);
+                      // Provider.of<ContainerProvider>(context, listen: false)
+                      //     .stopContainer(container.id);
+                      BlocProvider.of<ContainerBloc>(context).add(ContainerStop(containerId: container.id));
                     },
                   ),
                   DropdownMenuItem(
@@ -127,7 +139,7 @@ class _BoardTableState extends State<BoardTable> {
                       print("start process");
                       // Provider.of<ContainerProvider>(context, listen: false)
                       //     .restartContainer(container.id);
-                      BlocProvider.of<AppBlocs>(context).add(ContainerStart(containerId: container.id));
+                      BlocProvider.of<ContainerBloc>(context).add(ContainerStart(containerId: container.id));
                     },
                   )
                 ],
