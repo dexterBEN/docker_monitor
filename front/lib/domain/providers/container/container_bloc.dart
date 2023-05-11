@@ -46,7 +46,7 @@ class ContainerStatusBloc extends Bloc<ContainerStatusEvent, ContainerStatusStat
       //print(actionStatus);
 
       if(actionStatus == 200) {
-        emit(ContainerStatusUpdated());
+        add(FetchContainerById(containerId: event.containerId));
       }
     });
 

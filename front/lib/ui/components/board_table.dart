@@ -128,7 +128,10 @@ class _BoardTableState extends State<BoardTable> {
                         );
                       }
 
-                      if(state is ContainerFetched) {
+                      if(
+                        state is ContainerFetched &&
+                        container.id == state.fetchedContainer.id
+                      ) {
                         return Text(state.fetchedContainer.state.status.name);
                       }
                       return Text(container.state.status.name);
