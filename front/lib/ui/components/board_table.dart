@@ -3,10 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:front/client/backend/model.dart';
 import 'package:front/domain/providers/app_blocs.dart';
 import 'package:front/domain/providers/app_events.dart';
 import 'package:front/domain/providers/app_states.dart';
+import 'package:front/domain/providers/container/container_bloc.dart';
+import 'package:front/domain/providers/container/container_event.dart';
+import 'package:front/domain/providers/container/container_state.dart';
 import 'package:front/domain/providers/container_provider.dart';
 import 'package:loadingkit_flutter/loadingkit_flutter.dart';
 import 'package:provider/provider.dart';
@@ -25,10 +29,8 @@ class BoardTable extends StatefulWidget {
 }
 
 class _BoardTableState extends State<BoardTable> {
-
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: [
         Text(
@@ -36,35 +38,30 @@ class _BoardTableState extends State<BoardTable> {
           style: Theme.of(context).textTheme.subtitle1,
         ),
         Expanded(
-          child: BlocBuilder<ContainerBloc, ContainerListState>(
+          child: BlocBuilder<ContainerListBloc, ContainerListState>(
             builder: (context, state) {
-              
-              if(state is InitialeState || state is ListLoading) {
-
+              if (state is InitialeState || state is ListLoading) {
                 return FlutterLoading(
                   isLoading: true,
                   child: Text('Fetching container list'),
                   color: Colors.green,
                 );
-
-              }else if(state is ListLoaded) {
-
+              } else if (state is ListLoaded) {
                 return SizedBox(
-                width: 1200,
-                child: SingleChildScrollView(
-                  controller: ScrollController(),
-                  child: DataTable(
-                    // columns: buildTableHead(widget.headTitles),
-                    columns: [
-                      for (final title in widget.headTitles)
-                        DataColumn(label: Text(title)),
-                    ],
-                    rows: buildDataRow(state.containers),
-                    //rows: buildDataRow(containers),
+                  width: 1200,
+                  child: SingleChildScrollView(
+                    controller: ScrollController(),
+                    child: DataTable(
+                      // columns: buildTableHead(widget.headTitles),
+                      columns: [
+                        for (final title in widget.headTitles)
+                          DataColumn(label: Text(title)),
+                      ],
+                      rows: buildDataRow(state.containers!),
+                      //rows: buildDataRow(containers),
+                    ),
                   ),
-                ),
-              );
-
+                );
               }
 
               return Text("Something went wrong dubmass try again");
@@ -112,7 +109,31 @@ class _BoardTableState extends State<BoardTable> {
             DataCell(
               Row(
                 children: [
-                  Text(container.state.status.name),
+                  BlocConsumer<ContainerStatusBloc, ContainerStatusState>(
+                    listener: (context, state){
+                      if(state is ContainerStatusUpdated) {
+                        BlocProvider.of<ContainerStatusBloc>(context).add(
+                          FetchContainerById(containerId: state.containerId!)
+                        );
+                      }
+                    },
+                    builder: (context, state) {
+                      if(
+                        state is ContainerStatusUpdating &&
+                        state.containerId == container.id
+                      ) {
+                        return SpinKitThreeBounce(
+                          color:Colors.white,
+                          size: 25,
+                        );
+                      }
+
+                      if(state is ContainerFetched) {
+                        return Text(state.fetchedContainer.state.status.name);
+                      }
+                      return Text(container.state.status.name);
+                    }
+                  ),
                 ],
               ),
             ),
@@ -129,7 +150,8 @@ class _BoardTableState extends State<BoardTable> {
                       print("stop process");
                       // Provider.of<ContainerProvider>(context, listen: false)
                       //     .stopContainer(container.id);
-                      BlocProvider.of<ContainerBloc>(context).add(ContainerStop(containerId: container.id));
+                      BlocProvider.of<ContainerStatusBloc>(context)
+                          .add(ContainerStop(containerId: container.id));
                     },
                   ),
                   DropdownMenuItem(
@@ -139,7 +161,8 @@ class _BoardTableState extends State<BoardTable> {
                       print("start process");
                       // Provider.of<ContainerProvider>(context, listen: false)
                       //     .restartContainer(container.id);
-                      BlocProvider.of<ContainerBloc>(context).add(ContainerStart(containerId: container.id));
+                      BlocProvider.of<ContainerStatusBloc>(context)
+                          .add(ContainerStart(containerId: container.id));
                     },
                   )
                 ],

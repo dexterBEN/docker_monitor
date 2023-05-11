@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:front/domain/providers/app_blocs.dart';
+import 'package:front/domain/providers/container/container_bloc.dart';
 import 'package:front/domain/providers/container_provider.dart';
 import 'package:front/ui/font_style.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,11 +13,12 @@ void main() {
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_)=> ContainerBloc()),
+        BlocProvider(create: (_)=> ContainerListBloc()),
+        BlocProvider(create: (_)=> ContainerStatusBloc()),
         BlocProvider(create: (_)=> ImageBloc())
       ], 
-      child: const MyApp()
-    )
+      child: const MyApp(),
+    ),
   );
 }
 

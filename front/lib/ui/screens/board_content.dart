@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:front/domain/models/data_categories.dart';
 import 'package:front/domain/models/file.dart';
 import 'package:front/domain/providers/app_events.dart';
+import 'package:front/domain/providers/container/container_bloc.dart';
+import 'package:front/domain/providers/container/container_event.dart';
 import 'package:front/domain/providers/container_provider.dart';
 import 'package:front/ui/components/board_panel.dart';
 import 'package:front/ui/components/board_table.dart';
@@ -39,7 +41,7 @@ class _BoardContentState extends State<BoardContent> {
     var widgetSize = MediaQuery.of(context).size;
 
     //Provider.of<ContainerProvider>(context, listen: false).getAllContainer();
-    BlocProvider.of<ContainerBloc>(context).add(FetchList());
+    BlocProvider.of<ContainerListBloc>(context).add(FetchList());
 
     return Padding(
       padding: EdgeInsets.all(defaultPadding),

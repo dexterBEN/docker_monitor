@@ -1,3 +1,4 @@
+import 'package:front/client/backend/model.dart';
 import 'package:front/domain/models/file.dart';
 import 'package:http/http.dart' as http;
 
@@ -8,7 +9,7 @@ class ContainerService {
 
   static final ContainerService _containertService = ContainerService._();
 
-  static const baseUrl = 'https://de9c-70-52-0-33.ngrok.io';
+  static const baseUrl = 'http://127.0.0.1:5000';
 
   Future<String> fetchAllContainer() async {
     final response = await http.get(Uri.parse("$baseUrl/containers"));
@@ -33,14 +34,16 @@ class ContainerService {
     return http.Response.fromStream(responseAsStream);
   }
 
-  Future<void> restartContainer(String containerID) {
+  Future<int> restartContainer(String containerID) async {
     // http://127.0.0.1:5000/docker-monitor/container/restart/5a11ac781bfb
 
-    return http.post(
+    final response = await http.post(
       Uri.parse(
         "$baseUrl/docker-monitor/container/restart/$containerID",
       ),
     );
+
+    return response.statusCode;
   }
 
   //test
@@ -50,5 +53,14 @@ class ContainerService {
         "$baseUrl/docker-monitor/container/stop/$containerID",
       ),
     );
+  }
+
+  Future<String> getContainerById(String containerID) async {
+
+    final response = await http.get(
+      Uri.parse("$baseUrl/containers/$containerID")
+    );
+
+    return response.body;
   }
 }

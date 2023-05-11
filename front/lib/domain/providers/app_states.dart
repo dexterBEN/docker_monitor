@@ -1,23 +1,23 @@
 import 'package:front/client/backend/model.dart';
 import 'package:flutter/material.dart';
 
-class ContainerListState {
-  List<ContainerData> containers;
+// class ContainerListState {
+//   List<ContainerData> containers;
 
-  ContainerListState({required this.containers});
-}
+//   ContainerListState({required this.containers});
+// }
 
-class InitialeState extends ContainerListState {
-  InitialeState() : super(containers:[]);
-}
+// class InitialeState extends ContainerListState {
+//   InitialeState() : super(containers:[]);
+// }
 
-class ListLoading extends ContainerListState {
-  ListLoading() : super(containers:[]);
-}
+// class ListLoading extends ContainerListState {
+//   ListLoading() : super(containers:[]);
+// }
 
-class ListLoaded extends ContainerListState {
-  ListLoaded({required super.containers});
-}
+// class ListLoaded extends ContainerListState {
+//   ListLoaded({required super.containers});
+// }
 
 /*
   Image creation 

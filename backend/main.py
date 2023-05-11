@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
 import docker
 import docker.errors
@@ -86,7 +86,10 @@ def restart_container(containerId):
 
     actionResult = container.restart()
 
-    return jsonify(actionResult)
+    # print(actionResult.attrs)
+    response = make_response("container started well", 200)
+    return response
+
 
 @app.route('/docker-monitor/container/stop/<containerId>', methods=['POST'])
 def stop_container(containerId):
