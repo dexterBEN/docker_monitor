@@ -107,37 +107,38 @@ class _BoardTableState extends State<BoardTable> {
               ),
             ),
             DataCell(
-              Row(
-                children: [
-                  BlocConsumer<ContainerStatusBloc, ContainerStatusState>(
-                    listener: (context, state){
-                      if(state is ContainerStatusUpdated) {
-                        BlocProvider.of<ContainerStatusBloc>(context).add(
-                          FetchContainerById(containerId: state.containerId!)
-                        );
-                      }
-                    },
-                    builder: (context, state) {
-                      if(
-                        state is ContainerStatusUpdating &&
-                        state.containerId == container.id
-                      ) {
-                        return SpinKitThreeBounce(
-                          color:Colors.white,
-                          size: 25,
-                        );
-                      }
+              BlocConsumer<ContainerStatusBloc, ContainerStatusState>(
+                listener: (context, state){
+                  if(state is ContainerStatusUpdated) {
+                    BlocProvider.of<ContainerStatusBloc>(context).add(
+                      FetchContainerById(containerId: state.containerId!)
+                    );
+                  }
+                },
+                builder: (context, state) {
+                  Widget widgetToDisplay;
 
-                      if(
-                        state is ContainerFetched &&
-                        container.id == state.fetchedContainer.id
-                      ) {
-                        return Text(state.fetchedContainer.state.status.name);
-                      }
-                      return Text(container.state.status.name);
-                    }
-                  ),
-                ],
+                  if(
+                    state is ContainerFetched &&
+                    container.id == state.fetchedContainer.id
+                  ) {
+                    container = state.fetchedContainer;
+                  }
+
+                  if(
+                    state is ContainerStatusUpdating &&
+                    state.containerId == container.id
+                  ) {
+                    widgetToDisplay = SpinKitThreeBounce(
+                      color:Colors.white,
+                      size: 25,
+                    );
+                  }else {
+                    widgetToDisplay = Text(container.state.status.name);
+                  }
+
+                  return widgetToDisplay;
+                }
               ),
             ),
             DataCell(
