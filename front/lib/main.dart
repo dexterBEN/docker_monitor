@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:front/domain/providers/app_blocs.dart';
+import 'package:front/domain/providers/container/container_bloc.dart';
 import 'package:front/domain/providers/container_provider.dart';
 import 'package:front/ui/font_style.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,7 +10,16 @@ import 'package:provider/provider.dart';
 import 'ui/screens/dashboard.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_)=> ContainerListBloc()),
+        BlocProvider(create: (_)=> ContainerStatusBloc()),
+        BlocProvider(create: (_)=> ImageBloc())
+      ], 
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -16,23 +28,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<ContainerProvider>(
-          create: (context) => ContainerProvider(),
-        ),
-      ],
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData.dark().copyWith(
-          scaffoldBackgroundColor: bgColor,
-          textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-              .apply(bodyColor: Colors.white),
-          canvasColor: secondaryColor,
-        ),
-        // ignore: prefer_const_constructors
-        home: Dashboard(),
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: bgColor,
+        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(bodyColor: Colors.white),
+        canvasColor: secondaryColor,
       ),
+      // ignore: prefer_const_constructors
+      home: Dashboard(),
     );
   }
 }

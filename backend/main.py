@@ -1,7 +1,9 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
 import docker
 import docker.errors
+from models.dockerContainer import DockerContainer
+import json
 
 app = Flask(__name__)
 CORS(app)
@@ -29,9 +31,12 @@ def get_all_container():
 @app.route('/containers/<containerName>')
 def get_by_name(containerName):
 
-    container = client.containers.get(containerName)
+    client_res = client.containers.get(containerName)
+    # container: DockerContainer = DockerContainer(client_res.attrs['Id'], client_res.attrs['Image'], client_res.attrs['Name'], client_res.attrs['State']['Status'], client_res.attrs['Created'])
 
-    return jsonify(container.attrs)
+    # print("Container -->", container.id)
+
+    return jsonify(client_res.attrs)
 
 
 @app.route('/containers/<containerId>', methods=['GET'])
@@ -81,7 +86,10 @@ def restart_container(containerId):
 
     actionResult = container.restart()
 
-    return jsonify(actionResult)
+    # print(actionResult.attrs)
+    response = make_response("container started well", 200)
+    return response
+
 
 @app.route('/docker-monitor/container/stop/<containerId>', methods=['POST'])
 def stop_container(containerId):

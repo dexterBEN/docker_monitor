@@ -2,12 +2,19 @@
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:front/client/backend/model.dart';
 import 'package:front/domain/models/data_categories.dart';
+import 'package:front/domain/providers/app_events.dart';
+import 'package:front/domain/providers/app_states.dart';
+import 'package:front/domain/providers/container/container_bloc.dart';
+import 'package:front/domain/providers/container/container_state.dart';
 import 'package:front/domain/providers/container_provider.dart';
 import 'package:front/ui/components/kpi_list_detail.dart';
 import 'package:front/ui/font_style.dart';
 import 'package:provider/provider.dart';
+
+import '../../domain/providers/app_blocs.dart';
 
 class ContainerKPI extends StatefulWidget {
   const ContainerKPI({
@@ -30,6 +37,7 @@ class _ContainerKPIState extends State<ContainerKPI> {
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       children: [
         Text(
@@ -42,9 +50,9 @@ class _ContainerKPIState extends State<ContainerKPI> {
         SizedBox(height: defaultPadding),
         SizedBox(
           height: 200,
-          child: Consumer<ContainerProvider>(
-            builder: (context, model, _) {
-              if (model.containers.isEmpty || model.containers == null) {
+          child: BlocBuilder<ContainerListBloc, ContainerListState>(
+            builder: (context, state) {
+              if (state.containers!.isEmpty || state.containers == null) {
                 return Text("Error can't provide KPI try again");
               }
 
@@ -53,18 +61,18 @@ class _ContainerKPIState extends State<ContainerKPI> {
                   sectionsSpace: 10,
                   centerSpaceRadius: 80,
                   startDegreeOffset: -90,
-                  sections: buildSection(model.containers),
+                  sections: buildSection(state.containers!),
                 ),
               );
-            },
+            }
           ),
         ),
         SizedBox(height: defaultPadding * 5),
         SizedBox(
           height: 400,
-          child: Consumer<ContainerProvider>(
-            builder: (context, model, _) {
-              return KPIListDetail(containers: model.containers);
+          child: BlocBuilder<ContainerListBloc, ContainerListState>(
+            builder: (context, state) {
+              return KPIListDetail(containers: state.containers!);
             },
           ),
         ),
