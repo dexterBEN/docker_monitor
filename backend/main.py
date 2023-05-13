@@ -32,11 +32,11 @@ def get_all_container():
 def get_by_name(containerName):
 
     client_res = client.containers.get(containerName)
-    container: DockerContainer = DockerContainer(client_res.attrs['Id'], client_res.attrs['Image'], client_res.attrs['Name'], client_res.attrs['State']['Status'], client_res.attrs['Created'])
+    # container: DockerContainer = DockerContainer(client_res.attrs['Id'], client_res.attrs['Image'], client_res.attrs['Name'], client_res.attrs['State']['Status'], client_res.attrs['Created'])
 
-    print("Container -->", container.id)
+    # print("Container -->", container.id)
 
-    return jsonify(container.__dict__)
+    return jsonify(client_res.attrs)
 
 
 @app.route('/containers/<containerId>', methods=['GET'])
