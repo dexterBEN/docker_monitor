@@ -7,7 +7,7 @@ class BackendClient {
 
   static final BackendClient _gameSheetService = BackendClient._();
 
-  static const baseUrl = 'https://bf44-70-52-0-33.ngrok.io';
+  static const baseUrl = 'https://6115-88-170-147-136.ngrok-free.app';
 
   Future<String> fetchAllContainer() async {
     final response = await http.get(Uri.parse("$baseUrl/containers"));
