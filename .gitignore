@@ -1,1 +1,3 @@
 virtual_env/
+backend/__pycache__/main.cpython-310.pyc
+backend/models/__pycache__/dockerContainer.cpython-310.pyc
