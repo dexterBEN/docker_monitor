@@ -29,6 +29,9 @@ jobs:
       
     - run: flutter install # get dependencies of the project
       working-directory: ${{env.working-directory}}
+      
+    - run: flutter upgrade # get dependencies of the project
+      working-directory: ${{env.working-directory}}
     
     - run: flutter pub get # get dependencies of the project
       working-directory: ${{env.working-directory}}
