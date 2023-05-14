@@ -24,7 +24,10 @@ jobs:
       with:
         channel: 'dev'
         
-    - run: flutter clean # get dependencies of the project
+    # - run: flutter clean # get dependencies of the project
+    #  working-directory: ${{env.working-directory}}
+    
+    - run: flutter upgrade # get dependencies of the project
       working-directory: ${{env.working-directory}}
     
     - run: flutter pub get # get dependencies of the project
