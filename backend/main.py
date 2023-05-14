@@ -97,7 +97,8 @@ def stop_container(containerId):
     container = client.containers.get(container_id=containerId)
 
     actionResult = container.stop()
-    return jsonify(actionResult)
+    response = make_response("container started well", 200)
+    return response
 
 
 if __name__ == "__main__":
