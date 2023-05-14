@@ -51,7 +51,12 @@ class ContainerStatusBloc extends Bloc<ContainerStatusEvent, ContainerStatusStat
     });
 
     on<ContainerStop>((event, emit) async {
-      await _containerService.stopContainer(event.containerId);
+      emit(ContainerStatusUpdating(containerId: event.containerId));
+      final actionStatus =  await _containerService.stopContainer(event.containerId);
+
+      if(actionStatus == 200) {
+        add(FetchContainerById(containerId: event.containerId));
+      }
     });
 
     on<FetchContainerById>((event, emit) async {

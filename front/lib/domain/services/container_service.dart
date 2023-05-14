@@ -9,7 +9,7 @@ class ContainerService {
 
   static final ContainerService _containertService = ContainerService._();
 
-  static const baseUrl = 'https://6115-88-170-147-136.ngrok-free.app';
+  static const baseUrl = 'https://0127-88-170-147-136.ngrok-free.app';
 
   Future<String> fetchAllContainer() async {
     final response = await http.get(Uri.parse("$baseUrl/containers"));
@@ -47,12 +47,13 @@ class ContainerService {
   }
 
   //test
-  Future<void> stopContainer(String containerID) {
-    return http.post(
+  Future<int> stopContainer(String containerID) async{
+    final response = await http.post(
       Uri.parse(
         "$baseUrl/docker-monitor/container/stop/$containerID",
       ),
     );
+    return response.statusCode;
   }
 
   Future<String> getContainerById(String containerID) async {
