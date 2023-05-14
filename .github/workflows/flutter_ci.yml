@@ -20,16 +20,15 @@ jobs:
 
     - uses: actions/checkout@v1
     
-    - uses: dart-lang/setup-dart@v1
-      with:
-        dart-version: '2.19.0'
-    
     - uses: subosito/flutter-action@v1 # flutter environment to use in GitHub Actions
       with:
         channel: 'dev'
         
-    # - run: flutter clean # get dependencies of the project
-    #  working-directory: ${{env.working-directory}}
+    - run: flutter clean # get dependencies of the project
+      working-directory: ${{env.working-directory}}
+      
+    - run: flutter install # get dependencies of the project
+      working-directory: ${{env.working-directory}}
     
     - run: flutter pub get # get dependencies of the project
       working-directory: ${{env.working-directory}}
