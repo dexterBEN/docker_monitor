@@ -1,4 +1,4 @@
-import 'package:front/client/backend/model.dart';
+import 'package:front/services/model.dart';
 
 class ContainerListState {
   List<ContainerData> ? containers;

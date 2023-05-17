@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:front/domain/models/data_categories.dart';
 import 'package:front/domain/models/file.dart';
-import 'package:front/domain/providers/app_events.dart';
-import 'package:front/domain/providers/container/container_bloc.dart';
-import 'package:front/domain/providers/container/container_event.dart';
-import 'package:front/domain/providers/container_provider.dart';
+import 'package:front/domain/bloc/app_events.dart';
+import 'package:front/domain/bloc/container/container_bloc.dart';
+import 'package:front/domain/bloc/container/container_event.dart';
+import 'package:front/domain/bloc/container_provider.dart';
 import 'package:front/ui/components/board_panel.dart';
 import 'package:front/ui/components/board_table.dart';
 import 'package:front/ui/components/dropzone_upload.dart';
@@ -16,7 +16,7 @@ import 'package:front/ui/screens/container_kpi.dart';
 import 'package:front/ui/screens/header.dart';
 import 'package:provider/provider.dart';
 
-import '../../domain/providers/app_blocs.dart';
+import '../../domain/bloc/app_blocs.dart';
 
 class BoardContent extends StatefulWidget {
   const BoardContent({super.key});
