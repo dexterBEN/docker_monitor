@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:front/client/backend/model.dart';
-import 'package:front/domain/providers/container/container_event.dart';
-import 'package:front/domain/providers/container/container_state.dart';
-import 'package:front/domain/services/container_service.dart';
+import 'package:front/services/model.dart';
+import 'package:front/domain/bloc/container/container_event.dart';
+import 'package:front/domain/bloc/container/container_state.dart';
+import 'package:front/services/container_service.dart';
 
 final ContainerService _containerService = ContainerService();
 

@@ -1,4 +1,3 @@
-import 'package:front/client/backend/model.dart';
 import 'package:flutter/material.dart';
 
 // class ContainerListState {
