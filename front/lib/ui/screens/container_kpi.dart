@@ -3,7 +3,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:front/services/model.dart';
+import 'package:front/domain/models/docker_container.dart';
 import 'package:front/domain/models/data_categories.dart';
 import 'package:front/domain/bloc/app_events.dart';
 import 'package:front/domain/bloc/app_states.dart';

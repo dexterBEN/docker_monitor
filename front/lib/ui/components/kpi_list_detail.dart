@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:front/services/model.dart';
+import 'package:front/domain/models/docker_container.dart';
 import 'package:front/ui/font_style.dart';
 
 class KPIListDetail extends StatefulWidget {

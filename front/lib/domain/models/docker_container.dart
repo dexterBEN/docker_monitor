@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'model.g.dart';
+part 'docker_container.g.dart';
 
 @JsonSerializable(includeIfNull: true)
 class ContainerData {
