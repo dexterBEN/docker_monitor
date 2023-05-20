@@ -48,6 +48,7 @@ class ContainerStatusBloc extends Bloc<ContainerStatusEvent, ContainerStatusStat
       if(actionStatus == 200) {
         add(FetchContainerById(containerId: event.containerId));
       }
+      emit(ContainerStatusUpdated());
     });
 
     on<ContainerStop>((event, emit) async {
@@ -57,6 +58,7 @@ class ContainerStatusBloc extends Bloc<ContainerStatusEvent, ContainerStatusStat
       if(actionStatus == 200) {
         add(FetchContainerById(containerId: event.containerId));
       }
+      emit(ContainerStatusUpdated());
     });
 
     on<FetchContainerById>((event, emit) async {

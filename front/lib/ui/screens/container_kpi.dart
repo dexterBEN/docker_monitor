@@ -3,6 +3,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:front/domain/bloc/container/container_event.dart';
 import 'package:front/domain/models/docker_container.dart';
 import 'package:front/domain/models/data_categories.dart';
 import 'package:front/domain/bloc/app_events.dart';
@@ -13,6 +14,7 @@ import 'package:front/domain/bloc/container_provider.dart';
 import 'package:front/ui/components/kpi_list_detail.dart';
 import 'package:front/ui/font_style.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../domain/bloc/app_blocs.dart';
 
@@ -51,18 +53,47 @@ class _ContainerKPIState extends State<ContainerKPI> {
         SizedBox(
           height: 200,
           child: BlocBuilder<ContainerListBloc, ContainerListState>(
-            builder: (context, state) {
-              if (state.containers!.isEmpty || state.containers == null) {
-                return Text("Error can't provide KPI try again");
-              }
+            builder: (context, listState) {
 
-              return PieChart(
-                PieChartData(
-                  sectionsSpace: 10,
-                  centerSpaceRadius: 80,
-                  startDegreeOffset: -90,
-                  sections: buildSection(state.containers!),
-                ),
+              Widget widgetToDisplay  = PieChart(
+                      PieChartData(
+                        sectionsSpace: 10,
+                        centerSpaceRadius: 80,
+                        startDegreeOffset: -90,
+                        sections: buildSection(listState.containers!),
+                      ),
+                    );
+              
+              return BlocBuilder<ContainerStatusBloc, ContainerStatusState>(
+                builder: (context, state) {
+                  if (
+                    listState.containers!.isEmpty || 
+                    listState.containers == null ||
+                    listState is ListLoading ||
+                    state is ContainerStatusUpdating
+                  ) {
+                    widgetToDisplay = SpinKitSpinningLines(
+                      size: 70,
+                      color: Colors.white
+                    );
+                  }
+
+                  if(state is ContainerStatusUpdated) {
+                    BlocProvider.of<ContainerListBloc>(context).add(FetchList());
+
+                    if(state is ListLoaded) {
+                      widgetToDisplay =  PieChart(
+                        PieChartData(
+                          sectionsSpace: 10,
+                          centerSpaceRadius: 80,
+                          startDegreeOffset: -90,
+                          sections: buildSection(listState.containers!),
+                        ),
+                      );
+                    }
+                  }
+                  return widgetToDisplay;
+                },
               );
             }
           ),
@@ -101,4 +132,5 @@ class _ContainerKPIState extends State<ContainerKPI> {
         ),
     ];
   }
+
 }
