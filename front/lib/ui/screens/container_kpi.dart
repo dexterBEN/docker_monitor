@@ -3,18 +3,18 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:front/client/backend/model.dart';
+import 'package:front/domain/models/docker_container.dart';
 import 'package:front/domain/models/data_categories.dart';
-import 'package:front/domain/providers/app_events.dart';
-import 'package:front/domain/providers/app_states.dart';
-import 'package:front/domain/providers/container/container_bloc.dart';
-import 'package:front/domain/providers/container/container_state.dart';
-import 'package:front/domain/providers/container_provider.dart';
+import 'package:front/domain/bloc/app_events.dart';
+import 'package:front/domain/bloc/app_states.dart';
+import 'package:front/domain/bloc/container/container_bloc.dart';
+import 'package:front/domain/bloc/container/container_state.dart';
+import 'package:front/domain/bloc/container_provider.dart';
 import 'package:front/ui/components/kpi_list_detail.dart';
 import 'package:front/ui/font_style.dart';
 import 'package:provider/provider.dart';
 
-import '../../domain/providers/app_blocs.dart';
+import '../../domain/bloc/app_blocs.dart';
 
 class ContainerKPI extends StatefulWidget {
   const ContainerKPI({

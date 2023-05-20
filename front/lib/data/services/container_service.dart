@@ -1,4 +1,3 @@
-import 'package:front/client/backend/model.dart';
 import 'package:front/domain/models/file.dart';
 import 'package:http/http.dart' as http;
 
@@ -9,7 +8,7 @@ class ContainerService {
 
   static final ContainerService _containertService = ContainerService._();
 
-  static const baseUrl = 'https://a202-88-170-147-136.ngrok-free.app';
+  static const baseUrl = 'http://127.0.0.1:5000';
 
   Future<String> fetchAllContainer() async {
     final response = await http.get(Uri.parse("$baseUrl/containers"));

@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:front/domain/models/docker_container.dart';
 import 'package:front/domain/models/file.dart';
-import 'package:front/domain/services/container_service.dart';
-import 'package:front/client/backend/model.dart';
+import 'package:front/data/services/container_service.dart';
 import 'package:http/http.dart';
 
 class ContainerProvider extends ChangeNotifier {
