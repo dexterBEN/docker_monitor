@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:front/domain/models/file.dart';
 import 'package:http/http.dart' as http;
 
@@ -60,6 +62,19 @@ class ContainerService {
     final response = await http.get(
       Uri.parse("$baseUrl/containers/$containerID")
     );
+
+    return response.body;
+  }
+
+  Future<String> connectToServer(String ipAdresse) async {
+
+    final uri = Uri.parse('http://127.0.0.1:5000/servers/${ipAdresse}');
+
+    final response = await http.get(uri);
+
+    print("================RESPONSE================");
+    print(response.body);
+    print("================RESPONSE================");
 
     return response.body;
   }

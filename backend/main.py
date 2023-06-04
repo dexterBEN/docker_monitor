@@ -8,11 +8,31 @@ import json
 app = Flask(__name__)
 CORS(app)
 
-client = docker.from_env()
+client = None
 
 @app.route('/')
 def test_app():
     return 'test endpoints work'
+
+
+@app.route('/servers/<ipAdresse>', methods=['GET'])
+def connect_to_server(ipAdresse):
+
+    global client
+    
+    server_adresse = "tcp://"+ipAdresse
+
+    try:
+        client = docker.DockerClient(base_url = server_adresse)
+    except docker.errors.DockerException as e:
+        print("ERROR ====>", e)
+        return "502"
+
+    # print(client.containers)
+    if client is None:
+        return "502"
+
+    return server_adresse
 
 
 @app.route('/containers', methods=['GET'])

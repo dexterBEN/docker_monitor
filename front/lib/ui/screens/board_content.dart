@@ -2,6 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:front/domain/bloc/server/server_bloc.dart';
+import 'package:front/domain/bloc/server/server_event.dart';
+import 'package:front/domain/bloc/server/server_state.dart';
 import 'package:front/domain/models/data_categories.dart';
 import 'package:front/domain/models/file.dart';
 import 'package:front/domain/bloc/app_events.dart';
@@ -41,7 +45,6 @@ class _BoardContentState extends State<BoardContent> {
     var widgetSize = MediaQuery.of(context).size;
 
     //Provider.of<ContainerProvider>(context, listen: false).getAllContainer();
-    BlocProvider.of<ContainerListBloc>(context).add(FetchList());
 
     return Padding(
       padding: EdgeInsets.all(defaultPadding),
@@ -49,57 +52,78 @@ class _BoardContentState extends State<BoardContent> {
         children: [
           Header(),
           SizedBox(height: defaultPadding),
-          Row(
-            children: [
-              Expanded(
-                flex: 5,
-                child: Column(
+          BlocBuilder<ServerBloc, ServerState>(
+            builder: (context, state) {
+              if (state is ServerStarted) {
+                BlocProvider.of<ContainerListBloc>(context).add(FetchList());
+                Future.delayed(
+                  const Duration(seconds: 4), 
+                  () {
+                    print('One second has passed.'); // Prints after 1 second.
+                  }
+                );
+                return Row(
                   children: [
-                    BoardPanel(
-                      width: (widgetSize.width * 70) / 100,
-                      height: (widgetSize.height * 41) / 100,
-                      panelColor: secondaryColor,
-                      padding: 1,
-                      panelContent: DropZoneUpload(
-                        onDroppedFile: (file) {
-                          setState(() {
-                            this.file = file;
-                          });
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      height: defaultPadding,
-                    ),
-                    BoardPanel(
-                      width: (widgetSize.width * 70) / 100,
-                      height: (widgetSize.height * 41) / 100,
-                      panelColor: secondaryColor,
-                      padding: defaultPadding,
-                      panelContent: BoardTable(
-                        headTitles: const [
-                          "name",
-                          "creation date",
-                          "state",
-                          "actions"
+                    Expanded(
+                      flex: 5,
+                      child: Column(
+                        children: [
+                          BoardPanel(
+                            width: (widgetSize.width * 70) / 100,
+                            height: (widgetSize.height * 41) / 100,
+                            panelColor: secondaryColor,
+                            padding: 1,
+                            panelContent: DropZoneUpload(
+                              onDroppedFile: (file) {
+                                setState(() {
+                                  this.file = file;
+                                });
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: defaultPadding,
+                          ),
+                          BoardPanel(
+                            width: (widgetSize.width * 70) / 100,
+                            height: (widgetSize.height * 41) / 100,
+                            panelColor: secondaryColor,
+                            padding: defaultPadding,
+                            panelContent: BoardTable(
+                              headTitles: const [
+                                "name",
+                                "creation date",
+                                "state",
+                                "actions"
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
+                    SizedBox(width: 12),
+                    Expanded(
+                      flex: 2,
+                      child: BoardPanel(
+                        width: (widgetSize.width * 40) / 100,
+                        height: (widgetSize.height * 84) / 100,
+                        panelColor: secondaryColor,
+                        padding: defaultPadding,
+                        panelContent: ContainerKPI(categories: categories),
+                      ),
+                    )
                   ],
-                ),
-              ),
-              SizedBox(width: 12),
-              Expanded(
-                flex: 2,
-                child: BoardPanel(
-                  width: (widgetSize.width * 40) / 100,
-                  height: (widgetSize.height * 84) / 100,
-                  panelColor: secondaryColor,
-                  padding: defaultPadding,
-                  panelContent: ContainerKPI(categories: categories),
-                ),
-              )
-            ],
+                );
+              }
+              
+              if (state is ServerStarting) {
+                return SpinKitWaveSpinner(
+                  color: Colors.white,
+                  size: 100,
+                );
+              }
+              return Text("no server connect enter IP above");
+            },
           ),
         ],
       ),
