@@ -77,3 +77,25 @@ class DrawerListTile extends StatelessWidget {
     );
   }
 }
+
+// Drawer(
+//       child: SingleChildScrollView(
+//         child: Column(
+//           children: [
+//             DrawerHeader(
+//               child: Image.asset("assets/docker_logo.png"),
+//             ),
+//             DrawerListTile(
+//               title: "Containers",
+//               svgSrc: "assets/icon_menue.svg",
+//               press: () {},
+//             ),
+//             DrawerListTile(
+//               title: "Images",
+//               svgSrc: "assets/icon_menue.svg",
+//               press: () {},
+//             ),
+//           ],
+//         ),
+//       ),
+//     );

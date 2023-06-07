@@ -2,7 +2,6 @@ from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
 import docker
 import docker.errors
-from models.dockerContainer import DockerContainer
 import json
 
 app = Flask(__name__)
