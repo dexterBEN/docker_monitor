@@ -1,0 +1,7 @@
+FROM python:3.8-slim-buster
+RUN apt-get update && apt-get install -y libssl-dev
+COPY requirements.txt /
+RUN pip3 install --upgrade pip
+RUN pip3 install -r /requirements.txt
+COPY main.py .
+CMD ["gunicorn", "-b", "0.0.0.0:8888", "main:app"]
