@@ -10,7 +10,7 @@ class ContainerService {
 
   static final ContainerService _containertService = ContainerService._();
 
-  static const baseUrl = 'http://127.0.0.1:5000';
+  static const baseUrl = 'https://docker-monitor-api-w7jlke7wuq-nw.a.run.app';
 
   Future<String> fetchAllContainer() async {
     final response = await http.get(Uri.parse("$baseUrl/containers"));
@@ -68,7 +68,7 @@ class ContainerService {
 
   Future<String> connectToServer(String ipAdresse) async {
 
-    final uri = Uri.parse('http://127.0.0.1:5000/servers/${ipAdresse}');
+    final uri = Uri.parse('$baseUrl/servers/${ipAdresse}');
 
     final response = await http.get(uri);
 
