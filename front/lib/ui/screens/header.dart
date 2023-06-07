@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:front/domain/bloc/server/server_bloc.dart';
+import 'package:front/domain/bloc/server/server_event.dart';
 import 'package:front/ui/font_style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -31,7 +34,10 @@ class SearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController searchCtrl = TextEditingController();
+
     return TextField(
+      controller: searchCtrl,
       decoration: InputDecoration(
         hintText: "search",
         fillColor: secondaryColor,
@@ -44,7 +50,11 @@ class SearchField extends StatelessWidget {
         ),
         suffixIcon: InkWell(
           onTap: () {
-            print("sounds good bro");
+            print("<===============ON TAP=============>");
+            print(searchCtrl.value.text);
+            print("<===============ON TAP=============>");
+            BlocProvider.of<ServerBloc>(context).add(ServerConnect(ipAdress: searchCtrl.value.text));
+
           },
           child: Container(
             width: 20,

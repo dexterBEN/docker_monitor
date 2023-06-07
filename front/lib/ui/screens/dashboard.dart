@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:front/ui/screens/board_content.dart';
+import 'package:front/ui/screens/header.dart';
 import 'package:front/ui/screens/side_menu.dart';
 
 class Dashboard extends StatefulWidget {

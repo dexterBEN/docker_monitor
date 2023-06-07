@@ -1,5 +1,5 @@
 class DroppedFile {
-  DroppedFile({
+  const DroppedFile({
     required this.url,
     required this.name,
     required this.mime,
@@ -7,11 +7,11 @@ class DroppedFile {
     required this.stream,
   });
 
-  String url;
-  String name;
-  String mime;
-  int bytes;
-  List<int> stream;
+  final String url;
+  final String name;
+  final String mime;
+  final int bytes;
+  final List<int> stream;
 
   String get size {
     final kb = bytes / 1024;

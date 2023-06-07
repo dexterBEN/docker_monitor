@@ -2,19 +2,29 @@
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:front/domain/bloc/container/container_event.dart';
+import 'package:front/domain/models/docker_container.dart';
 import 'package:front/domain/models/data_categories.dart';
-import 'package:front/domain/providers/container_provider.dart';
+import 'package:front/domain/bloc/app_events.dart';
+import 'package:front/domain/bloc/app_states.dart';
+import 'package:front/domain/bloc/container/container_bloc.dart';
+import 'package:front/domain/bloc/container/container_state.dart';
+import 'package:front/domain/bloc/container_provider.dart';
 import 'package:front/ui/components/kpi_list_detail.dart';
 import 'package:front/ui/font_style.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+import '../../domain/bloc/app_blocs.dart';
 
 class ContainerKPI extends StatefulWidget {
-  List<DataCategorie> categories;
-
-  ContainerKPI({
-    Key? key,
+  const ContainerKPI({
+    super.key,
     required this.categories,
-  }) : super(key: key);
+  });
+
+  final List<DataCategorie> categories;
 
   @override
   State<ContainerKPI> createState() => _ContainerKPIState();
@@ -22,7 +32,14 @@ class ContainerKPI extends StatefulWidget {
 
 class _ContainerKPIState extends State<ContainerKPI> {
   @override
+  void initState() {
+    super.initState();
+    //fetch();
+  }
+
+  @override
   Widget build(BuildContext context) {
+
     return Column(
       children: [
         Text(
@@ -35,25 +52,58 @@ class _ContainerKPIState extends State<ContainerKPI> {
         SizedBox(height: defaultPadding),
         SizedBox(
           height: 200,
-          child: Consumer<ContainerProvider>(
-            builder: (context, model, _) {
-              return PieChart(
-                PieChartData(
-                  sectionsSpace: 10,
-                  centerSpaceRadius: 80,
-                  startDegreeOffset: -90,
-                  sections: buildSection(model.containers),
-                ),
+          child: BlocBuilder<ContainerListBloc, ContainerListState>(
+            builder: (context, listState) {
+
+              Widget widgetToDisplay  = PieChart(
+                      PieChartData(
+                        sectionsSpace: 10,
+                        centerSpaceRadius: 80,
+                        startDegreeOffset: -90,
+                        sections: buildSection(listState.containers!),
+                      ),
+                    );
+              
+              return BlocBuilder<ContainerStatusBloc, ContainerStatusState>(
+                builder: (context, state) {
+                  if (
+                    listState.containers!.isEmpty || 
+                    listState.containers == null ||
+                    listState is ListLoading ||
+                    state is ContainerStatusUpdating
+                  ) {
+                    widgetToDisplay = SpinKitSpinningLines(
+                      size: 70,
+                      color: Colors.white
+                    );
+                  }
+
+                  if(state is ContainerStatusUpdated) {
+                    BlocProvider.of<ContainerListBloc>(context).add(FetchList());
+
+                    if(state is ListLoaded) {
+                      widgetToDisplay =  PieChart(
+                        PieChartData(
+                          sectionsSpace: 10,
+                          centerSpaceRadius: 80,
+                          startDegreeOffset: -90,
+                          sections: buildSection(listState.containers!),
+                        ),
+                      );
+                    }
+                  }
+                  return widgetToDisplay;
+                },
               );
-            },
+            }
           ),
         ),
         SizedBox(height: defaultPadding * 5),
         SizedBox(
           height: 400,
-          child: Consumer<ContainerProvider>(
-            builder: (context, model, _) {
-              return KPIListDetail(containers: model.containers);
+          child: BlocBuilder<ContainerListBloc, ContainerListState>(
+            builder: (context, state) {
+              return KPIListDetail(containers: state.containers!);
             },
           ),
         ),
@@ -61,26 +111,26 @@ class _ContainerKPIState extends State<ContainerKPI> {
     );
   }
 
-  List<PieChartSectionData> buildSection(List containers) {
-    List<PieChartSectionData> sections = [];
+  List<PieChartSectionData> buildSection(List<ContainerData> containers) {
+    //print(containers[0]);
     DataCategorie temps;
-    for (var container in containers) {
-      temps = widget.categories
-          .where((category) => category.name == container['State']['Status'])
-          .first;
-      temps.value += 1;
+
+    for (final container in containers) {
+      widget.categories
+          .where((category) => category.name == container.state.status.name)
+          .first
+          .value += 1;
     }
 
-    for (var categorie in widget.categories) {
-      sections.add(
+    return [
+      for (var categorie in widget.categories)
         PieChartSectionData(
           value: categorie.value,
           color: categorie.color,
           title: categorie.name,
           radius: 25,
         ),
-      );
-    }
-    return sections;
+    ];
   }
+
 }

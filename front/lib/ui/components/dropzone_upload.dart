@@ -2,20 +2,24 @@
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:front/domain/models/file.dart';
-import 'package:front/domain/providers/container_provider.dart';
+import 'package:front/domain/bloc/app_blocs.dart';
+import 'package:front/domain/bloc/app_events.dart';
+import 'package:front/domain/bloc/container_provider.dart';
 import 'package:front/ui/components/upload_preview.dart';
 import 'package:front/ui/font_style.dart';
 import 'package:provider/provider.dart';
 
 class DropZoneUpload extends StatefulWidget {
-  final ValueChanged<DroppedFile> onDroppedFile;
-
-  DropZoneUpload({
-    Key? key,
+  const DropZoneUpload({
+    super.key,
     required this.onDroppedFile,
-  }) : super(key: key);
+  });
+
+  final ValueChanged<DroppedFile> onDroppedFile;
 
   @override
   State<DropZoneUpload> createState() => _DropZoneUploadState();
@@ -26,18 +30,24 @@ class _DropZoneUploadState extends State<DropZoneUpload> {
   DroppedFile? _droppedFile;
   bool isHighlighted = false;
 
+  GlobalKey<FormState>? _formKey;
+
   @override
   void initState() {
     super.initState();
+
+    _formKey = GlobalKey<FormState>();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // ignore: avoid_unnecessary_containers
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(
           width: 170,
@@ -132,13 +142,40 @@ class _DropZoneUploadState extends State<DropZoneUpload> {
   }
 
   void createImage() {
+    var toaster =  Fluttertoast.showToast(
+            msg: "Your image is created!",
+            timeInSecForIosWeb: 10,
+            toastLength: Toast.LENGTH_LONG,
+            webShowClose: true,
+            fontSize: 15,
+          );
+
+
+    BlocProvider.of<ImageBloc>(context).add(
+      CreateImage(
+        droppedFile: _droppedFile!, 
+        onImageCreated: () => toaster
+      )
+    );
+
+    //final state = BlocProvider.of<ImageBloc>(context).state;
+
     //_droppedFile
-    Provider.of<ContainerProvider>(context, listen: false)
-        .createImage(_droppedFile!);
+    // if (state is CreateImage) {
+    //     Fluttertoast.showToast(
+    //       msg: "Your image is created!",
+    //       timeInSecForIosWeb: 10,
+    //       toastLength: Toast.LENGTH_LONG,
+    //       webShowClose: true,
+    //       fontSize: 15,
+    //     );
+    //   }
   }
 
   Future acceptFile(dynamic event) async {
-    final name = event.name;
+    print('event type ${event.runtimeType}');
+
+    final name = event.name.toString();
 
     final mime = await controller.getFileMIME(event);
     final bytes = await controller.getFileSize(event);
@@ -180,7 +217,7 @@ class _DropZoneUploadState extends State<DropZoneUpload> {
           color: Colors.white,
           padding: EdgeInsets.zero,
           strokeWidth: 3,
-          dashPattern: [8, 4],
+          dashPattern: const [8, 4],
           radius: Radius.circular(10),
           child: child,
         ),
