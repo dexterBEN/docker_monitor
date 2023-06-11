@@ -80,7 +80,6 @@ class _ContainerKPIState extends State<ContainerKPI> {
 
                   if(state is ContainerStatusUpdated) {
                     BlocProvider.of<ContainerListBloc>(context).add(FetchList());
-                  }
                     if(listState is ListLoaded) {
                       widgetToDisplay =  PieChart(
                         PieChartData(
@@ -91,6 +90,7 @@ class _ContainerKPIState extends State<ContainerKPI> {
                         ),
                       );
                     }
+                  }
                   
                   return widgetToDisplay;
                 },
