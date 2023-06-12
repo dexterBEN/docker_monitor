@@ -6,26 +6,76 @@ class SideMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            DrawerHeader(
-              child: Image.asset("assets/docker_logo.png"),
-            ),
-            DrawerListTile(
-              title: "Containers",
-              svgSrc: "assets/icon_menue.svg",
-              press: () {},
-            ),
-            DrawerListTile(
-              title: "Images",
-              svgSrc: "assets/icon_menue.svg",
-              press: () {},
-            ),
-          ],
+
+  List<Widget> subTiles = [];
+
+    return Column(
+      children: [
+        DrawerHeader(
+          child: Image.asset("assets/docker_logo.png"),
         ),
-      ),
+        ExpansionTile(
+          title: Row(
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Connection to server"),
+                        content: SizedBox(
+                          width: 300,
+                          height: 300,
+                          child: Column(
+                            children: [
+                              const TextField(
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'entrer ip server',
+                                  hintText: 'ex: 255.0.1.7:80',
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 100,
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  print("oooooooooooooooook");
+                                },
+                                child: Container(
+                                  color: Colors.green,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 5, horizontal: 10),
+                                  child: const Text(
+                                    'connect',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 13.0,),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: Container(
+                  child: Icon(Icons.add),
+                ),
+                // icon: Icon(
+                //   Icons.add,
+                //   size: 24.0,
+                // ),
+              ),
+              SizedBox(width: 20),
+              Text("Servers")
+            ],
+          ),
+          children: subTiles.length == 0 ? [Text("no server, add one")] : subTiles,
+        ),
+      ],
     );
   }
 
