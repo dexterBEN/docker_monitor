@@ -10,6 +10,7 @@ final ContainerService _containerService = ContainerService();
 
 class ContainerListBloc extends Bloc<ContainerListEvent, ContainerListState> {
   ContainerListBloc() : super(InitialeState()) {
+
     on<FetchList>((event, emit) async {
       final body = await _containerService.fetchAllContainer();
       final decodedBody = json.decode(body) as Iterable;
@@ -47,8 +48,8 @@ class ContainerStatusBloc extends Bloc<ContainerStatusEvent, ContainerStatusStat
 
       if(actionStatus == 200) {
         add(FetchContainerById(containerId: event.containerId));
+        emit(ContainerStatusUpdated());
       }
-      emit(ContainerStatusUpdated());
     });
 
     on<ContainerStop>((event, emit) async {
@@ -57,17 +58,19 @@ class ContainerStatusBloc extends Bloc<ContainerStatusEvent, ContainerStatusStat
 
       if(actionStatus == 200) {
         add(FetchContainerById(containerId: event.containerId));
+        emit(ContainerStatusUpdated());
       }
-      emit(ContainerStatusUpdated());
     });
 
     on<FetchContainerById>((event, emit) async {
+      // emit(ContainerFetching());
+
       final body = await _containerService.getContainerById(event.containerId);
 
       final Map<String, dynamic> decodedJson = json.decode(body) as Map<String, dynamic>;
-      print(decodedJson.runtimeType);
+      //print(decodedJson.runtimeType);
       ContainerData containerData = ContainerData.fromJson(decodedJson);
-      print(containerData);
+      //print(containerData);
 
       //print(dockerContainer);
       emit(ContainerFetched(fetchedContainer: containerData));

@@ -109,20 +109,21 @@ class _BoardTableState extends State<BoardTable> {
             DataCell(
               BlocConsumer<ContainerStatusBloc, ContainerStatusState>(
                 listener: (context, state){
-                  if(state is ContainerStatusUpdated) {
-                    BlocProvider.of<ContainerStatusBloc>(context).add(
-                      FetchContainerById(containerId: state.containerId!)
-                    );
-                  }
+                  // if(state is ContainerStatusUpdated && state.containerId != null) {
+                  //   BlocProvider.of<ContainerStatusBloc>(context).add(
+                  //     FetchContainerById(containerId: state.containerId!)
+                  //   );
+                  // }
                 },
                 builder: (context, state) {
-                  Widget widgetToDisplay;
+                  Widget widgetToDisplay = Text(container.state.status.name);
 
                   if(
                     state is ContainerFetched &&
                     container.id == state.fetchedContainer.id
                   ) {
                     container = state.fetchedContainer;
+                    widgetToDisplay = Text(container.state.status.name);
                   }
 
                   if(
@@ -133,8 +134,6 @@ class _BoardTableState extends State<BoardTable> {
                       color:Colors.white,
                       size: 25,
                     );
-                  }else {
-                    widgetToDisplay = Text(container.state.status.name);
                   }
 
                   return widgetToDisplay;

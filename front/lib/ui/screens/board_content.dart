@@ -56,12 +56,7 @@ class _BoardContentState extends State<BoardContent> {
             builder: (context, state) {
               if (state is ServerStarted) {
                 BlocProvider.of<ContainerListBloc>(context).add(FetchList());
-                Future.delayed(
-                  const Duration(seconds: 4), 
-                  () {
-                    print('One second has passed.'); // Prints after 1 second.
-                  }
-                );
+                
                 return Row(
                   children: [
                     Expanded(
