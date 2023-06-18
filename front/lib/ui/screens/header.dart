@@ -50,9 +50,9 @@ class SearchField extends StatelessWidget {
         ),
         suffixIcon: InkWell(
           onTap: () {
-            print("<===============ON TAP=============>");
+            //print("<===============ON TAP=============>");
             print(searchCtrl.value.text);
-            print("<===============ON TAP=============>");
+            //print("<===============ON TAP=============>");
             BlocProvider.of<ServerBloc>(context).add(ServerConnect(ipAdress: searchCtrl.value.text));
 
           },

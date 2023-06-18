@@ -13,7 +13,7 @@ class InitialeState extends ContainerListState {
 }
 
 class ListLoading extends ContainerListState {
-  ListLoading();
+  ListLoading() : super(containers: []);
 }
 
 class ListLoaded extends ContainerListState {

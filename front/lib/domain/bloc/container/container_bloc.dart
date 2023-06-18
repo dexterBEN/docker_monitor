@@ -12,6 +12,7 @@ class ContainerListBloc extends Bloc<ContainerListEvent, ContainerListState> {
   ContainerListBloc() : super(InitialeState()) {
 
     on<FetchList>((event, emit) async {
+      emit(ListLoading());
       final body = await _containerService.fetchAllContainer();
       final decodedBody = json.decode(body) as Iterable;
 
@@ -63,7 +64,7 @@ class ContainerStatusBloc extends Bloc<ContainerStatusEvent, ContainerStatusStat
     });
 
     on<FetchContainerById>((event, emit) async {
-      // emit(ContainerFetching());
+      emit(ContainerFetching());
 
       final body = await _containerService.getContainerById(event.containerId);
 
