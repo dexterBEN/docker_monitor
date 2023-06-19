@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest # This job will run on ubuntu virtual machine
     
     env:
-      working-directory: /home/runner/work/docker_monitor/backend
+      # working-directory: /home/runner/work/docker_monitor/backend
       PROJECT_ID: ${{ secrets.GCP_PROJECT }}
       RUN_REGION: europe-west2
       SA_KEY_JSON: ${{ secrets.GCP_SA_KEY }}
@@ -22,7 +22,9 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
-
+          
+      - run: pwd
+        
       - run: docker build -t flask_app .
         working-directory: ${{env.working-directory}}
 
