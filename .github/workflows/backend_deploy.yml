@@ -19,6 +19,8 @@ jobs:
 
     steps:
 
+    - uses: actions/checkout@v1 #checkout the repo
+
     - uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
