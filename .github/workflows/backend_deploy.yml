@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest # This job will run on ubuntu virtual machine
     
     env:
-      working-directory: ./backend
+      # working-directory: ./backend
       PROJECT_ID: ${{ secrets.GCP_PROJECT }}
       RUN_REGION: europe-west2
       SA_KEY_JSON: ${{ secrets.GCP_SA_KEY }}
