@@ -30,13 +30,13 @@ jobs:
 
       
     - run: docker build -t flask_app .
-      working-directory: ${{env.working-directory}}
+      # working-directory: ${{env.working-directory}}
 
     - run: docker tag flask_app dexter94/docker_monitor_api
-      working-directory: ${{env.working-directory}}
+      # working-directory: ${{env.working-directory}}
     
     - run: docker push dexter94/docker_monitor_api
-      working-directory: ${{env.working-directory}}
+      # working-directory: ${{env.working-directory}}
 
   # deploy:
   #  name: Deploy to Cloud Run
