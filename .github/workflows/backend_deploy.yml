@@ -6,6 +6,8 @@ on:
 
 jobs:
   build_image:
+  
+    name: Build Docker image (Flask-app) # name of the job
     runs-on: ubuntu-latest # This job will run on ubuntu virtual machine
     
     env:
