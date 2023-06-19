@@ -30,12 +30,11 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-
-    # - run: docker tag flask_app dexter94/docker_monitor_api
-      # working-directory: ${{env.working-directory}}
+      - run: docker tag flask_app dexter94/docker_monitor_api
+        working-directory: ${{env.working-directory}}
     
-    # - run: docker push dexter94/docker_monitor_api
-      # working-directory: ${{env.working-directory}}
+      - run: docker push dexter94/docker_monitor_api
+        working-directory: ${{env.working-directory}}
 
   # deploy:
   #  name: Deploy to Cloud Run
