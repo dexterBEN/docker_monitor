@@ -22,6 +22,8 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
+          
+      - run: ls
 
       - run: docker build -t flask_app .
         working-directory: ${{env.working-directory}}
@@ -32,22 +34,22 @@ jobs:
       - run: docker push dexter94/docker_monitor_api
         working-directory: ${{env.working-directory}}
 
-  deploy:
-    name: Deploy to Cloud Run
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+  # deploy:
+  #  name: Deploy to Cloud Run
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - uses: actions/checkout@v2
 
       # Setup gcloud CLI
-      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-        with:
-          version: "290.0.1"
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          project_id: ${{ secrets.GCP_PROJECT }}
+   #   - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+   #     with:
+   #       version: "290.0.1"
+   #       service_account_key: ${{ secrets.GCP_SA_KEY }}
+   #       project_id: ${{ secrets.GCP_PROJECT }}
 
       # Build and push image to Google Container Registry
-      - name: Build
-        run: gcloud builds submit --tag gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA
+   #   - name: Build
+   #     run: gcloud builds submit --tag gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA
 
-      - name: Deploy
-        run: gcloud run deploy $PROJECT_ID --image gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA --platform managed --region $RUN_REGION
+   #   - name: Deploy
+   #     run: gcloud run deploy $PROJECT_ID --image gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA --platform managed --region $RUN_REGION
