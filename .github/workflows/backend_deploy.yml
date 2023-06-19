@@ -10,7 +10,6 @@ env:
   SA_KEY_JSON: ${{ secrets.GCP_SA_KEY }}
   working-directory: ./backend
 
-
 jobs:
   build_image:
     runs-on: ubuntu-latest # This job will run on ubuntu virtual machine
