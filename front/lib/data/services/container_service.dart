@@ -72,9 +72,9 @@ class ContainerService {
 
     final response = await http.get(uri);
 
-    print("================RESPONSE================");
-    print(response.body);
-    print("================RESPONSE================");
+    //print("================RESPONSE================");
+    //print(response.body);
+    //print("================RESPONSE================");
 
     return response.body;
   }

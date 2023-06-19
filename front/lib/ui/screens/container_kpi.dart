@@ -54,50 +54,46 @@ class _ContainerKPIState extends State<ContainerKPI> {
           height: 200,
           child: BlocBuilder<ContainerListBloc, ContainerListState>(
             builder: (context, listState) {
+              return BlocConsumer<ContainerStatusBloc, ContainerStatusState>(
+                listener: (context, state) => {
+                  if(state is ContainerStatusUpdated) {
+                    BlocProvider.of<ContainerListBloc>(context).add(FetchList())
+                  }
+                },
+                builder: (context, state) {
 
-              return Text("Nothing to show");
+                  Widget widgetToDisplay  = PieChart(
+                      PieChartData(
+                        sectionsSpace: 10,
+                        centerSpaceRadius: 80,
+                        startDegreeOffset: -90,
+                        sections: buildSection(listState.containers!),
+                      ),
+                    );
 
-              // Widget widgetToDisplay  = PieChart(
-              //         PieChartData(
-              //           sectionsSpace: 10,
-              //           centerSpaceRadius: 80,
-              //           startDegreeOffset: -90,
-              //           sections: buildSection(listState.containers!),
-              //         ),
-              //       );
-              
-              // return BlocBuilder<ContainerStatusBloc, ContainerStatusState>(
-              //   builder: (context, state) {
-              //     if (
-              //       listState.containers!.isEmpty || 
-              //       listState.containers == null ||
-              //       listState is ListLoading ||
-              //       state is ContainerStatusUpdating
-              //     ) {
-              //       widgetToDisplay = SpinKitSpinningLines(
-              //         size: 70,
-              //         color: Colors.white
-              //       );
-              //     }
+                  if (
+                    listState is ListLoading ||
+                    state is ContainerStatusUpdating
+                  ) {
+                    widgetToDisplay = SpinKitSpinningLines(
+                      size: 70,
+                      color: Colors.white
+                    );
+                  }
 
-              //     if(state is ContainerStatusUpdated) {
-              //       BlocProvider.of<ContainerListBloc>(context).add(FetchList());
-              //     }
-              //       if(listState is ListLoaded) {
-              //         widgetToDisplay =  PieChart(
-              //           PieChartData(
-              //             sectionsSpace: 10,
-              //             centerSpaceRadius: 80,
-              //             startDegreeOffset: -90,
-              //             sections: buildSection(listState.containers!),
-              //           ),
-              //         );
-              //       }
-                  
-                  
-              //     return widgetToDisplay;
-              //   },
-              // );
+                  if(listState is ListLoaded) {
+                    widgetToDisplay =  PieChart(
+                      PieChartData(
+                        sectionsSpace: 10,
+                        centerSpaceRadius: 80,
+                        startDegreeOffset: -90,
+                        sections: buildSection(listState.containers!),
+                      ),
+                    );
+                  }
+                  return widgetToDisplay;
+                },
+              );
             }
           ),
         ),
