@@ -24,7 +24,7 @@ jobs:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-    - run: ls
+    - run: pwd
       
     # - run: docker build -t flask_app .
     #   working-directory: ${{env.working-directory}}
