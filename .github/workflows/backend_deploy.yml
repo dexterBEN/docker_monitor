@@ -8,6 +8,7 @@ jobs:
   build_image:
   
     name: Build Docker image (Flask-app) # name of the job
+
     runs-on: ubuntu-latest # This job will run on ubuntu virtual machine
     
     env:
@@ -23,16 +24,16 @@ jobs:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-    - run: ls
+    # - run: ls
       
-    - run: docker build -t flask_app .
-      working-directory: ${{env.working-directory}}
+    # - run: docker build -t flask_app .
+    #   working-directory: ${{env.working-directory}}
 
-    - run: docker tag flask_app dexter94/docker_monitor_api
-      working-directory: ${{env.working-directory}}
+    # - run: docker tag flask_app dexter94/docker_monitor_api
+    #   working-directory: ${{env.working-directory}}
     
-    - run: docker push dexter94/docker_monitor_api
-      working-directory: ${{env.working-directory}}
+    # - run: docker push dexter94/docker_monitor_api
+    #   working-directory: ${{env.working-directory}}
 
   # deploy:
   #  name: Deploy to Cloud Run
