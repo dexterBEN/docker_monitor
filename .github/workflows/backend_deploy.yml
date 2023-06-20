@@ -13,9 +13,6 @@ jobs:
     
     env:
       working-directory: ./backend #TODO find why it's not working
-      PROJECT_ID: ${{ secrets.GCP_PROJECT }}
-      RUN_REGION: europe-west2
-      SA_KEY_JSON: ${{ secrets.GCP_SA_KEY }}
 
     steps:
       - name: checkout code
@@ -36,22 +33,31 @@ jobs:
       - run: docker push dexter94/docker_monitor_api
         working-directory: ${{env.working-directory}}
 
-  # deploy:
-  #  name: Deploy to Cloud Run
-  #  runs-on: ubuntu-latest
-  #  steps:
-  #    - uses: actions/checkout@v2
+  deploy_cloud:
 
-      # Setup gcloud CLI
-   #   - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-   #     with:
-   #       version: "290.0.1"
-   #       service_account_key: ${{ secrets.GCP_SA_KEY }}
-   #       project_id: ${{ secrets.GCP_PROJECT }}
+    name: Deploy to Cloud Run
 
-      # Build and push image to Google Container Registry
-   #   - name: Build
-   #     run: gcloud builds submit --tag gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA
+    runs-on: ubuntu-latest
 
-   #   - name: Deploy
-   #     run: gcloud run deploy $PROJECT_ID --image gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA --platform managed --region $RUN_REGION
+    env:
+      PROJECT_ID: ${{ secrets.GCP_PROJECT }}
+      RUN_REGION: europe-west2
+      SA_KEY_JSON: ${{ secrets.GCP_SA_KEY }}
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+
+    - name: Setup gcloud CLI
+      uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        version: "290.0.1"
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        project_id: ${{ secrets.GCP_PROJECT }}
+
+    # Build and push image to Google Container Registry
+    - name: Build
+      run: gcloud builds submit --tag gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA
+
+    - name: Deploy
+      run: gcloud run deploy $PROJECT_ID --image gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA --platform managed --region $RUN_REGION
