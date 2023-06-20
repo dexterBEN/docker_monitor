@@ -36,7 +36,7 @@ jobs:
   deploy_cloud:
     name: Deploy to Cloud Run
 
-    # runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
     # - run: echo toto
 
