@@ -34,11 +34,11 @@ jobs:
         working-directory: ${{env.working-directory}}
 
   deploy_cloud:
-    name: Deploy to Cloud Run
+    # name: Deploy to Cloud Run
 
-    runs-on: ubuntu-latest
+    # runs-on: ubuntu-latest
 
-    - run: echo toto
+    # - run: echo toto
 
     # env:
     #   PROJECT_ID: ${{ secrets.GCP_PROJECT }}
