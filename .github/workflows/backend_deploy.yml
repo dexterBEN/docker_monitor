@@ -34,6 +34,7 @@ jobs:
         working-directory: ${{env.working-directory}}
 
   deploy_cloud:
+
     name: Deploy to Cloud Run
 
     runs-on: ubuntu-latest
