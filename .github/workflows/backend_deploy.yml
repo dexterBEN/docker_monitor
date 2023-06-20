@@ -33,10 +33,10 @@ jobs:
       - run: docker push dexter94/docker_monitor_api
         working-directory: ${{env.working-directory}}
 
-  deploy_cloud:
-    name: Deploy to Cloud Run
+  # deploy_cloud:
+  #   name: Deploy to Cloud Run
 
-    runs-on: ubuntu-latest
+  #   runs-on: ubuntu-latest
 
     # - run: echo toto
 
