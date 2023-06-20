@@ -47,13 +47,9 @@ jobs:
 
     steps:
       - run: docker ps -a
-
-    # - run: echo toto
-
-    # env:
-    #   PROJECT_ID: ${{ secrets.GCP_PROJECT }}
-    #   RUN_REGION: europe-west2
-    #   SA_KEY_JSON: ${{ secrets.GCP_SA_KEY }}
+      
+      - name: checkout code
+        uses: actions/checkout@v2
 
     # steps:
     #   - name: checkout code
