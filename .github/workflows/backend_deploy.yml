@@ -38,7 +38,7 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    - run: echo toto
+    # - run: echo toto
 
     # env:
     #   PROJECT_ID: ${{ secrets.GCP_PROJECT }}
