@@ -47,13 +47,18 @@ jobs:
 
     steps:
       - run: docker ps -a
-      
+
       - name: checkout code
         uses: actions/checkout@v2
+      
+      - name: Setup gcloud CLI
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: "290.0.1"
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          project_id: ${{ secrets.GCP_PROJECT }}
 
     # steps:
-    #   - name: checkout code
-    #     uses: actions/checkout@v2
 
     # - name: Setup gcloud CLI
     #   uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
