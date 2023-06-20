@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest # This job will run on ubuntu virtual machine
     
     env:
-      working-directory: ./backend #TODO find why it's not working
+      working-directory: ./backend #TODO find why it's not workin
 
     steps:
       - name: checkout code
