@@ -38,6 +38,9 @@ jobs:
     
     runs-on: ubuntu-latest
 
+    steps:
+      - run: docker ps -a
+
     # - run: echo toto
 
     # env:
