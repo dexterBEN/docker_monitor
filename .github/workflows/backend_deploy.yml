@@ -35,10 +35,15 @@ jobs:
 
   deploy_cloud:
     needs: build_image
-    
+
     name: Deploy to Cloud Run
     
     runs-on: ubuntu-latest
+
+    env:
+      PROJECT_ID: ${{ secrets.GCP_PROJECT }}
+      RUN_REGION: europe-west2
+      SA_KEY_JSON: ${{ secrets.GCP_SA_KEY }}
 
     steps:
       - run: docker ps -a
