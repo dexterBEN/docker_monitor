@@ -34,6 +34,8 @@ jobs:
         working-directory: ${{env.working-directory}}
 
   deploy_cloud:
+    needs: build_image
+    
     name: Deploy to Cloud Run
     
     runs-on: ubuntu-latest
