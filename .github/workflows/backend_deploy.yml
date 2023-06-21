@@ -49,18 +49,16 @@ jobs:
       - run: |
           sudo apt-get install python2.7
           export CLOUDSDK_PYTHON="usr/bin/python2"
-        working-directory: ${{env.working-directory}}
-
-      - run: gcloud auth activate-service-account --key-file ${SA_KEY_JSON}
+        # working-directory: ${{env.working-directory}}
 
       - name: checkout code
         uses: actions/checkout@v3
 
-      # - name: authenticate to GCLOUD
-      #   uses: google-github-actions/auth@v1
-      #   with:
-      #     credentials_json: ${{ secrets.GCP_SA_KEY }}
-      #     cleanup_credentials: false
+      - name: authenticate to GCLOUD
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+          cleanup_credentials: false
       
       - name: Setup gcloud CLI
         uses: google-github-actions/setup-gcloud@v1
