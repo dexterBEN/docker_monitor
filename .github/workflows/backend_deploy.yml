@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest # This job will run on ubuntu virtual machine
     
     env:
-      working-directory: ./backend #TODO find why it's not workin
+      working-directory: ./backend
 
     steps:
       - name: checkout code
@@ -44,11 +44,13 @@ jobs:
       PROJECT_ID: ${{ secrets.GCP_PROJECT }}
       RUN_REGION: europe-west2
       SA_KEY_JSON: ${{ secrets.GCP_SA_KEY }}
+      working-directory: ./backend
 
     steps:
       - run: |
           sudo apt-get install python2.7
           export CLOUDSDK_PYTHON="usr/bin/python2"
+        working-directory: ${{env.working-directory}}
 
       - name: checkout code
         uses: actions/checkout@v2
@@ -60,6 +62,10 @@ jobs:
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           project_id: ${{ secrets.GCP_PROJECT }}
 
+      - name: Build
+        run: gcloud builds submit --tag gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA
+        working-directory: ${{env.working-directory}}
+
     # steps:
 
     # - name: Setup gcloud CLI
@@ -69,9 +75,6 @@ jobs:
     #     service_account_key: ${{ secrets.GCP_SA_KEY }}
     #     project_id: ${{ secrets.GCP_PROJECT }}
 
-    # # Build and push image to Google Container Registry
-    # - name: Build
-    #   run: gcloud builds submit --tag gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA
 
     # - name: Deploy
     #   run: gcloud run deploy $PROJECT_ID --image gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA --platform managed --region $RUN_REGION
