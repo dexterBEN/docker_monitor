@@ -43,7 +43,6 @@ jobs:
     env:
       PROJECT_ID: ${{ secrets.GCP_PROJECT }}
       RUN_REGION: europe-west2
-      working-directory: ./backend
       # SA_KEY_JSON: ${{ secrets.GCP_SA_KEY }}
 
     steps:
