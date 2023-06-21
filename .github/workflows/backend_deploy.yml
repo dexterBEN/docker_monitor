@@ -43,7 +43,7 @@ jobs:
     env:
       PROJECT_ID: ${{ secrets.GCP_PROJECT }}
       RUN_REGION: europe-west2
-      # SA_KEY_JSON: ${{ secrets.GCP_SA_KEY }}
+      SA_KEY_JSON: ${{ secrets.GCP_SA_KEY }}
 
     steps:
       - run: |
