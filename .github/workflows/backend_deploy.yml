@@ -43,12 +43,14 @@ jobs:
     env:
       PROJECT_ID: ${{ secrets.GCP_PROJECT }}
       RUN_REGION: europe-west2
+      working-directory: ./backend
       # SA_KEY_JSON: ${{ secrets.GCP_SA_KEY }}
 
     steps:
       - run: |
           sudo apt-get install python2.7
           export CLOUDSDK_PYTHON="usr/bin/python2"
+        working-directory: ${{env.working-directory}}
 
       - name: checkout code
         uses: actions/checkout@v2
