@@ -46,7 +46,9 @@ jobs:
       SA_KEY_JSON: ${{ secrets.GCP_SA_KEY }}
 
     steps:
-      - run: docker ps -a
+      - run: |
+          sudo apt-get install python2.7
+          export CLOUDSDK_PYTHON="usr/bin/python2"
 
       - name: checkout code
         uses: actions/checkout@v2
