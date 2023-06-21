@@ -47,7 +47,7 @@ jobs:
       working-directory: ./backend
 
     steps:
-      run: |
+      - run: |
         sudo apt-get install python2.7
         export CLOUDSDK_PYTHON="usr/bin/python2"
       working-directory: ${{env.working-directory}}
