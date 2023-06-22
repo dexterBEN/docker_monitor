@@ -18,10 +18,10 @@ jobs:
       - name: checkout code
         uses: actions/checkout@v2 #checkout the repo
 
-      - run: docker images
+      - run: docker build -t flask_app .
         working-directory: ${{env.working-directory}}
 
-      - run: docker build -t flask_app .
+      - run: docker images
         working-directory: ${{env.working-directory}}
 
       - name: login to dockerhub
