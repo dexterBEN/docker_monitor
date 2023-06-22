@@ -66,7 +66,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: flask_app_artifact
-          path: ${{ env.working-directory }}
+          path: ${{ env.working-directory }}/docker-image
 
       - name: Authenticate to GCR
         uses: google-github-actions/auth@v1
