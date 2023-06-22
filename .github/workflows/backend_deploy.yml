@@ -83,7 +83,7 @@ jobs:
           project_id: ${{ secrets.GCP_PROJECT }}
 
       - name: pull the image from docker hub
-        run: docker pull dexter94/docker_monitor
+        run: sudo docker pull dexter94/docker_monitor
 
       - name: TAG image to GCR
         run: docker tag dexter94/docker_monitor_api gcr.io/$PROJECT_ID/docker_monitor_api
