@@ -74,8 +74,11 @@ jobs:
           # service_account_key: ${{ secrets.GCP_SA_KEY }}
           project_id: ${{ secrets.GCP_PROJECT }}
 
-      - name: Build
-        run: gcloud builds submit --tag gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA
+      - name: TAG image to GCR
+        run: docker tag dexter94/docker_monitor_api gcr.io/$PROJECT_ID/docker_monitor_api
+
+      - name: deploy to GCR
+        run: docker push gcr.io/$PROJECT_ID/docker_monitor_api
 
     # steps:
 
