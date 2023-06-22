@@ -50,8 +50,8 @@ jobs:
           sudo apt-get install python2.7
           export CLOUDSDK_PYTHON="usr/bin/python2"
         # working-directory: ${{env.working-directory}}
-        
-      - run: echo $SA_KEY_JSON
+
+      - run: echo $PROJECT_ID
 
       - name: checkout code
         uses: actions/checkout@v3
