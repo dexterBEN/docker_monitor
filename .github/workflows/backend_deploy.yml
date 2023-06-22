@@ -51,8 +51,6 @@ jobs:
           export CLOUDSDK_PYTHON="usr/bin/python2"
         # working-directory: ${{env.working-directory}}
 
-      - run: echo $PROJECT_ID
-
       - name: checkout code
         uses: actions/checkout@v3
 
@@ -66,6 +64,9 @@ jobs:
         uses: google-github-actions/setup-gcloud@v1
         with:
           version: '>= 363.0.0'
+
+      - name: Set Project ID
+        run: gcloud config set project ${{ secrets.GCP_PROJECT }}
 
       - name: Setup gcloud CLI
         uses: google-github-actions/setup-gcloud@v1
