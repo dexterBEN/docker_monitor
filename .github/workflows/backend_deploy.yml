@@ -68,7 +68,6 @@ jobs:
       - name: Setup gcloud CLI
         uses: google-github-actions/setup-gcloud@v1
         with:
-          version: "290.0.1"
           # service_account_key: ${{ secrets.GCP_SA_KEY }}
           project_id: ${{ secrets.GCP_SA_KEY }}
 
