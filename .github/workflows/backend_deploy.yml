@@ -67,9 +67,6 @@ jobs:
         with:
           name: flask_app_artifact
           path: ${{ env.working-directory }}
-      
-      - name: Set up Docker
-        uses: docker/setup-docker@v1
 
       - name: Authenticate to GCR
         uses: google-github-actions/auth@v1
