@@ -61,6 +61,9 @@ jobs:
       - name: Tag Docker image
         run: docker tag flask_app gcr.io/${{ env.PROJECT_ID }}/docker_monitor_api
 
+      - name: pull image from docker hub
+        run: sudo docker pull dexter94/docker_monitor_api:latest
+
       - name: Push Docker image to GCR
         run: docker push gcr.io/${{ env.PROJECT_ID }}/docker_monitor_api
 
