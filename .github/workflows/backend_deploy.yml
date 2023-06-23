@@ -9,7 +9,7 @@ jobs:
   
     name: Build Docker image (Flask-app) # name of the job
 
-    runs-on: ubuntu-latest # This job will run on ubuntu virtual machine
+    runs-on: ubuntu-latest # This job will run on ubuntu virtual machin
     
     env:
       working-directory: ./backend
