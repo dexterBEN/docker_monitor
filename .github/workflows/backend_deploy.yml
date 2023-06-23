@@ -41,58 +41,51 @@ jobs:
       #   working-directory: ${{env.working-directory}}
 
   deploy_cloud:
-    needs: build_image
+  needs: build_image
+  name: Deploy to Cloud Run
+  runs-on: ubuntu-latest
+  env:
+    PROJECT_ID: ${{ secrets.GCP_PROJECT }}
+    RUN_REGION: europe-west2
+    SA_KEY_JSON: ${{ secrets.GCP_SA_KEY }}
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-    name: Deploy to Cloud Run
-    
-    runs-on: ubuntu-latest
+    - name: Download Docker image artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: docker-image
+        path: ${{ env.working-directory }}/docker-image-artifact
 
-    env:
-      PROJECT_ID: ${{ secrets.GCP_PROJECT }}
-      RUN_REGION: europe-west2
-      SA_KEY_JSON: ${{ secrets.GCP_SA_KEY }}
+    - name: Authenticate to GCR
+      uses: google-github-actions/auth@v1
+      with:
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
+        project_id: ${{ secrets.GCP_PROJECT }}
 
-    steps:
-      - run: |
-          sudo apt-get install python2.7
-          export CLOUDSDK_PYTHON="usr/bin/python2"
+    - name: Load Docker image
+      run: docker load -i ${{ env.working-directory }}/docker-image-artifact/flask_app.tar
 
-        working-directory: ${{env.working-directory}}
+    - name: Tag Docker image
+      run: docker tag flask_app gcr.io/${{ env.PROJECT_ID }}/docker_monitor_api
 
-      - name: checkout code
-        uses: actions/checkout@v3
+    - name: Push Docker image to GCR
+      run: docker push gcr.io/${{ env.PROJECT_ID }}/docker_monitor_api
 
-      - name: Download Docker image artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: flask_app_artifact
-          path: ${{ env.working-directory }}/docker-image-artifact
+    - name: Set up gcloud CLI
+      uses: google-github-actions/setup-gcloud@v1
 
-      - name: Authenticate to GCR
-        uses: google-github-actions/auth@v1
-        with:
-          credentials_json: ${{ secrets.GCP_SA_KEY }}
-          project_id: ${{ secrets.GCP_PROJECT }}
-      
-      - name: Load Docker image
-        run: docker load -i ${{ env.working-directory }}/flask_app.tar
+    - name: Deploy to Cloud Run
+      run: |
+        gcloud run deploy docker-monitor-api \
+          --image gcr.io/${{ env.PROJECT_ID }}/docker_monitor_api \
+          --platform managed \
+          --region ${{ env.RUN_REGION }} \
+          --allow-unauthenticated
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
 
-      - name: Tag Docker image
-        run: docker tag flask_app gcr.io/${{ env.PROJECT_ID }}/docker_monitor_api
-
-      - name: Push Docker image to GCR
-        run: docker push gcr.io/${{ env.PROJECT_ID }}/docker_monitor_api
-
-      - name: Set up gcloud CLI
-        uses: google-github-actions/setup-gcloud@v1
-
-      - name: Deploy to Cloud Run
-        run: |
-          gcloud run deploy docker-monitor-api \
-            --image gcr.io/${{ env.PROJECT_ID }}/docker_monitor_api \
-            --platform managed \
-            --region ${{ env.RUN_REGION }} \
-            --allow-unauthenticated
 
       # - name: authenticate to GCLOUD
       #   uses: google-github-actions/auth@v1
