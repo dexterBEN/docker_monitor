@@ -29,6 +29,9 @@ jobs:
 
       - run: docker tag flask_app dexter94/docker_monitor_api
         working-directory: ${{env.working-directory}}
+      
+      - run: docker images
+        working-directory: ${{env.working-directory}}
     
       # - run: docker push dexter94/docker_monitor_api
       #   working-directory: ${{env.working-directory}}
