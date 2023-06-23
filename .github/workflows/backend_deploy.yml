@@ -21,21 +21,14 @@ jobs:
       - run: docker build -t flask_app .
         working-directory: ${{env.working-directory}}
 
-      - name: Save Docker image artifact
-        uses: actions/upload-artifact@v2
+      - name: login to dockerhub
+        uses: docker/login-action@v2
         with:
-          name: flask_app_artifact
-          path: ${{ env.working-directory }}
-          retention-days: 1
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-      # - name: login to dockerhub
-      #   uses: docker/login-action@v2
-      #   with:
-      #     username: ${{ secrets.DOCKER_HUB_USERNAME }}
-      #     password: ${{ secrets.DOCKER_HUB_TOKEN }}
-
-      # - run: docker tag flask_app dexter94/docker_monitor_api
-      #   working-directory: ${{env.working-directory}}
+      - run: docker tag flask_app dexter94/docker_monitor_api
+        working-directory: ${{env.working-directory}}
     
       # - run: docker push dexter94/docker_monitor_api
       #   working-directory: ${{env.working-directory}}
@@ -62,21 +55,6 @@ jobs:
       - name: checkout code
         uses: actions/checkout@v3
 
-      - name: Download Docker image artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: flask_app_artifact
-          path: ${{ env.working-directory }}/docker-image-artifact
-
-      - name: Authenticate to GCR
-        uses: google-github-actions/auth@v1
-        with:
-          credentials_json: ${{ secrets.GCP_SA_KEY }}
-          project_id: ${{ secrets.GCP_PROJECT }}
-      
-      - name: Load Docker image
-        run: docker load -i ${{ env.working-directory }}/flask_app.tar
-
       - name: Tag Docker image
         run: docker tag flask_app gcr.io/${{ env.PROJECT_ID }}/docker_monitor_api
 
@@ -85,29 +63,9 @@ jobs:
 
       - name: Set up gcloud CLI
         uses: google-github-actions/setup-gcloud@v1
-
-      - name: Deploy to Cloud Run
-        run: |
-          gcloud run deploy docker-monitor-api \
-            --image gcr.io/${{ env.PROJECT_ID }}/docker_monitor_api \
-            --platform managed \
-            --region ${{ env.RUN_REGION }} \
-            --allow-unauthenticated
-
-      # - name: authenticate to GCLOUD
-      #   uses: google-github-actions/auth@v1
-      #   with:
-      #     credentials_json: ${{ secrets.GCP_SA_KEY }}
-      #     cleanup_credentials: false
-      
-      # - name: Set GCloud SDK
-      #   uses: google-github-actions/setup-gcloud@v1
-      #   with:
-      #     version: '>= 363.0.0'
-
-      # - name: Set Project ID
-      #   run: gcloud config set project ${{ secrets.GCP_PROJECT }}
-      #   working-directory: ${{env.working-directory}}
+        with:
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          project_id: ${{ secrets.GCP_PROJECT }}
 
       # - name: Setup gcloud CLI
       #   uses: google-github-actions/setup-gcloud@v1
