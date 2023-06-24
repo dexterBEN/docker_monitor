@@ -60,6 +60,9 @@ jobs:
 
       - name: pull image from docker hub
         run: sudo docker pull dexter94/docker_monitor_api:latest
+      
+      - name: check if images is present
+        run: sudo docker images
 
       - name: Tag Docker image
         run: docker tag flask_app gcr.io/${{ env.PROJECT_ID }}/docker_monitor_api
