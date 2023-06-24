@@ -68,6 +68,7 @@ jobs:
       - name: Authent to GCLOUD
         run: |
           gcloud auth configure-docker -q
+
         working-directory: ${{env.working-directory}}
 
       - name: pull image from docker hub
