@@ -79,7 +79,8 @@ jobs:
         run: docker tag dexter94/docker_monitor_api gcr.io/${{ env.PROJECT_ID }}/docker_monitor_api
 
       - name: Push Docker image to GCR
-        run: sudo docker push gcr.io/${{ env.PROJECT_ID }}/docker_monitor_api
+        run: |-
+          docker push eu.gcr.io/${{secrets.GCP_PROJECT}}/${{secrets.GCLOUD_SERVICE_NAME}}:$GITHUB_SHA
 
       # - name: Setup gcloud CLI
       #   uses: google-github-actions/setup-gcloud@v1
