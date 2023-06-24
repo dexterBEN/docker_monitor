@@ -80,7 +80,7 @@ jobs:
 
       - name: Push Docker image to GCR
         run: |-
-          docker push gcr.io/${{secrets.GCP_PROJECT}}/${{secrets.GCLOUD_SERVICE_NAME}}
+          docker push gcr.io/${{secrets.GCP_PROJECT}}/docker_monitor_api
 
       # - name: Setup gcloud CLI
       #   uses: google-github-actions/setup-gcloud@v1
