@@ -55,6 +55,9 @@ jobs:
 
         working-directory: ${{env.working-directory}}
 
+      - name: enable cloud registry
+        run: gcloud services enable containerregistry.googleapis.com
+
       - name: checkout code
         uses: actions/checkout@v3
 
