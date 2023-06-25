@@ -71,8 +71,6 @@ jobs:
           username: oauth2accesstoken
           password: ${{ steps.auth.outputs.access_token }}
 
-        working-directory: ${{env.working-directory}}
-
       - name: set gcloud project
         run: gcloud config set project $PROJECT_ID
 
