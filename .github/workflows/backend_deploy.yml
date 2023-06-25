@@ -49,6 +49,10 @@ jobs:
       SA_KEY_JSON: ${{ secrets.GCP_SA_KEY }}
 
     steps:
+
+      - name: checkout code
+        uses: actions/checkout@v3
+
       - run: |
           sudo apt-get install python2.7
           export CLOUDSDK_PYTHON="usr/bin/python2"
@@ -66,8 +70,6 @@ jobs:
       - name: enable cloud registry
         run: gcloud services enable containerregistry.googleapis.com
 
-      - name: checkout code
-        uses: actions/checkout@v3
 
       - name: Set up gcloud CLI
         uses: google-github-actions/setup-gcloud@v1
