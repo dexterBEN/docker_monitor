@@ -75,19 +75,24 @@ jobs:
           gcloud auth print-access-token
         working-directory: ${{env.working-directory}}
 
-
       - name: pull image from docker hub
         run: sudo docker pull dexter94/docker_monitor_api:latest
       
       - name: check if images is present
         run: sudo docker images
 
-      - name: Tag Docker image
-        run: docker tag dexter94/docker_monitor_api gcr.io/${{secrets.GCP_PROJECT}}/docker_monitor_api
+      - name: Build
+        run: gcloud builds submit --tag gcr.io/$PROJECT_ID/docker-monitor-api:$GITHUB_SHA
 
-      - name: Push Docker image to GCR
-        run: |-
-          docker push gcr.io/${{secrets.GCP_PROJECT}}/docker_monitor_api
+      # - name: Tag Docker image
+      #   run: docker tag dexter94/docker_monitor_api gcr.io/${{secrets.GCP_PROJECT}}/docker_monitor_api
+
+      # - name: Push Docker image to GCR
+      #   run: |-
+      #     docker push gcr.io/${{secrets.GCP_PROJECT}}/docker_monitor_api
+
+
+
 
       # - name: Setup gcloud CLI
       #   uses: google-github-actions/setup-gcloud@v1
