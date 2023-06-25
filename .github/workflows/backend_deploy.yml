@@ -87,9 +87,8 @@ jobs:
       - name: Tag Docker image
         run: docker tag dexter94/docker_monitor_api gcr.io/${{secrets.GCP_PROJECT}}/docker_monitor_api
 
-      # - name: Push Docker image to GCR
-      #   run: |-
-      #     docker push gcr.io/${{secrets.GCP_PROJECT}}/docker_monitor_api
+      - name: Push Docker image to GCR
+        run: docker push gcr.io/${{secrets.GCP_PROJECT}}/docker_monitor_api
 
 
 
