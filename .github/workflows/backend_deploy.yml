@@ -55,6 +55,9 @@ jobs:
 
         working-directory: ${{env.working-directory}}
 
+        - name: set gcloud project
+          run: gcloud config set project $PROJECT_ID
+
       - name: enable cloud registry
         run: gcloud services enable containerregistry.googleapis.com
 
