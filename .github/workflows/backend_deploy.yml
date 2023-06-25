@@ -69,11 +69,14 @@ jobs:
         run: |
           gcloud auth configure-docker -q
 
-      - name: Debug authentication
-        run: |
-          gcloud auth list
-          gcloud auth print-access-token
-        working-directory: ${{env.working-directory}}
+      - name: GCLOUD LOGIN
+        run: gcloud auth login
+
+      # - name: Debug authentication
+      #   run: |
+      #     gcloud auth list
+      #     gcloud auth print-access-token
+      #   working-directory: ${{env.working-directory}}
 
       - name: pull image from docker hub
         run: sudo docker pull dexter94/docker_monitor_api:latest
