@@ -65,12 +65,12 @@ jobs:
           project_id: ${{ secrets.GCP_PROJECT }}
           export_default_credentials: true
 
-      - name: Authent to GCLOUD
-        run: |
-          gcloud auth configure-docker -q
+      # - name: Authent to GCLOUD
+      #   run: |
+      #     gcloud auth configure-docker -q
 
-      - name: GCLOUD LOGIN
-        run: gcloud auth login
+      # - name: GCLOUD LOGIN
+      #   run: gcloud auth login
 
       # - name: Debug authentication
       #   run: |
