@@ -71,7 +71,7 @@ jobs:
           project_id: ${{ secrets.GCP_PROJECT }}
           export_default_credentials: true
 
-      # This example uses the docker login action
+      # This example uses the docker login actio
       - uses: docker/login-action@v2
         with:
           registry: gcr.io # or REGION-docker.pkg.dev
