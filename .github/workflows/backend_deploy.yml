@@ -111,7 +111,7 @@ jobs:
         run: docker push gcr.io/${{secrets.GCP_PROJECT}}/docker_monitor_api
 
       - name: Deploy
-        run: gcloud run deploy docker-monitor-api --image gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA --platform managed --region $RUN_REGION
+        run: gcloud run deploy docker-monitor-api --image gcr.io/$PROJECT_ID/docker_monitor_api --platform managed --region $RUN_REGION
 
 
 
