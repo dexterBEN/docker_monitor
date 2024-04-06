@@ -54,7 +54,7 @@ class _ContainerKPIState extends State<ContainerKPI> {
         SizedBox(height: defaultPadding),
         SizedBox(
           height: 200,
-          child: BlocBuilder<ContainerListBloc, ContainerState>(
+          child: BlocBuilder<ContainerBloc, ContainerState>(
             builder: (context, listState) {
               return BlocConsumer<ContainerStatusBloc, ContainerStatusState>(
                 listener: (context, state) => {
