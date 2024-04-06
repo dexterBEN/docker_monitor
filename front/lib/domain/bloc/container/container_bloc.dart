@@ -8,7 +8,7 @@ import 'package:front/data/services/container_service.dart';
 
 final ContainerService _containerService = ContainerService();
 
-class ContainerListBloc extends Bloc<ContainerListEvent, ContainerListState> {
+class ContainerListBloc extends Bloc<ContainerEvent, ContainerListState> {
   ContainerListBloc() : super(InitialeState()) {
 
     on<FetchList>((event, emit) async {
@@ -36,7 +36,7 @@ class ContainerListBloc extends Bloc<ContainerListEvent, ContainerListState> {
   }
 }
 
-class ContainerStatusBloc extends Bloc<ContainerStatusEvent, ContainerStatusState> {
+class ContainerStatusBloc extends Bloc<ContainerEvent, ContainerStatusState> {
 
   ContainerStatusBloc() : super(ContainerInitialStatus()){
 
@@ -70,7 +70,7 @@ class ContainerStatusBloc extends Bloc<ContainerStatusEvent, ContainerStatusStat
 
       final Map<String, dynamic> decodedJson = json.decode(body) as Map<String, dynamic>;
       //print(decodedJson.runtimeType);
-      ContainerData containerData = ContainerData.fromJson(decodedJson);
+      final ContainerData containerData = ContainerData.fromJson(decodedJson);
       //print(containerData);
 
       //print(dockerContainer);

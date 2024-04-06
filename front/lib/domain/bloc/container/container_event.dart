@@ -1,24 +1,21 @@
 
 
-abstract class ContainerListEvent {}
+abstract class ContainerEvent {}
 abstract class ImageEvent{}
-abstract class ContainerStatusEvent {
-  
-}
 
-class FetchList extends ContainerListEvent{}
+class FetchList extends ContainerEvent{}
 
-class ContainerStart extends ContainerStatusEvent{
+class ContainerStart extends ContainerEvent{
   final String containerId;
   ContainerStart({required this.containerId});
 }
 
-class ContainerStop extends ContainerStatusEvent{
+class ContainerStop extends ContainerEvent{
   final String containerId;
   ContainerStop({required this.containerId});
 }
 
-class FetchContainerById extends ContainerStatusEvent{
+class FetchContainerById extends ContainerEvent{
   final String containerId;
   FetchContainerById({required this.containerId});
 }
