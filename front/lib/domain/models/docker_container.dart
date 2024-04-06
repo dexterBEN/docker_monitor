@@ -27,7 +27,7 @@ class ContainerData {
   final String name;
 
   @JsonKey(name: "State")
-  final ContainerState state;
+  final DockerContainerStatus state;
 
   @JsonKey(name: "Created")
   final DateTime createdAt;
@@ -62,13 +62,13 @@ class Config {
 }
 
 @JsonSerializable(includeIfNull: true)
-class ContainerState {
-  const ContainerState({
+class DockerContainerStatus {
+  const DockerContainerStatus({
     required this.status,
   });
 
-  factory ContainerState.fromJson(Map<String, dynamic> json) =>
-      _$ContainerStateFromJson(json);
+  factory DockerContainerStatus.fromJson(Map<String, dynamic> json) =>
+      _$DockerContainerStatusFromJson(json);
 
   @JsonKey(name: 'Status')
   final ContainerStatus status;

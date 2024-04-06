@@ -1,24 +1,26 @@
 import 'package:front/domain/models/docker_container.dart';
 
-class ContainerListState {
-  List<ContainerData> ? containers;
+abstract class ContainerState {
+  List<ContainerData> ? containers = [];
 
-  int ? newStatus;
+  //int ? newStatus;
 
-  ContainerListState({this.containers, this.newStatus});
+  ContainerState({this.containers});
 }
 
-class InitialeState extends ContainerListState {
-  InitialeState() : super(containers: []);
+class InitialeState extends ContainerState {
+
+  InitialeState() : super();
 }
 
-class ListLoading extends ContainerListState {
-  ListLoading() : super(containers: []);
+class ListLoading extends ContainerState {
+  ListLoading() : super();
 }
 
-class ListLoaded extends ContainerListState {
+class ListLoaded extends ContainerState {
   
-  ListLoaded({super.containers});
+  List <ContainerData> loadedContainers;
+  ListLoaded(this.loadedContainers): super(containers: loadedContainers);
 }
 
 
@@ -27,7 +29,8 @@ class ListLoaded extends ContainerListState {
  */
 class ContainerStatusState {
   String ? containerId;
-  ContainerStatusState({this.containerId});
+  ContainerData ? updatedContainer;
+  ContainerStatusState({this.containerId, this.updatedContainer});
 }
 
 class ContainerInitialStatus extends ContainerStatusState {
@@ -41,9 +44,7 @@ class ContainerStatusUpdating extends ContainerStatusState {
 }
 
 class ContainerStatusUpdated extends ContainerStatusState {
-  String ? containerId;
-  ContainerData ? updatedContainer;
-  ContainerStatusUpdated({this.containerId, this.updatedContainer}) : super(containerId: "");
+  ContainerStatusUpdated() : super(containerId: "", updatedContainer: null);
 }
 
 /*

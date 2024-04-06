@@ -38,7 +38,7 @@ class _BoardTableState extends State<BoardTable> {
           style: Theme.of(context).textTheme.subtitle1,
         ),
         Expanded(
-          child: BlocBuilder<ContainerListBloc, ContainerListState>(
+          child: BlocBuilder<ContainerListBloc, ContainerState>(
             builder: (context, state) {
               if (state is InitialeState || state is ListLoading) {
                 return FlutterLoading(

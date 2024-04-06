@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:js_interop';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,7 +54,7 @@ class _ContainerKPIState extends State<ContainerKPI> {
         SizedBox(height: defaultPadding),
         SizedBox(
           height: 200,
-          child: BlocBuilder<ContainerListBloc, ContainerListState>(
+          child: BlocBuilder<ContainerListBloc, ContainerState>(
             builder: (context, listState) {
               return BlocConsumer<ContainerStatusBloc, ContainerStatusState>(
                 listener: (context, state) => {
@@ -100,9 +102,9 @@ class _ContainerKPIState extends State<ContainerKPI> {
         SizedBox(height: defaultPadding * 5),
         SizedBox(
           height: 400,
-          child: BlocBuilder<ContainerListBloc, ContainerListState>(
+          child: BlocBuilder<ContainerListBloc, ContainerState>(
             builder: (context, state) {
-              return KPIListDetail(containers: state.containers!);
+              return KPIListDetail(containers: state.containers ?? []);
             },
           ),
         ),
@@ -112,24 +114,25 @@ class _ContainerKPIState extends State<ContainerKPI> {
 
   List<PieChartSectionData> buildSection(List<ContainerData> containers) {
     //print(containers[0]);
-    DataCategorie temps;
-
+    final List<PieChartSectionData> pieSections = [];
     for (final container in containers) {
       widget.categories
           .where((category) => category.name == container.state.status.name)
           .first
-          .value += 1;
+          .value += 1.1;
     }
 
-    return [
-      for (var categorie in widget.categories)
-        PieChartSectionData(
-          value: categorie.value,
-          color: categorie.color,
-          title: categorie.name,
-          radius: 25,
-        ),
-    ];
+      for (var categorie in widget.categories) {
+        pieSections.add(
+          PieChartSectionData(
+            value: categorie.value,
+            color: categorie.color,
+            title: categorie.name,
+            radius: 25,
+          ),
+        );
+      }
+    return pieSections;
   }
 
 }
