@@ -63,6 +63,7 @@ class _ContainerKPIState extends State<ContainerKPI> {
                   }
                 },
                 builder: (context, state) {
+                  List<ContainerData> containers = listState.containers! ?? [];
 
                   Widget widgetToDisplay  = PieChart(
                       PieChartData(
