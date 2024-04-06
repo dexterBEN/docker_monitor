@@ -69,7 +69,7 @@ class _ContainerKPIState extends State<ContainerKPI> {
                         sectionsSpace: 10,
                         centerSpaceRadius: 80,
                         startDegreeOffset: -90,
-                        sections: buildSection(listState.containers!),
+                        sections: buildSection(containers),
                       ),
                     );
 
@@ -89,7 +89,7 @@ class _ContainerKPIState extends State<ContainerKPI> {
                         sectionsSpace: 10,
                         centerSpaceRadius: 80,
                         startDegreeOffset: -90,
-                        sections: buildSection(listState.containers!),
+                        sections: buildSection(containers),
                       ),
                     );
                   }
