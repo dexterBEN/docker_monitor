@@ -55,7 +55,7 @@ class _BoardContentState extends State<BoardContent> {
           BlocBuilder<ServerBloc, ServerState>(
             builder: (context, state) {
               if (state is ServerStarted) {
-                BlocProvider.of<ContainerListBloc>(context).add(FetchList());
+                BlocProvider.of<ContainerBloc>(context).add(FetchList());
                 
                 return Row(
                   children: [

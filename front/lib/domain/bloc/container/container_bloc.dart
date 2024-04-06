@@ -8,8 +8,8 @@ import 'package:front/data/services/container_service.dart';
 
 final ContainerService _containerService = ContainerService();
 
-class ContainerListBloc extends Bloc<ContainerEvent, ContainerState> {
-  ContainerListBloc() : super(InitialeState()) {
+class ContainerBloc extends Bloc<ContainerEvent, ContainerState> {
+  ContainerBloc() : super(InitialeState()) {
 
     on<FetchList>((event, emit) async {
       emit(ListLoading());

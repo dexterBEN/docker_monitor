@@ -14,7 +14,7 @@ void main() {
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_)=> ContainerListBloc()),
+        BlocProvider(create: (_)=> ContainerBloc()),
         BlocProvider(create: (_)=> ContainerStatusBloc()),
         BlocProvider(create: (_)=> ImageBloc()),
         BlocProvider(create: (_)=> ServerBloc())
