@@ -38,10 +38,10 @@ class ContainerBloc extends Bloc<ContainerEvent, ContainerState> {
 
 class ContainerStatusBloc extends Bloc<ContainerEvent, ContainerState> {
 
-  ContainerStatusBloc() : super(ContainerInitialStatus()){
+  ContainerStatusBloc() : super(InitialeState()){
 
     on<ContainerStart>((event, emit) async {
-      emit(ContainerStatusUpdating(containerId: event.containerId));
+      emit(ContainerStatusUpdating(containerIdToUpdate: event.containerId));
       var actionStatus =
           await _containerService.restartContainer(event.containerId);
 
@@ -54,7 +54,7 @@ class ContainerStatusBloc extends Bloc<ContainerEvent, ContainerState> {
     });
 
     on<ContainerStop>((event, emit) async {
-      emit(ContainerStatusUpdating(containerId: event.containerId));
+      emit(ContainerStatusUpdating(containerIdToUpdate: event.containerId));
       final actionStatus =  await _containerService.stopContainer(event.containerId);
 
       if(actionStatus == 200) {

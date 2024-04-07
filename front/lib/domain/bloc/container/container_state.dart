@@ -11,7 +11,7 @@ abstract class ContainerState {
 
 class InitialeState extends ContainerState {
 
-  InitialeState() : super();
+  InitialeState() : super(containerId: "");
 }
 
 class ListLoading extends ContainerState {
@@ -29,14 +29,14 @@ class ListLoaded extends ContainerState {
  * Container Status
  */
 
-class ContainerInitialStatus extends ContainerState {
+// class ContainerInitialStatus extends ContainerState {
 
-  ContainerInitialStatus() : super(containerId: "");
-}
+//   ContainerInitialStatus() : super(containerId: "");
+// }
 
 class ContainerStatusUpdating extends ContainerState {
-  String ? containerId;
-  ContainerStatusUpdating({this.containerId}) : super(containerId: "");
+  String ? containerIdToUpdate;
+  ContainerStatusUpdating({this.containerIdToUpdate}) : super(containerId: containerIdToUpdate);
 }
 
 class ContainerStatusUpdated extends ContainerState {
