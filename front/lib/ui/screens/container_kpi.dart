@@ -56,11 +56,14 @@ class _ContainerKPIState extends State<ContainerKPI> {
           height: 200,
           child: BlocBuilder<ContainerBloc, ContainerState>(
             builder: (context, listState) {
-              return BlocConsumer<ContainerStatusBloc, ContainerStatusState>(
-                listener: (context, state) => {
-                  if(state is ContainerStatusUpdated) {
-                    BlocProvider.of<ContainerListBloc>(context).add(FetchList())
-                  }
+              return BlocConsumer<ContainerStatusBloc, ContainerState>(
+                listener: (context, state) {
+                  print("<====== STATE ======>");
+                  print(state);
+                  print("<====== STATE END ===> \n");
+                  // if(state is ContainerStatusUpdated) {
+                  //   BlocProvider.of<ContainerListBloc>(context).add(FetchList())
+                  // }
                 },
                 builder: (context, state) {
                   List<ContainerData> containers = listState.containers ?? [];

@@ -107,7 +107,7 @@ class _BoardTableState extends State<BoardTable> {
               ),
             ),
             DataCell(
-              BlocConsumer<ContainerStatusBloc, ContainerStatusState>(
+              BlocConsumer<ContainerStatusBloc, ContainerState>(
                 listener: (context, state){
                   // if(state is ContainerStatusUpdated && state.containerId != null) {
                   //   BlocProvider.of<ContainerStatusBloc>(context).add(

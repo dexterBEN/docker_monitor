@@ -36,7 +36,7 @@ class ContainerBloc extends Bloc<ContainerEvent, ContainerState> {
   }
 }
 
-class ContainerStatusBloc extends Bloc<ContainerEvent, ContainerStatusState> {
+class ContainerStatusBloc extends Bloc<ContainerEvent, ContainerState> {
 
   ContainerStatusBloc() : super(ContainerInitialStatus()){
 

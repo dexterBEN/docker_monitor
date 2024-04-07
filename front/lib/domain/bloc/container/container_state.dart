@@ -2,10 +2,11 @@ import 'package:front/domain/models/docker_container.dart';
 
 abstract class ContainerState {
   List<ContainerData> ? containers = [];
-
+  String ? containerId;
+  ContainerData ? updatedContainer;
   //int ? newStatus;
 
-  ContainerState({this.containers});
+  ContainerState({this.containers, this.containerId, this.updatedContainer});
 }
 
 class InitialeState extends ContainerState {
@@ -27,23 +28,18 @@ class ListLoaded extends ContainerState {
 /**
  * Container Status
  */
-class ContainerStatusState {
-  String ? containerId;
-  ContainerData ? updatedContainer;
-  ContainerStatusState({this.containerId, this.updatedContainer});
-}
 
-class ContainerInitialStatus extends ContainerStatusState {
+class ContainerInitialStatus extends ContainerState {
 
   ContainerInitialStatus() : super(containerId: "");
 }
 
-class ContainerStatusUpdating extends ContainerStatusState {
+class ContainerStatusUpdating extends ContainerState {
   String ? containerId;
   ContainerStatusUpdating({this.containerId}) : super(containerId: "");
 }
 
-class ContainerStatusUpdated extends ContainerStatusState {
+class ContainerStatusUpdated extends ContainerState {
   ContainerStatusUpdated() : super(containerId: "", updatedContainer: null);
 }
 
@@ -51,7 +47,7 @@ class ContainerStatusUpdated extends ContainerStatusState {
 * Container Fetch states
 */
 
-class ContainerFetchState extends ContainerStatusState{
+class ContainerFetchState extends ContainerState{
   ContainerData ? containerData;
 
   ContainerFetchState({this.containerData});
