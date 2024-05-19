@@ -38,7 +38,9 @@ class _BoardTableState extends State<BoardTable> {
           style: Theme.of(context).textTheme.subtitle1,
         ),
         Expanded(
-          child: BlocBuilder<ContainerBloc, ContainerState>(
+          child: BlocConsumer<ContainerBloc, ContainerState>(
+            listener: (BuildContext context, ContainerState state) {  },
+            buildWhen: (context, state) => state is InitialeState || state is ListLoading || state is ListLoaded,
             builder: (context, state) {
               if (state is InitialeState || state is ListLoading) {
                 return FlutterLoading(
@@ -107,13 +109,16 @@ class _BoardTableState extends State<BoardTable> {
               ),
             ),
             DataCell(
-              BlocConsumer<ContainerStatusBloc, ContainerState>(
+              BlocConsumer<ContainerBloc, ContainerState>(
                 listener: (context, state){
                   // if(state is ContainerStatusUpdated && state.containerId != null) {
                   //   BlocProvider.of<ContainerStatusBloc>(context).add(
                   //     FetchContainerById(containerId: state.containerId!)
                   //   );
                   // }
+                },
+                buildWhen: (previous, currentState) {
+                  return  currentState is ContainerFetched || currentState is ContainerStatusUpdating;
                 },
                 builder: (context, state) {
                   Widget widgetToDisplay = Text(container.state.status.name);
