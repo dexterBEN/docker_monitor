@@ -54,59 +54,54 @@ class _ContainerKPIState extends State<ContainerKPI> {
         SizedBox(height: defaultPadding),
         SizedBox(
           height: 200,
-          child: BlocBuilder<ContainerBloc, ContainerState>(
-            builder: (context, listState) {
-              return BlocConsumer<ContainerStatusBloc, ContainerState>(
-                listener: (context, state) {
-                  print("<====== STATE ======>");
-                  print(state);
-                  print("<====== STATE END ===> \n");
-                  // if(state is ContainerStatusUpdated) {
-                  //   BlocProvider.of<ContainerListBloc>(context).add(FetchList())
-                  // }
-                },
-                builder: (context, state) {
-                  List<ContainerData> containers = listState.containers ?? [];
+          child: BlocConsumer<ContainerBloc, ContainerState>(
+            listener: (BuildContext context, ContainerState state) {  },
+            buildWhen: (previous, current) {
+              return current is ListLoading || current is ContainerStatusUpdating || current is ListLoaded || current is ContainerStatusUpdated;
+            },
+            builder: (context, state) {
+              print("KPI ====> ${state}");
+              Widget widgetToDisplay  = PieChart(
+                  PieChartData(
+                    sectionsSpace: 10,
+                    centerSpaceRadius: 80,
+                    startDegreeOffset: -90,
+                    sections: buildSection(state.containers ?? []),
+                  ),
+                );
 
-                  Widget widgetToDisplay  = PieChart(
-                      PieChartData(
-                        sectionsSpace: 10,
-                        centerSpaceRadius: 80,
-                        startDegreeOffset: -90,
-                        sections: buildSection(containers),
-                      ),
-                    );
+              if (
+                state is ListLoading ||
+                state is ContainerStatusUpdating
+              ) {
+                widgetToDisplay = SpinKitSpinningLines(
+                  size: 70,
+                  color: Colors.white
+                );
+              }
 
-                  if (
-                    listState is ListLoading ||
-                    state is ContainerStatusUpdating
-                  ) {
-                    widgetToDisplay = SpinKitSpinningLines(
-                      size: 70,
-                      color: Colors.white
-                    );
-                  }
-
-                  if(listState is ListLoaded) {
-                    widgetToDisplay =  PieChart(
-                      PieChartData(
-                        sectionsSpace: 10,
-                        centerSpaceRadius: 80,
-                        startDegreeOffset: -90,
-                        sections: buildSection(containers),
-                      ),
-                    );
-                  }
-                  return widgetToDisplay;
-                },
-              );
-            }
+              if(state is ListLoaded || state is ContainerStatusUpdated) {
+                widgetToDisplay =  PieChart(
+                  PieChartData(
+                    sectionsSpace: 10,
+                    centerSpaceRadius: 80,
+                    startDegreeOffset: -90,
+                    sections: buildSection(state.containers ?? []),
+                  ),
+                );
+              }
+              return widgetToDisplay;
+            },
           ),
         ),
         SizedBox(height: defaultPadding * 5),
         SizedBox(
           height: 400,
           child: BlocBuilder<ContainerBloc, ContainerState>(
+            // listener: (BuildContext context, ContainerState state) {  },
+            // buildWhen: (previous, current) {
+            //   return current is ListLoaded || current is ContainerStatusUpdated;
+            // },
             builder: (context, state) {
               return KPIListDetail(containers: state.containers ?? []);
             },

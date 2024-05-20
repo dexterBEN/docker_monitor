@@ -158,7 +158,7 @@ class _BoardTableState extends State<BoardTable> {
                       print("stop process");
                       // Provider.of<ContainerProvider>(context, listen: false)
                       //     .stopContainer(container.id);
-                      BlocProvider.of<ContainerStatusBloc>(context)
+                      BlocProvider.of<ContainerBloc>(context)
                           .add(ContainerStop(containerId: container.id));
                     },
                   ),
@@ -166,11 +166,9 @@ class _BoardTableState extends State<BoardTable> {
                     value: "start",
                     child: Text("start"),
                     onTap: () {
-                      print("start process");
-                      // Provider.of<ContainerProvider>(context, listen: false)
-                      //     .restartContainer(container.id);
-                      BlocProvider.of<ContainerStatusBloc>(context)
+                      BlocProvider.of<ContainerBloc>(context)
                           .add(ContainerStart(containerId: container.id));
+                      
                     },
                   )
                 ],
