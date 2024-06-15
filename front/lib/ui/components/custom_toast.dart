@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, duplicate_ignore
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -33,23 +31,23 @@ class _CustomToastState extends State<CustomToast> {
 
   Widget buildToast() {
     return Container(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: 20,
       ),
       decoration: BoxDecoration(
         color: Colors.greenAccent,
         borderRadius: BorderRadius.circular(25),
       ),
-      child: Row(
+      child: const Row(
         mainAxisSize: MainAxisSize.min,
         // ignore: prefer_const_literals_to_create_immutables
         children: [
-          // ignore: prefer_const_constructors
+          
           Icon(
             Icons.check,
             color: Colors.white,
           ),
-          // ignore: prefer_const_constructors
+          
           SizedBox(width: 12),
           Text(
             'jjjjjjjjjjjj',
