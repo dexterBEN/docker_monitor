@@ -5,16 +5,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:front/domain/models/docker_container.dart';
-import 'package:front/domain/bloc/app_blocs.dart';
-import 'package:front/domain/bloc/app_events.dart';
-import 'package:front/domain/bloc/app_states.dart';
 import 'package:front/domain/bloc/container/container_bloc.dart';
 import 'package:front/domain/bloc/container/container_event.dart';
 import 'package:front/domain/bloc/container/container_state.dart';
-import 'package:front/domain/bloc/container_provider.dart';
 import 'package:loadingkit_flutter/loadingkit_flutter.dart';
-import 'package:provider/provider.dart';
-import 'package:responsive_table/responsive_table.dart';
 
 class BoardTable extends StatefulWidget {
   const BoardTable({

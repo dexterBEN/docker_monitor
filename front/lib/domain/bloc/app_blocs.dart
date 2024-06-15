@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:front/domain/bloc/app_events.dart';

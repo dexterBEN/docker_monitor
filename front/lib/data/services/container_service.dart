@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:front/domain/models/file.dart';
 import 'package:http/http.dart' as http;
