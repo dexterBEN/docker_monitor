@@ -27,7 +27,7 @@ class ContainerStop extends ContainerEvent{
 
 class FetchContainerById extends ContainerEvent{
   final String containerId;
-  FetchContainerById({required this.containerId});
+  const FetchContainerById({required this.containerId});
 
   @override
   List<Object> get props => [containerId];
