@@ -1,17 +1,26 @@
+import 'package:equatable/equatable.dart';
 import 'package:front/domain/models/docker_container.dart';
 
-abstract class ContainerState {
-  List<ContainerData> ? containers = [];
-  String ? containerId;
-  ContainerData ? updatedContainer;
+abstract class ContainerState extends Equatable{
+  //List<ContainerData> ? containers = [];
+  //String ? containerId;
+  //ContainerData ? updatedContainer;
   //int ? newStatus;
 
-  ContainerState({this.containers, this.containerId, this.updatedContainer});
+  const ContainerState();
+
+  @override
+  List<Object> get props => [];
 }
 
 class InitialeState extends ContainerState {
 
-  InitialeState() : super(containerId: "");
+  final String containerId;
+
+  const InitialeState(this.containerId);
+
+  @override
+  List<Object> get props => [this.containerId];
 }
 
 class ListLoading extends ContainerState {
@@ -20,8 +29,12 @@ class ListLoading extends ContainerState {
 
 class ListLoaded extends ContainerState {
   
-  List <ContainerData> loadedContainers;
-  ListLoaded(this.loadedContainers): super(containers: loadedContainers);
+  final List <ContainerData> loadedContainers;
+
+  const ListLoaded(this.loadedContainers);
+
+  @override
+  List<Object> get props => [this.loadedContainers];
 }
 
 
@@ -35,12 +48,22 @@ class ListLoaded extends ContainerState {
 // }
 
 class ContainerStatusUpdating extends ContainerState {
-  String ? containerIdToUpdate;
-  ContainerStatusUpdating({this.containerIdToUpdate}) : super(containerId: containerIdToUpdate);
+  final String containerIdToUpdate;
+  const ContainerStatusUpdating(this.containerIdToUpdate);
+
+  @override
+  List<Object> get props => [this.containerIdToUpdate];
 }
 
 class ContainerStatusUpdated extends ContainerState {
-  ContainerStatusUpdated() : super(containerId: "", updatedContainer: null);
+
+  //final String containerId;
+  //final ContainerData updatedContainer;
+
+  const ContainerStatusUpdated();
+
+  @override
+  List<Object> get props => [];
 }
 
 /*
@@ -48,20 +71,32 @@ class ContainerStatusUpdated extends ContainerState {
 */
 
 class ContainerFetchState extends ContainerState{
-  ContainerData ? containerData;
+  final ContainerData containerData;
 
-  ContainerFetchState({this.containerData});
+  const ContainerFetchState(this.containerData);
+
+  @override
+  List<Object> get props => [this.containerData];
 }
 
-class ContainerFetchInitial extends ContainerFetchState {
-  ContainerFetchInitial() : super();
+class ContainerFetchInitial extends ContainerState {
+  const ContainerFetchInitial() : super();
+
+  @override
+  List<Object> get props => [];
 }
 
-class ContainerFetching extends ContainerFetchState {
-  ContainerFetching() : super();
+class ContainerFetching extends ContainerState {
+  const ContainerFetching();
+
+  @override
+  List<Object> get props => [];
 }
 
-class ContainerFetched extends ContainerFetchState {
-  ContainerData fetchedContainer;
-  ContainerFetched({required this.fetchedContainer}) : super(containerData: null);
+class ContainerFetched extends  ContainerState{
+  final ContainerData fetchedContainer;
+  const ContainerFetched(this.fetchedContainer);
+
+  @override
+  List<Object> get props => [this.fetchedContainer];
 }

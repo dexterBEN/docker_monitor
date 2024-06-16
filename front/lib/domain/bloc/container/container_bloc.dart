@@ -9,7 +9,7 @@ import 'package:front/data/services/container_service.dart';
 final ContainerService _containerService = ContainerService();
 
 class ContainerBloc extends Bloc<ContainerEvent, ContainerState> {
-  ContainerBloc() : super(InitialeState()) {
+  ContainerBloc() : super(InitialeState("")) {
 
     on<FetchList>((event, emit) async {
       emit(ListLoading());
@@ -26,7 +26,7 @@ class ContainerBloc extends Bloc<ContainerEvent, ContainerState> {
     });
 
     on<ContainerStart>((event, emit) async {
-      emit(ContainerStatusUpdating(containerIdToUpdate: event.containerId));
+      emit(ContainerStatusUpdating(event.containerId));
       var actionStatus =
           await _containerService.restartContainer(event.containerId);
 
@@ -39,7 +39,7 @@ class ContainerBloc extends Bloc<ContainerEvent, ContainerState> {
     });
 
     on<ContainerStop>((event, emit) async {
-      emit(ContainerStatusUpdating(containerIdToUpdate: event.containerId));
+      emit(ContainerStatusUpdating(event.containerId));
       final actionStatus =  await _containerService.stopContainer(event.containerId);
 
       if(actionStatus == 200) {
@@ -59,7 +59,7 @@ class ContainerBloc extends Bloc<ContainerEvent, ContainerState> {
       //print(containerData);
 
       //print(dockerContainer);
-      emit(ContainerFetched(fetchedContainer: containerData));
+      emit(ContainerFetched(containerData));
     });
 
 

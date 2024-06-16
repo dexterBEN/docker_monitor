@@ -53,7 +53,7 @@ class _BoardTableState extends State<BoardTable> {
                         for (final title in widget.headTitles)
                           DataColumn(label: Text(title)),
                       ],
-                      rows: buildDataRow(state.containers!),
+                      rows: buildDataRow(state.loadedContainers!),
                       //rows: buildDataRow(containers),
                     ),
                   ),
@@ -127,7 +127,7 @@ class _BoardTableState extends State<BoardTable> {
 
                   if(
                     state is ContainerStatusUpdating &&
-                    state.containerId == container.id
+                    state.containerIdToUpdate == container.id
                   ) {
                     widgetToDisplay = SpinKitThreeBounce(
                       color:Colors.white,
