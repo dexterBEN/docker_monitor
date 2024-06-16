@@ -1,25 +1,39 @@
+import 'package:equatable/equatable.dart';
 
+abstract class ContainerEvent extends Equatable{
+  const ContainerEvent();
 
-abstract class ContainerEvent {}
-abstract class ImageEvent{}
+  @override
+  List<Object> get props => [];
+}
 
 class FetchList extends ContainerEvent{}
 
 class ContainerStart extends ContainerEvent{
   final String containerId;
-  ContainerStart({required this.containerId});
+  const ContainerStart({required this.containerId});
+
+  @override
+  List<Object> get props => [containerId];
 }
 
 class ContainerStop extends ContainerEvent{
   final String containerId;
-  ContainerStop({required this.containerId});
+  const ContainerStop({required this.containerId});
+
+  @override
+  List<Object> get props => [containerId];
 }
 
 class FetchContainerById extends ContainerEvent{
   final String containerId;
   FetchContainerById({required this.containerId});
+
+  @override
+  List<Object> get props => [containerId];
 }
 
+abstract class ImageEvent{}
 // class PersonSate wtih cnbdsbc
 
 //  const factory PeronState.initial() = _Initial;
