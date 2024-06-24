@@ -106,12 +106,18 @@ class _ContainerKPIState extends State<ContainerKPI> {
 
   List<PieChartSectionData> buildSection(List<ContainerData> containers) {
     //print(containers[0]);
-    final List<PieChartSectionData> pieSections = [];
-    for (final container in containers) {
+
+    //reset to 0 before build
+    widget.categories.forEach((element) { 
+      element.value = 0;
+    });
+
+    List<PieChartSectionData> pieSections = [];
+    for (var container in containers) {
       widget.categories
           .where((category) => category.name == container.state.status.name)
           .first
-          .value += 1.1;
+          .value +=1;
     }
 
       for (var categorie in widget.categories) {
