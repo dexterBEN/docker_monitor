@@ -34,7 +34,6 @@ class ContainerBloc extends Bloc<ContainerEvent, ContainerState> {
 
       if(actionStatus == 200) {
         add(FetchContainerById(containerId: event.containerId));
-        emit(ContainerStatusUpdated());
       }
     });
 
@@ -44,7 +43,6 @@ class ContainerBloc extends Bloc<ContainerEvent, ContainerState> {
 
       if(actionStatus == 200) {
         add(FetchContainerById(containerId: event.containerId));
-        emit(ContainerStatusUpdated());
       }
     });
 
@@ -60,6 +58,7 @@ class ContainerBloc extends Bloc<ContainerEvent, ContainerState> {
 
       //print(dockerContainer);
       emit(ContainerFetched(containerData));
+      emit(ContainerStatusUpdated());
     });
 
 

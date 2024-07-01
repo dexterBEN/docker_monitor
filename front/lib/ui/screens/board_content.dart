@@ -16,7 +16,6 @@ import 'package:front/ui/font_style.dart';
 import 'package:front/ui/screens/container_kpi.dart';
 import 'package:front/ui/screens/header.dart';
 
-
 class BoardContent extends StatefulWidget {
   const BoardContent({super.key});
 
@@ -49,70 +48,69 @@ class _BoardContentState extends State<BoardContent> {
           SizedBox(height: defaultPadding),
           BlocBuilder<ServerBloc, ServerState>(
             builder: (context, state) {
-              if (state is ServerStarted) {
-                BlocProvider.of<ContainerBloc>(context).add(FetchList());
-                
-                return Row(
-                  children: [
-                    Expanded(
-                      flex: 5,
-                      child: Column(
-                        children: [
-                          BoardPanel(
-                            width: (widgetSize.width * 70) / 100,
-                            height: (widgetSize.height * 41) / 100,
-                            panelColor: secondaryColor,
-                            padding: 1,
-                            panelContent: DropZoneUpload(
-                              onDroppedFile: (file) {
-                                setState(() {
-                                  this.file = file;
-                                });
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                            height: defaultPadding,
-                          ),
-                          BoardPanel(
-                            width: (widgetSize.width * 70) / 100,
-                            height: (widgetSize.height * 41) / 100,
-                            panelColor: secondaryColor,
-                            padding: defaultPadding,
-                            panelContent: BoardTable(
-                              headTitles: const [
-                                "name",
-                                "creation date",
-                                "state",
-                                "actions"
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(width: 12),
-                    Expanded(
-                      flex: 2,
-                      child: BoardPanel(
-                        width: (widgetSize.width * 40) / 100,
-                        height: (widgetSize.height * 84) / 100,
-                        panelColor: secondaryColor,
-                        padding: defaultPadding,
-                        panelContent: ContainerKPI(categories: categories),
-                      ),
-                    )
-                  ],
-                );
-              }
-              
               if (state is ServerStarting) {
                 return SpinKitWaveSpinner(
                   color: Colors.white,
                   size: 100,
                 );
               }
-              return Text("no server connect enter IP above");
+
+              if (state is! ServerStarted) {
+                return Text("no server connect enter IP above");
+              }
+
+              return Row(
+                children: [
+                  Expanded(
+                    flex: 5,
+                    child: Column(
+                      children: [
+                        BoardPanel(
+                          width: (widgetSize.width * 70) / 100,
+                          height: (widgetSize.height * 41) / 100,
+                          panelColor: secondaryColor,
+                          padding: 1,
+                          panelContent: DropZoneUpload(
+                            onDroppedFile: (file) {
+                              setState(() {
+                                this.file = file;
+                              });
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: defaultPadding,
+                        ),
+                        BoardPanel(
+                          width: (widgetSize.width * 70) / 100,
+                          height: (widgetSize.height * 41) / 100,
+                          panelColor: secondaryColor,
+                          padding: defaultPadding,
+                          panelContent: BoardTable(
+                            headTitles: const [
+                              "name",
+                              "creation date",
+                              "state",
+                              "actions"
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(width: 12),
+                  Expanded(
+                    flex: 2,
+                    child: BoardPanel(
+                      width: (widgetSize.width * 40) / 100,
+                      height: (widgetSize.height * 84) / 100,
+                      panelColor: secondaryColor,
+                      padding: defaultPadding,
+                      panelContent: ContainerKPI(categories: categories),
+                    ),
+                  )
+                ],
+              );
             },
           ),
         ],

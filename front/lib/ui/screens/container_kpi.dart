@@ -32,6 +32,8 @@ class _ContainerKPIState extends State<ContainerKPI> {
     //fetch();
   }
 
+  List<ContainerData> containers = [];
+
   @override
   Widget build(BuildContext context) {
 
@@ -50,18 +52,11 @@ class _ContainerKPIState extends State<ContainerKPI> {
           child: BlocConsumer<ContainerBloc, ContainerState>(
             listener: (BuildContext context, ContainerState state) {  },
             buildWhen: (previous, current) {
-              return current is ListLoading || current is ContainerStatusUpdating || current is ListLoaded || current is ContainerStatusUpdated;
+              return current is ListLoading || current is ContainerFetching || current is ContainerStatusUpdating || current is ListLoaded || current is ContainerFetched;
             },
             builder: (context, state) {
-              print("KPI ====> ${state}");
-              Widget widgetToDisplay  = PieChart(
-                  PieChartData(
-                    sectionsSpace: 10,
-                    centerSpaceRadius: 80,
-                    startDegreeOffset: -90,
-                    sections: buildSection(state.containers ?? []),
-                  ),
-                );
+
+              Widget widgetToDisplay = SizedBox.shrink();
 
               if (
                 state is ListLoading ||
@@ -73,13 +68,30 @@ class _ContainerKPIState extends State<ContainerKPI> {
                 );
               }
 
-              if(state is ListLoaded || state is ContainerStatusUpdated) {
+              if(state is ContainerFetched) {
+
+                int targetIndex = containers.indexWhere((dockerContainer) => dockerContainer.id == state.fetchedContainer.id);
+                containers[targetIndex] = state.fetchedContainer;
+
                 widgetToDisplay =  PieChart(
                   PieChartData(
                     sectionsSpace: 10,
                     centerSpaceRadius: 80,
                     startDegreeOffset: -90,
-                    sections: buildSection(state.containers ?? []),
+                    sections: buildSection(containers),
+                  ),
+                );
+              }
+
+              if(state is ListLoaded) {
+
+                containers = state.loadedContainers;
+                widgetToDisplay =  PieChart(
+                  PieChartData(
+                    sectionsSpace: 10,
+                    centerSpaceRadius: 80,
+                    startDegreeOffset: -90,
+                    sections: buildSection(containers),
                   ),
                 );
               }
@@ -90,13 +102,13 @@ class _ContainerKPIState extends State<ContainerKPI> {
         SizedBox(height: defaultPadding * 5),
         SizedBox(
           height: 400,
-          child: BlocBuilder<ContainerBloc, ContainerState>(
-            // listener: (BuildContext context, ContainerState state) {  },
-            // buildWhen: (previous, current) {
-            //   return current is ListLoaded || current is ContainerStatusUpdated;
-            // },
+          child: BlocConsumer<ContainerBloc, ContainerState>(
+            listener: (BuildContext context, ContainerState state) {  },
+            buildWhen: (previous, current) {
+              return current is ListLoaded || current is ContainerStatusUpdated || current is ContainerFetched;
+            },
             builder: (context, state) {
-              return KPIListDetail(containers: state.containers ?? []);
+              return KPIListDetail(containers: containers);
             },
           ),
         ),
