@@ -47,8 +47,8 @@ jobs:
     - run: curl -sL firebase.tools | bash
       working-directory: ${{env.working-directory}}
       
-    # - run: firebase login --no-localhost
-    #  working-directory: ${{env.working-directory}}
+    - run: firebase login --reauth
+      working-directory: ${{env.working-directory}}
       
     - run: firebase deploy --token "$FIREBASE_TOKEN" 
       working-directory: ${{env.working-directory}}
