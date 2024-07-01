@@ -29,7 +29,7 @@ class _BoardTableState extends State<BoardTable> {
       children: [
         Text(
           "All containers",
-          style: Theme.of(context).textTheme.subtitle1,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         Expanded(
           child: BlocConsumer<ContainerBloc, ContainerState>(
