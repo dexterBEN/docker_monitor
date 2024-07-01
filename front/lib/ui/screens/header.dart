@@ -20,7 +20,7 @@ class Header extends StatelessWidget {
       children: [
         Text(
           "Dashboard",
-          style: Theme.of(context).textTheme.headline6,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
         Spacer(),
         Expanded(
