@@ -47,8 +47,14 @@ jobs:
     - run: curl -sL firebase.tools | bash
       working-directory: ${{env.working-directory}}
       
-    - run: firebase login:ci --interactive --no-localhost 
-      working-directory: ${{env.working-directory}}
+    # - run: firebase login --no-localhost
+    #  working-directory: ${{env.working-directory}}
       
-    - run: firebase deploy --token "$FIREBASE_TOKEN" 
-      working-directory: ${{env.working-directory}}
+    # - run: firebase deploy --token "$FIREBASE_TOKEN" 
+    #  working-directory: ${{env.working-directory}}
+
+    - uses: FirebaseExtended/action-hosting-deploy@v0
+      with:
+        repoToken: '${{ secrets.GITHUB_TOKEN }}'
+        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOCKER_MONITOR_4FF5B}}'
+        projectId: '${{ secrets.FIREBASE_TOKEN}}'
