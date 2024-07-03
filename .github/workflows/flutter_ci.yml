@@ -53,6 +53,9 @@ jobs:
     # - run: firebase deploy --token "$FIREBASE_TOKEN" 
     #  working-directory: ${{env.working-directory}}
 
+    - run:  firebase use .
+      working-directory: ${{env.working-directory}}
+
     - uses: FirebaseExtended/action-hosting-deploy@v0
       with:
         entryPoint: ${{env.working-directory}}
