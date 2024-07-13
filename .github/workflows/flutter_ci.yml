@@ -55,7 +55,7 @@ jobs:
 
     - uses: FirebaseExtended/action-hosting-deploy@v0
       with:
-        # entryPoint: ${{env.working-directory}}
+        entryPoint: ${{env.working-directory}}
         repoToken: '${{ secrets.GITHUB_TOKEN }}'
         firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOCKER_MONITOR_4FF5B}}'
         # projectId: '${{ secrets.FIREBASE_TOKEN}}'
