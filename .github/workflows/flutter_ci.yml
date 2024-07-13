@@ -6,7 +6,7 @@ on:
   
 jobs:
   build_web:
-  if: (github.event.pull_request.merged == true)
+  if: (!(github.event.action == 'closed' && github.event.pull_request.merged != true))
 
     name: Build Flutter (Web) # name of the job
     
