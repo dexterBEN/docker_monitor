@@ -2,8 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:front/domain/bloc/container/container_bloc.dart';
+import 'package:front/domain/bloc/container/container_event.dart';
 import 'package:front/domain/bloc/server/server_bloc.dart';
 import 'package:front/domain/bloc/server/server_event.dart';
+import 'package:front/domain/bloc/server/server_state.dart';
 import 'package:front/ui/font_style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -17,7 +20,7 @@ class Header extends StatelessWidget {
       children: [
         Text(
           "Dashboard",
-          style: Theme.of(context).textTheme.headline6,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
         Spacer(),
         Expanded(
@@ -48,25 +51,33 @@ class SearchField extends StatelessWidget {
             Radius.circular(10),
           ),
         ),
-        suffixIcon: InkWell(
-          onTap: () {
-            //print("<===============ON TAP=============>");
-            print(searchCtrl.value.text);
-            //print("<===============ON TAP=============>");
-            BlocProvider.of<ServerBloc>(context).add(ServerConnect(ipAdress: searchCtrl.value.text));
-
+        suffixIcon: BlocListener<ServerBloc, ServerState>(
+          listenWhen: ((previous, current) {
+            return current is ServerStarted;
+          }),
+          listener: (context, state) {
+            BlocProvider.of<ContainerBloc>(context).add(FetchList());
           },
-          child: Container(
-            width: 20,
-            height: 20,
-            padding: EdgeInsets.all(defaultPadding * 0.75),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
+          child: InkWell(
+            onTap: () {
+              //print("<===============ON TAP=============>");
+              print(searchCtrl.value.text);
+              //print("<===============ON TAP=============>");
+              BlocProvider.of<ServerBloc>(context)
+                  .add(ServerConnect(ipAdress: searchCtrl.value.text));
+            },
+            child: Container(
+              width: 20,
+              height: 20,
+              padding: EdgeInsets.all(defaultPadding * 0.75),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10),
+                ),
+                color: primaryColor,
               ),
-              color: primaryColor,
+              child: SvgPicture.asset("search.svg"),
             ),
-            child: SvgPicture.asset("search.svg"),
           ),
         ),
       ),

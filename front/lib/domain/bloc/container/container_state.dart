@@ -1,70 +1,102 @@
+import 'package:equatable/equatable.dart';
 import 'package:front/domain/models/docker_container.dart';
 
-class ContainerListState {
-  List<ContainerData> ? containers;
+abstract class ContainerState extends Equatable{
+  //List<ContainerData> ? containers = [];
+  //String ? containerId;
+  //ContainerData ? updatedContainer;
+  //int ? newStatus;
 
-  int ? newStatus;
+  const ContainerState();
 
-  ContainerListState({this.containers, this.newStatus});
+  @override
+  List<Object> get props => [];
 }
 
-class InitialeState extends ContainerListState {
-  InitialeState() : super(containers: []);
+class InitialeState extends ContainerState {
+
+  final String containerId;
+
+  const InitialeState(this.containerId);
+
+  @override
+  List<Object> get props => [this.containerId];
 }
 
-class ListLoading extends ContainerListState {
-  ListLoading() : super(containers: []);
+class ListLoading extends ContainerState {
+  ListLoading() : super();
 }
 
-class ListLoaded extends ContainerListState {
+class ListLoaded extends ContainerState {
   
-  ListLoaded({super.containers});
+  final List <ContainerData> loadedContainers;
+
+  const ListLoaded(this.loadedContainers);
+
+  @override
+  List<Object> get props => [this.loadedContainers];
 }
 
 
 /**
  * Container Status
  */
-class ContainerStatusState {
-  String ? containerId;
-  ContainerStatusState({this.containerId});
+
+// class ContainerInitialStatus extends ContainerState {
+
+//   ContainerInitialStatus() : super(containerId: "");
+// }
+
+class ContainerStatusUpdating extends ContainerState {
+  final String containerIdToUpdate;
+  const ContainerStatusUpdating(this.containerIdToUpdate);
+
+  @override
+  List<Object> get props => [this.containerIdToUpdate];
 }
 
-class ContainerInitialStatus extends ContainerStatusState {
+class ContainerStatusUpdated extends ContainerState {
 
-  ContainerInitialStatus() : super(containerId: "");
-}
+  //final String containerId;
+  //final ContainerData updatedContainer;
 
-class ContainerStatusUpdating extends ContainerStatusState {
-  String ? containerId;
-  ContainerStatusUpdating({this.containerId}) : super(containerId: "");
-}
+  const ContainerStatusUpdated();
 
-class ContainerStatusUpdated extends ContainerStatusState {
-  String ? containerId;
-  ContainerData ? updatedContainer;
-  ContainerStatusUpdated({this.containerId, this.updatedContainer}) : super(containerId: "");
+  @override
+  List<Object> get props => [];
 }
 
 /*
 * Container Fetch states
 */
 
-class ContainerFetchState extends ContainerStatusState{
-  ContainerData ? containerData;
+class ContainerFetchState extends ContainerState{
+  final ContainerData containerData;
 
-  ContainerFetchState({this.containerData});
+  const ContainerFetchState(this.containerData);
+
+  @override
+  List<Object> get props => [this.containerData];
 }
 
-class ContainerFetchInitial extends ContainerFetchState {
-  ContainerFetchInitial() : super();
+class ContainerFetchInitial extends ContainerState {
+  const ContainerFetchInitial() : super();
+
+  @override
+  List<Object> get props => [];
 }
 
-class ContainerFetching extends ContainerFetchState {
-  ContainerFetching() : super();
+class ContainerFetching extends ContainerState {
+  const ContainerFetching();
+
+  @override
+  List<Object> get props => [];
 }
 
-class ContainerFetched extends ContainerFetchState {
-  ContainerData fetchedContainer;
-  ContainerFetched({required this.fetchedContainer}) : super(containerData: null);
+class ContainerFetched extends  ContainerState{
+  final ContainerData fetchedContainer;
+  const ContainerFetched(this.fetchedContainer);
+
+  @override
+  List<Object> get props => [this.fetchedContainer];
 }

@@ -8,10 +8,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:front/domain/models/file.dart';
 import 'package:front/domain/bloc/app_blocs.dart';
 import 'package:front/domain/bloc/app_events.dart';
-import 'package:front/domain/bloc/container_provider.dart';
 import 'package:front/ui/components/upload_preview.dart';
 import 'package:front/ui/font_style.dart';
-import 'package:provider/provider.dart';
 
 class DropZoneUpload extends StatefulWidget {
   const DropZoneUpload({

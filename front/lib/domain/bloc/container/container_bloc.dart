@@ -8,8 +8,8 @@ import 'package:front/data/services/container_service.dart';
 
 final ContainerService _containerService = ContainerService();
 
-class ContainerListBloc extends Bloc<ContainerListEvent, ContainerListState> {
-  ContainerListBloc() : super(InitialeState()) {
+class ContainerBloc extends Bloc<ContainerEvent, ContainerState> {
+  ContainerBloc() : super(InitialeState("")) {
 
     on<FetchList>((event, emit) async {
       emit(ListLoading());
@@ -22,7 +22,43 @@ class ContainerListBloc extends Bloc<ContainerListEvent, ContainerListState> {
           .map((containerModel) => ContainerData.fromJson(containerModel))
           .toList();
 
-      emit(ListLoaded(containers: containers));
+      emit(ListLoaded(containers));
+    });
+
+    on<ContainerStart>((event, emit) async {
+      emit(ContainerStatusUpdating(event.containerId));
+      var actionStatus =
+          await _containerService.restartContainer(event.containerId);
+
+      //print(actionStatus);
+
+      if(actionStatus == 200) {
+        add(FetchContainerById(containerId: event.containerId));
+      }
+    });
+
+    on<ContainerStop>((event, emit) async {
+      emit(ContainerStatusUpdating(event.containerId));
+      final actionStatus =  await _containerService.stopContainer(event.containerId);
+
+      if(actionStatus == 200) {
+        add(FetchContainerById(containerId: event.containerId));
+      }
+    });
+
+    on<FetchContainerById>((event, emit) async {
+      emit(ContainerFetching());
+
+      final body = await _containerService.getContainerById(event.containerId);
+
+      final Map<String, dynamic> decodedJson = json.decode(body) as Map<String, dynamic>;
+      //print(decodedJson.runtimeType);
+      final ContainerData containerData = ContainerData.fromJson(decodedJson);
+      //print(containerData);
+
+      //print(dockerContainer);
+      emit(ContainerFetched(containerData));
+      emit(ContainerStatusUpdated());
     });
 
 
@@ -36,47 +72,47 @@ class ContainerListBloc extends Bloc<ContainerListEvent, ContainerListState> {
   }
 }
 
-class ContainerStatusBloc extends Bloc<ContainerStatusEvent, ContainerStatusState> {
+// class ContainerStatusBloc extends ContainerBloc {
 
-  ContainerStatusBloc() : super(ContainerInitialStatus()){
+//   ContainerStatusBloc() : super(){
 
-    on<ContainerStart>((event, emit) async {
-      emit(ContainerStatusUpdating(containerId: event.containerId));
-      var actionStatus =
-          await _containerService.restartContainer(event.containerId);
+//     on<ContainerStart>((event, emit) async {
+//       emit(ContainerStatusUpdating(containerIdToUpdate: event.containerId));
+//       var actionStatus =
+//           await _containerService.restartContainer(event.containerId);
 
-      //print(actionStatus);
+//       //print(actionStatus);
 
-      if(actionStatus == 200) {
-        add(FetchContainerById(containerId: event.containerId));
-        emit(ContainerStatusUpdated());
-      }
-    });
+//       if(actionStatus == 200) {
+//         add(FetchContainerById(containerId: event.containerId));
+//         emit(ContainerStatusUpdated());
+//       }
+//     });
 
-    on<ContainerStop>((event, emit) async {
-      emit(ContainerStatusUpdating(containerId: event.containerId));
-      final actionStatus =  await _containerService.stopContainer(event.containerId);
+//     on<ContainerStop>((event, emit) async {
+//       emit(ContainerStatusUpdating(containerIdToUpdate: event.containerId));
+//       final actionStatus =  await _containerService.stopContainer(event.containerId);
 
-      if(actionStatus == 200) {
-        add(FetchContainerById(containerId: event.containerId));
-        emit(ContainerStatusUpdated());
-      }
-    });
+//       if(actionStatus == 200) {
+//         add(FetchContainerById(containerId: event.containerId));
+//         emit(ContainerStatusUpdated());
+//       }
+//     });
 
-    on<FetchContainerById>((event, emit) async {
-      emit(ContainerFetching());
+//     on<FetchContainerById>((event, emit) async {
+//       emit(ContainerFetching());
 
-      final body = await _containerService.getContainerById(event.containerId);
+//       final body = await _containerService.getContainerById(event.containerId);
 
-      final Map<String, dynamic> decodedJson = json.decode(body) as Map<String, dynamic>;
-      //print(decodedJson.runtimeType);
-      ContainerData containerData = ContainerData.fromJson(decodedJson);
-      //print(containerData);
+//       final Map<String, dynamic> decodedJson = json.decode(body) as Map<String, dynamic>;
+//       //print(decodedJson.runtimeType);
+//       final ContainerData containerData = ContainerData.fromJson(decodedJson);
+//       //print(containerData);
 
-      //print(dockerContainer);
-      emit(ContainerFetched(fetchedContainer: containerData));
-    });
-  }
-}
+//       //print(dockerContainer);
+//       emit(ContainerFetched(fetchedContainer: containerData));
+//     });
+//   }
+// }
 
 

@@ -5,16 +5,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:front/domain/models/docker_container.dart';
-import 'package:front/domain/bloc/app_blocs.dart';
-import 'package:front/domain/bloc/app_events.dart';
-import 'package:front/domain/bloc/app_states.dart';
 import 'package:front/domain/bloc/container/container_bloc.dart';
 import 'package:front/domain/bloc/container/container_event.dart';
 import 'package:front/domain/bloc/container/container_state.dart';
-import 'package:front/domain/bloc/container_provider.dart';
 import 'package:loadingkit_flutter/loadingkit_flutter.dart';
-import 'package:provider/provider.dart';
-import 'package:responsive_table/responsive_table.dart';
 
 class BoardTable extends StatefulWidget {
   const BoardTable({
@@ -35,10 +29,12 @@ class _BoardTableState extends State<BoardTable> {
       children: [
         Text(
           "All containers",
-          style: Theme.of(context).textTheme.subtitle1,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         Expanded(
-          child: BlocBuilder<ContainerListBloc, ContainerListState>(
+          child: BlocConsumer<ContainerBloc, ContainerState>(
+            listener: (BuildContext context, ContainerState state) {  },
+            buildWhen: (context, state) => state is InitialeState || state is ListLoading || state is ListLoaded,
             builder: (context, state) {
               if (state is InitialeState || state is ListLoading) {
                 return FlutterLoading(
@@ -57,7 +53,7 @@ class _BoardTableState extends State<BoardTable> {
                         for (final title in widget.headTitles)
                           DataColumn(label: Text(title)),
                       ],
-                      rows: buildDataRow(state.containers!),
+                      rows: buildDataRow(state.loadedContainers!),
                       //rows: buildDataRow(containers),
                     ),
                   ),
@@ -107,13 +103,16 @@ class _BoardTableState extends State<BoardTable> {
               ),
             ),
             DataCell(
-              BlocConsumer<ContainerStatusBloc, ContainerStatusState>(
+              BlocConsumer<ContainerBloc, ContainerState>(
                 listener: (context, state){
                   // if(state is ContainerStatusUpdated && state.containerId != null) {
                   //   BlocProvider.of<ContainerStatusBloc>(context).add(
                   //     FetchContainerById(containerId: state.containerId!)
                   //   );
                   // }
+                },
+                buildWhen: (previous, currentState) {
+                  return  currentState is ContainerFetched || currentState is ContainerStatusUpdating;
                 },
                 builder: (context, state) {
                   Widget widgetToDisplay = Text(container.state.status.name);
@@ -128,7 +127,7 @@ class _BoardTableState extends State<BoardTable> {
 
                   if(
                     state is ContainerStatusUpdating &&
-                    state.containerId == container.id
+                    state.containerIdToUpdate == container.id
                   ) {
                     widgetToDisplay = SpinKitThreeBounce(
                       color:Colors.white,
@@ -153,7 +152,7 @@ class _BoardTableState extends State<BoardTable> {
                       print("stop process");
                       // Provider.of<ContainerProvider>(context, listen: false)
                       //     .stopContainer(container.id);
-                      BlocProvider.of<ContainerStatusBloc>(context)
+                      BlocProvider.of<ContainerBloc>(context)
                           .add(ContainerStop(containerId: container.id));
                     },
                   ),
@@ -161,11 +160,9 @@ class _BoardTableState extends State<BoardTable> {
                     value: "start",
                     child: Text("start"),
                     onTap: () {
-                      print("start process");
-                      // Provider.of<ContainerProvider>(context, listen: false)
-                      //     .restartContainer(container.id);
-                      BlocProvider.of<ContainerStatusBloc>(context)
+                      BlocProvider.of<ContainerBloc>(context)
                           .add(ContainerStart(containerId: container.id));
+                      
                     },
                   )
                 ],

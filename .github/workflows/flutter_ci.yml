@@ -14,7 +14,7 @@ jobs:
     #setup the working env where to run the commands
     env:
       working-directory: ./front
-      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      # FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
     steps:
 
@@ -50,5 +50,11 @@ jobs:
     # - run: firebase login --no-localhost
     #  working-directory: ${{env.working-directory}}
       
-    - run: firebase deploy --token "$FIREBASE_TOKEN" 
-      working-directory: ${{env.working-directory}}
+    # - run: firebase deploy --token "$FIREBASE_TOKEN" 
+    #  working-directory: ${{env.working-directory}}
+
+    - uses: FirebaseExtended/action-hosting-deploy@v0
+      with:
+        entryPoint: ${{env.working-directory}}
+        repoToken: '${{ secrets.GITHUB_TOKEN }}'
+        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOCKER_MONITOR_4FF5B}}'

@@ -11,7 +11,8 @@ ContainerData _$ContainerDataFromJson(Map<String, dynamic> json) =>
       id: json['Id'] as String,
       config: Config.fromJson(json['Config'] as Map<String, dynamic>),
       name: json['Name'] as String,
-      state: ContainerState.fromJson(json['State'] as Map<String, dynamic>),
+      state:
+          DockerContainerStatus.fromJson(json['State'] as Map<String, dynamic>),
       createdAt: DateTime.parse(json['Created'] as String),
     );
 
@@ -42,12 +43,14 @@ Map<String, dynamic> _$ConfigToJson(Config instance) => <String, dynamic>{
       'WorkingDir': instance.workDir,
     };
 
-ContainerState _$ContainerStateFromJson(Map<String, dynamic> json) =>
-    ContainerState(
+DockerContainerStatus _$DockerContainerStatusFromJson(
+        Map<String, dynamic> json) =>
+    DockerContainerStatus(
       status: $enumDecode(_$ContainerStatusEnumMap, json['Status']),
     );
 
-Map<String, dynamic> _$ContainerStateToJson(ContainerState instance) =>
+Map<String, dynamic> _$DockerContainerStatusToJson(
+        DockerContainerStatus instance) =>
     <String, dynamic>{
       'Status': _$ContainerStatusEnumMap[instance.status]!,
     };

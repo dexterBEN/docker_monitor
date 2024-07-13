@@ -115,7 +115,7 @@ class KpiCard extends StatelessWidget {
                     "$amount Containers",
                     style: Theme.of(context)
                         .textTheme
-                        .caption!
+                        .bodySmall!
                         .copyWith(color: Colors.white),
                   ),
                 ],
