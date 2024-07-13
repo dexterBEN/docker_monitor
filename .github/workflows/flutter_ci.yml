@@ -53,9 +53,6 @@ jobs:
     # - run: firebase deploy --token "$FIREBASE_TOKEN" 
     #  working-directory: ${{env.working-directory}}
 
-    - run:  firebase use ${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOCKER_MONITOR_4FF5B}}
-      working-directory: ${{env.working-directory}}
-
     - uses: FirebaseExtended/action-hosting-deploy@v0
       with:
         # entryPoint: ${{env.working-directory}}
