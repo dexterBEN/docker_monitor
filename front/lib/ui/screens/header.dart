@@ -19,7 +19,7 @@ class Header extends StatelessWidget {
       // ignore: prefer_const_literals_to_create_immutables
       children: [
         Text(
-          "Dashboard",
+          "Dashboar",
           style: Theme.of(context).textTheme.titleLarge,
         ),
         Spacer(),
