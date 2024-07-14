@@ -3,60 +3,60 @@ name: flutter_ci
 on:
   pull_request:
     branches: [ front-release ]
-    types: - closed
+    types:
+      - closed
   
 jobs:
-  if_merged:
-    if: github.event.pull_request.merged == true
-    build_web:
-      name: Build Flutter (Web) # name of the job
+  build_web:
+
+    name: Build Flutter (Web) # name of the job
+    
+    runs-on: ubuntu-latest # This job will run on ubuntu virtual machine
+
+    #setup the working env where to run the commands
+    env:
+      working-directory: ./front
+      # FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+    steps:
+
+    - uses: actions/checkout@v1
+    
+    - uses: subosito/flutter-action@v2 # flutter environment to use in GitHub Actions
+      with:
+        channel: 'stable'
+        
+    - run: flutter clean # get dependencies of the project
+      working-directory: ${{env.working-directory}}
       
-      runs-on: ubuntu-latest # This job will run on ubuntu virtual machine
-
-      #setup the working env where to run the commands
-      env:
-        working-directory: ./front
-        # FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-
-      steps:
-
-      - uses: actions/checkout@v1
+    - run: flutter install # get dependencies of the project
+      working-directory: ${{env.working-directory}}
+    
+    - run: flutter pub get # get dependencies of the project
+      working-directory: ${{env.working-directory}}
       
-      - uses: subosito/flutter-action@v2 # flutter environment to use in GitHub Actions
-        with:
-          channel: 'stable'
-          
-      - run: flutter clean # get dependencies of the project
-        working-directory: ${{env.working-directory}}
-        
-      - run: flutter install # get dependencies of the project
-        working-directory: ${{env.working-directory}}
       
-      - run: flutter pub get # get dependencies of the project
-        working-directory: ${{env.working-directory}}
-        
-        
-      - run: flutter config --enable-web
-        working-directory: ${{env.working-directory}}
-        
-      # Check for any formatting issues in the code
-      # - run: flutter format --set-exit-if-changed .
-      #  working-directory: ${{env.working-directory}}
-
-      - run: flutter build web  # Build application for web
-        working-directory: ${{env.working-directory}}
+    - run: flutter config --enable-web
+      working-directory: ${{env.working-directory}}
       
-      - run: curl -sL firebase.tools | bash
-        working-directory: ${{env.working-directory}}
-        
-      # - run: firebase login --no-localhost
-      #  working-directory: ${{env.working-directory}}
-        
-      # - run: firebase deploy --token "$FIREBASE_TOKEN" 
-      #  working-directory: ${{env.working-directory}}
+    # Check for any formatting issues in the code
+    # - run: flutter format --set-exit-if-changed .
+    #  working-directory: ${{env.working-directory}}
 
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          entryPoint: ${{env.working-directory}}
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOCKER_MONITOR_4FF5B}}'
+    - run: flutter build web  # Build application for web
+      working-directory: ${{env.working-directory}}
+    
+    - run: curl -sL firebase.tools | bash
+      working-directory: ${{env.working-directory}}
+      
+    # - run: firebase login --no-localhost
+    #  working-directory: ${{env.working-directory}}
+      
+    # - run: firebase deploy --token "$FIREBASE_TOKEN" 
+    #  working-directory: ${{env.working-directory}}
+
+    - uses: FirebaseExtended/action-hosting-deploy@v0
+      with:
+        entryPoint: ${{env.working-directory}}
+        repoToken: '${{ secrets.GITHUB_TOKEN }}'
+        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOCKER_MONITOR_4FF5B}}'
