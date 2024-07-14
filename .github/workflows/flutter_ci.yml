@@ -1,14 +1,14 @@
 name: flutter_ci
 
 on:
-  pull_request_target:
+  pull_request:
     branches: [ front-release ]
     types: - closed
   
 jobs:
   build_web:
-
     name: Build Flutter (Web) # name of the job
+    if: (!(github.event.action == 'closed' && github.event.pull_request.merged != true))
     
     runs-on: ubuntu-latest # This job will run on ubuntu virtual machine
 
