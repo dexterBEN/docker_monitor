@@ -103,7 +103,7 @@ class _BoardTableState extends State<BoardTable> {
               ),
             ),
             DataCell(
-              BlocConsumer<ContainerBloc, ContainerState>(
+              BlocConsumer<ContainerStatusBloc, ContainerState>(
                 listener: (context, state){
                   // if(state is ContainerStatusUpdated && state.containerId != null) {
                   //   BlocProvider.of<ContainerStatusBloc>(context).add(
@@ -152,7 +152,7 @@ class _BoardTableState extends State<BoardTable> {
                       print("stop process");
                       // Provider.of<ContainerProvider>(context, listen: false)
                       //     .stopContainer(container.id);
-                      BlocProvider.of<ContainerBloc>(context)
+                      BlocProvider.of<ContainerStatusBloc>(context)
                           .add(ContainerStop(containerId: container.id));
                     },
                   ),
@@ -160,7 +160,7 @@ class _BoardTableState extends State<BoardTable> {
                     value: "start",
                     child: Text("start"),
                     onTap: () {
-                      BlocProvider.of<ContainerBloc>(context)
+                      BlocProvider.of<ContainerStatusBloc>(context)
                           .add(ContainerStart(containerId: container.id));
                       
                     },

@@ -15,7 +15,8 @@ void main() {
       providers: [
         BlocProvider(create: (_)=> ContainerBloc()),
         BlocProvider(create: (_)=> ImageBloc()),
-        BlocProvider(create: (_)=> ServerBloc())
+        BlocProvider(create: (_)=> ServerBloc()),
+        BlocProvider(create: (_)=> ContainerStatusBloc())
       ], 
       child: const MyApp(),
     ),
