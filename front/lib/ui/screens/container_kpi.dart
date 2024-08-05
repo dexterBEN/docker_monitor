@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,7 +10,6 @@ import 'package:front/domain/bloc/container/container_state.dart';
 import 'package:front/ui/components/kpi_list_detail.dart';
 import 'package:front/ui/font_style.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
 
 class ContainerKPI extends StatefulWidget {
   const ContainerKPI({
@@ -32,11 +30,9 @@ class _ContainerKPIState extends State<ContainerKPI> {
     //fetch();
   }
 
-  List<ContainerData> containers = [];
-
   @override
   Widget build(BuildContext context) {
-
+    List<ContainerData> containers = [];
     return Column(
       children: [
         Text(
@@ -50,52 +46,57 @@ class _ContainerKPIState extends State<ContainerKPI> {
         SizedBox(
           height: 200,
           child: BlocConsumer<ContainerBloc, ContainerState>(
-            listener: (BuildContext context, ContainerState state) {  },
+            listener: (BuildContext context, ContainerState state) {},
             buildWhen: (previous, current) {
-              return current is ListLoading || current is ContainerFetching || current is ContainerStatusUpdating || current is ListLoaded || current is ContainerFetched;
+              return current is ListLoading || current is ListLoaded;
             },
-            builder: (context, state) {
+            builder: (context, listState) {
+              return BlocConsumer<ContainerStatusBloc, ContainerState>(
+                listener: (BuildContext context, ContainerState state) {},
+                buildWhen: (previous, current) {
+                  return current is ContainerFetching ||
+                      current is ContainerStatusUpdating ||
+                      current is ContainerFetched;
+                },
+                builder: (context, state) {
+                  Widget widgetToDisplay = SizedBox.shrink();
 
-              Widget widgetToDisplay = SizedBox.shrink();
+                  if (listState is ListLoading ||
+                      state is ContainerStatusUpdating) {
+                    widgetToDisplay =
+                        SpinKitSpinningLines(size: 70, color: Colors.white);
+                  }
 
-              if (
-                state is ListLoading ||
-                state is ContainerStatusUpdating
-              ) {
-                widgetToDisplay = SpinKitSpinningLines(
-                  size: 70,
-                  color: Colors.white
-                );
-              }
+                  if (state is ContainerFetched) {
+                    int targetIndex = containers.indexWhere((dockerContainer) =>
+                        dockerContainer.id == state.fetchedContainer.id);
+                    containers[targetIndex] = state.fetchedContainer;
 
-              if(state is ContainerFetched) {
+                    widgetToDisplay = PieChart(
+                      PieChartData(
+                        sectionsSpace: 10,
+                        centerSpaceRadius: 80,
+                        startDegreeOffset: -90,
+                        sections: buildSection(containers),
+                      ),
+                    );
+                  }
 
-                int targetIndex = containers.indexWhere((dockerContainer) => dockerContainer.id == state.fetchedContainer.id);
-                containers[targetIndex] = state.fetchedContainer;
+                  if (listState is ListLoaded) {
+                    containers = listState.loadedContainers;
+                    widgetToDisplay = PieChart(
+                      PieChartData(
+                        sectionsSpace: 10,
+                        centerSpaceRadius: 80,
+                        startDegreeOffset: -90,
+                        sections: buildSection(containers),
+                      ),
+                    );
+                  }
 
-                widgetToDisplay =  PieChart(
-                  PieChartData(
-                    sectionsSpace: 10,
-                    centerSpaceRadius: 80,
-                    startDegreeOffset: -90,
-                    sections: buildSection(containers),
-                  ),
-                );
-              }
-
-              if(state is ListLoaded) {
-
-                containers = state.loadedContainers;
-                widgetToDisplay =  PieChart(
-                  PieChartData(
-                    sectionsSpace: 10,
-                    centerSpaceRadius: 80,
-                    startDegreeOffset: -90,
-                    sections: buildSection(containers),
-                  ),
-                );
-              }
-              return widgetToDisplay;
+                  return widgetToDisplay;
+                },
+              );
             },
           ),
         ),
@@ -103,9 +104,11 @@ class _ContainerKPIState extends State<ContainerKPI> {
         SizedBox(
           height: 400,
           child: BlocConsumer<ContainerBloc, ContainerState>(
-            listener: (BuildContext context, ContainerState state) {  },
+            listener: (BuildContext context, ContainerState state) {},
             buildWhen: (previous, current) {
-              return current is ListLoaded || current is ContainerStatusUpdated || current is ContainerFetched;
+              return current is ListLoaded ||
+                  current is ContainerStatusUpdated ||
+                  current is ContainerFetched;
             },
             builder: (context, state) {
               return KPIListDetail(containers: containers);
@@ -120,7 +123,7 @@ class _ContainerKPIState extends State<ContainerKPI> {
     //print(containers[0]);
 
     //reset to 0 before build
-    widget.categories.forEach((element) { 
+    widget.categories.forEach((element) {
       element.value = 0;
     });
 
@@ -129,20 +132,19 @@ class _ContainerKPIState extends State<ContainerKPI> {
       widget.categories
           .where((category) => category.name == container.state.status.name)
           .first
-          .value +=1;
+          .value += 1;
     }
 
-      for (var categorie in widget.categories) {
-        pieSections.add(
-          PieChartSectionData(
-            value: categorie.value,
-            color: categorie.color,
-            title: categorie.name,
-            radius: 25,
-          ),
-        );
-      }
+    for (var categorie in widget.categories) {
+      pieSections.add(
+        PieChartSectionData(
+          value: categorie.value,
+          color: categorie.color,
+          title: categorie.name,
+          radius: 25,
+        ),
+      );
+    }
     return pieSections;
   }
-
 }
