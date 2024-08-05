@@ -106,12 +106,19 @@ class _ContainerKPIState extends State<ContainerKPI> {
           child: BlocConsumer<ContainerBloc, ContainerState>(
             listener: (BuildContext context, ContainerState state) {},
             buildWhen: (previous, current) {
-              return current is ListLoaded ||
-                  current is ContainerStatusUpdated ||
-                  current is ContainerFetched;
+              return current is ListLoaded;
             },
             builder: (context, state) {
-              return KPIListDetail(containers: containers);
+              return BlocConsumer<ContainerStatusBloc, ContainerState>(
+                listener: (BuildContext context, ContainerState state) {},
+                buildWhen: (previous, current) {
+                  return current is ContainerStatusUpdated ||
+                      current is ContainerFetched;
+                },
+                builder: (BuildContext context, ContainerState state) {
+                  return KPIListDetail(containers: containers);
+                },
+              );
             },
           ),
         ),
