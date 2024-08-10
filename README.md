@@ -33,9 +33,7 @@ I used `Github actions` in order to automate the deployment of the web app on fi
 ## View sample
 Screenshot of the board (can change/evolve later):
 
-
-https://user-images.githubusercontent.com/33292824/223563882-6565b734-3409-42a0-8fa6-36d778c91a83.mp4
-
+https://github.com/user-attachments/assets/1dd29d30-0ec0-4ab3-850c-e9c3d59c456a
 
 
 
